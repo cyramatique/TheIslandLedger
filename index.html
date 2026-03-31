@@ -3,9 +3,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Island Ledger — Critter Constellation</title>
+<title>The Island Ledger — Cyramatique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
+/* ── SHARED BASE ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: #F5F0E8;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Linen texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+
+/* ── PAGE NAV ── */
+#page-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; gap: 0;
+  background: #F5F0E8;
+  border-bottom: 1px solid rgba(184,150,62,.4);
+  height: 40px;
+  padding: 0 20px;
+  box-shadow: 0 2px 12px rgba(90,65,30,.08);
+}
+#page-nav::before {
+  content: '✦';
+  color: #B8963E; font-size: 11.5px; margin-right: 12px;
+}
+.pnav-btn {
+  font-family: 'Cormorant SC', Georgia, serif;
+  font-size: 12.1px; letter-spacing: .16em; text-transform: uppercase;
+  padding: 0 18px; height: 40px; border: none; background: none;
+  color: #8B6B50; cursor: pointer; border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.pnav-btn:hover { color: #1B3A2D; }
+.pnav-btn.active { color: #1B3A2D; border-bottom-color: #B8963E; }
+
+/* page sections */
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* timeline page needs scroll, network page needs overflow:hidden */
+#page-timeline { min-height: 100vh; overflow-y: auto; }
+body { overflow-y: auto; }
+#page-network  { height: calc(100vh); overflow: hidden; padding-top: 40px; }
+#page-network #wrap { overflow: hidden; }
+
+/* push timeline content below fixed nav */
+#page-timeline header { padding-top: 56px; }
+
+
+/* ── NETWORK PAGE ── */
+
 :root {
   /* ── Mar-a-Lago palette ── */
   --bg:          #F5F0E8;   /* parchment */
@@ -44,8 +101,7 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; overflow: hidden; }
-
+/* network scroll lock handled by page-section */ 
 body {
   background: var(--bg);
   color: var(--text);
@@ -84,14 +140,14 @@ body::before {
 
 /* title lockup */
 #toolbar-title {
-  font-family: var(--display); font-size: 15.6px; font-weight: 600;
+  font-family: var(--display); font-size: 20.7px; font-weight: 600;
   color: var(--green); letter-spacing: .04em;
   margin-right: 6px; white-space: nowrap;
   display: flex; align-items: center; gap: 8px;
 }
 #toolbar-title::before {
   content: '✦';
-  color: var(--gold); font-size: 10.8px;
+  color: var(--gold); font-size: 12.4px;
 }
 
 #search-box {
@@ -99,16 +155,16 @@ body::before {
   border: 1px solid var(--border-gold);
   border-radius: 2px;
   padding: 5px 12px;
-  font-family: var(--caps); font-size: 11.4px; color: var(--text);
+  font-family: var(--caps); font-size: 13.1px; color: var(--text);
   width: 170px; letter-spacing: .06em;
   outline: none;
   box-shadow: inset 0 1px 3px rgba(90,65,30,.06);
 }
-#search-box::placeholder { color: var(--text-faint); }
+#search-box::placeholder { color: #8B6B50; }
 #search-box:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(184,150,62,.12); }
 
 .chip {
-  font-family: var(--caps); font-size: 9.6px; letter-spacing: .12em;
+  font-family: var(--caps); font-size: 11px; letter-spacing: .12em;
   text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
   cursor: pointer; border: 1px solid var(--border);
   background: var(--surface); color: var(--text-dim);
@@ -120,14 +176,14 @@ body::before {
 .chip .cd { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
 
 #count-label {
-  font-family: var(--caps); font-size: 9.6px; color: var(--text-faint);
+  font-family: var(--caps); font-size: 11px; color: #8B6B50;
   letter-spacing: .15em; margin-left: auto; white-space: nowrap;
   text-transform: uppercase;
 }
 
 /* section label in toolbar */
 .tb-label {
-  font-family: var(--caps); font-size: 9.6px; letter-spacing: .14em;
+  font-family: var(--caps); font-size: 12.6px; letter-spacing: .14em;
   text-transform: uppercase; color: var(--gold); margin-right: 2px;
   white-space: nowrap;
 }
@@ -138,10 +194,10 @@ body::before {
 .node-label {
   pointer-events: none;
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 10.8px; fill: #5A4030;
+  font-size: 12.4px; fill: #5A4030;
 }
 .node-label.ep {
-  font-size: 15.6px; fill: #1B3A2D;
+  font-size: 17.9px; fill: #1B3A2D;
   font-weight: 600; font-family: 'Playfair Display', Georgia, serif;
 }
 
@@ -175,19 +231,19 @@ body::before {
   background: var(--surface2);
 }
 #dos-close {
-  cursor: pointer; font-size: 24px; color: var(--text-faint);
+  cursor: pointer; font-size: 27.6px; color: #8B6B50;
   line-height: 1; padding: 0 0 0 10px; flex-shrink: 0;
   font-family: var(--display);
 }
 #dos-close:hover { color: var(--green); }
 
 #dos-name {
-  font-family: var(--display); font-size: 22.8px; font-weight: 600;
+  font-family: var(--display); font-size: 26.2px; font-weight: 600;
   color: var(--green); line-height: 1.15; margin-bottom: 5px;
   letter-spacing: .01em;
 }
 #dos-title {
-  font-family: var(--caps); font-size: 10.2px; letter-spacing: .14em;
+  font-family: var(--caps); font-size: 13.5px; letter-spacing: .14em;
   color: var(--gold); line-height: 1.5; text-transform: uppercase;
 }
 
@@ -196,7 +252,7 @@ body::before {
 
 .dos-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
 .badge {
-  font-family: var(--caps); font-size: 9px; letter-spacing: .12em;
+  font-family: var(--caps); font-size: 12.1px; letter-spacing: .12em;
   text-transform: uppercase; padding: 3px 9px; border-radius: 2px; border: 1px solid;
 }
 .badge.financial { color: #1B3A6B; border-color: rgba(27,58,107,.3); background: rgba(27,58,107,.05); }
@@ -208,7 +264,7 @@ body::before {
 .badge.enabler   { color: #5A2A8B; border-color: rgba(90,42,139,.3); background: rgba(90,42,139,.05); }
 
 .dos-section-label {
-  font-family: var(--caps); font-size: 9.6px; letter-spacing: .18em;
+  font-family: var(--caps); font-size: 11px; letter-spacing: .18em;
   text-transform: uppercase; color: var(--gold);
   margin-bottom: 7px; margin-top: 16px;
   padding-bottom: 5px;
@@ -216,7 +272,7 @@ body::before {
 }
 
 .dos-text {
-  font-family: var(--body); font-size: 15.6px; line-height: 1.75;
+  font-family: var(--body); font-size: 20.7px; line-height: 1.75;
   color: var(--text); font-weight: 300;
 }
 .dos-text em { font-style: italic; color: var(--text-mid); }
@@ -224,7 +280,7 @@ body::before {
 
 .dos-consequence {
   margin-top: 10px; padding: 10px 14px; border-radius: 2px;
-  font-size: 15px; line-height: 1.7;
+  font-size: 19.5px; line-height: 1.7;
   font-family: var(--body); font-weight: 300;
   border-left: 3px solid;
 }
@@ -236,9 +292,9 @@ body::before {
 .dos-consequence.incarcerated { border-color: var(--c-incarc);   background: rgba(139,26,26,.06);  color: #6A1010; }
 
 .dos-ref {
-  margin-top: 14px; font-family: var(--caps); font-size: 9.6px;
-  color: var(--text-faint); letter-spacing: .08em;
-  line-height: 1.9; border-top: 1px solid var(--border-gold);
+  margin-top: 14px; font-family: var(--caps); font-size: 11px;
+  color: #8B6B50; letter-spacing: .08em;
+  line-height: 1.9; font-size: 14.4px; border-top: 1px solid var(--border-gold);
   padding-top: 10px; text-transform: uppercase;
 }
 
@@ -248,7 +304,7 @@ body::before {
   background: var(--green-light);
   border: 1px solid rgba(27,58,45,.2);
   border-radius: 2px;
-  font-family: var(--caps); font-size: 10.8px; letter-spacing: .12em;
+  font-family: var(--caps); font-size: 12.4px; letter-spacing: .12em;
   text-transform: uppercase; color: var(--green);
   text-decoration: none;
   transition: background .15s, border-color .15s;
@@ -257,23 +313,23 @@ body::before {
   background: rgba(27,58,45,.14);
   border-color: rgba(27,58,45,.4);
 }
-.pp-icon { font-size: 14.4px; opacity: .7; }
+.pp-icon { font-size: 16.6px; opacity: .7; }
 .pp-note {
-  font-family: var(--caps); font-size: 9px; letter-spacing: .08em;
-  color: var(--text-faint); text-transform: uppercase;
+  font-family: var(--caps); font-size: 12.1px; letter-spacing: .08em;
+  color: #8B6B50; text-transform: uppercase;
   margin-top: 6px; padding: 0 2px;
 }
 
 /* gold ornament divider */
 .dos-ornament {
-  text-align: center; color: var(--gold); font-size: 13.2px;
+  text-align: center; color: var(--gold); font-size: 17.2px;
   margin: 4px 0; letter-spacing: .4em; opacity: .7;
 }
 
 /* sector label on canvas */
 .sector-label {
   font-family: 'Cormorant SC', Georgia, serif;
-  font-size: 13.2px; letter-spacing: .22em;
+  font-size: 17.2px; letter-spacing: .22em;
   text-transform: uppercase; opacity: .7; pointer-events: none;
   font-weight: 500;
 }
@@ -281,10 +337,10 @@ body::before {
 
 /* ── SIGNATURE ── */
 #signature {
-  position: absolute; bottom: 14px; left: 18px;
-  font-family: var(--display); font-size: 13px;
-  letter-spacing: .04em; z-index: 20;
-  color: var(--text-dim);
+  position: fixed;
+  bottom: 14px;
+  left: 18px;
+  z-index: 50;
 }
 #signature a {
   color: rgba(0,97,161,1); text-decoration: none;
@@ -296,14 +352,504 @@ body::before {
 
 /* hint */
 #hint {
-  position: absolute; bottom: 14px; right: 18px;
-  font-family: var(--caps); font-size: 9px;
-  color: var(--text-faint); letter-spacing: .1em;
-  text-transform: uppercase; z-index: 20;
+  position: fixed;
+  bottom: 14px;
+  right: 18px;
+  font-family: var(--caps);
+  font-size: 10.3px;
+  color: #8B6B50;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  z-index: 50;
 }
+
+/* dossier bullet points */
+.dos-bullets { list-style: none; padding: 0; margin: 0; }
+.dos-bullets li {
+  font-family: var(--body); font-size: 17.2px; line-height: 1.75;
+  color: var(--text); font-weight: 300;
+  padding-left: 1.4em; position: relative; margin-bottom: 5px;
+}
+.dos-bullets li::before {
+  content: '✦'; position: absolute; left: 0;
+  font-size: 8px; color: var(--gold); top: 7px;
+}
+.dos-bullets li em { font-style: italic; color: var(--text-mid); }
+.dos-bullets li strong { font-weight: 500; color: var(--green); }
+
+/* travel status strip */
+.dos-travel {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+.dos-travel-tag {
+  font-family: var(--caps); font-size: 10.9px; letter-spacing: .1em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 2px;
+  border: 1px solid;
+}
+.dos-travel-tag.yes     { color: #8B2020; border-color: rgba(139,32,32,.3); background: rgba(139,32,32,.05); }
+.dos-travel-tag.no      { color: #1B3A6B; border-color: rgba(27,58,107,.3); background: rgba(27,58,107,.05); }
+.dos-travel-tag.unclear { color: #7A5A10; border-color: rgba(184,150,62,.35); background: var(--gold-pale); }
+
+
+/* ── TIMELINE PAGE ── */
+
+  :root {
+    --bg:          #F5F0E8;
+    --surface:     #FAF6EE;
+    --surface2:    #F0EAD8;
+    --border:      rgba(90,65,30,.15);
+    --border2:     rgba(90,65,30,.08);
+    --gold:        #B8963E;
+    --gold-dim:    rgba(184,150,62,.25);
+    --red:         #8B2020;
+    --green:       #2A5A3A;
+    --green-dim:   rgba(42,90,58,.12);
+    --green-bright:#3A7A50;
+    --blue:        #1B3A6B;
+    --blue-dim:    rgba(27,58,107,.1);
+    --purple:      #5A2A8B;
+    --purple-dim:  rgba(90,42,139,.1);
+    --amber:       #9B5A10;
+    --amber-dim:   rgba(155,90,16,.1);
+    --text:        #2C1810;
+    --text-dim:    #5A4030;
+    --text-faint:  #8B6B50;
+    --mono:        'Cormorant SC', 'Georgia', serif;
+    --serif:       'Cormorant Garamond', 'Georgia', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    min-height: 100vh;
+  }
+
+  /* ══════════════════════════════
+     HEADER
+  ══════════════════════════════ */
+  header {
+    padding: 40px 48px 30px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim) 30%, var(--gold-dim) 70%, transparent);
+  }
+  .eyebrow {
+    font-family: 'Cormorant SC', Georgia, serif; font-size: 10.3px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: none;
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif; font-size: clamp(22.4px, 3.68vw, 36.8px);
+    font-weight: 600; line-height: 1.2; color: #1B3A2D; max-width: 820px;
+  }
+  h1 em { font-style: italic; color: var(--gold); font-family: 'Cormorant Garamond', Georgia, serif; }
+  .deck {
+    font-family: var(--serif); font-style: italic; font-size: 14.9px;
+    color: var(--text-dim); margin-top: 12px; max-width: 580px; line-height: 1.6; font-weight: 300;
+  }
+
+  /* ══════════════════════════════
+     TAB BAR
+  ══════════════════════════════ */
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-btn {
+    padding: 14px 28px;
+    font-family: var(--mono); font-size: 10.3px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-dim);
+    background: none; border: none; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--text); border-bottom-color: var(--gold); }
+  .tab-btn.active.legal-tab { border-bottom-color: var(--blue); }
+  .tab-btn.active.docs-tab  { border-bottom-color: var(--green); }
+
+  .tab-pill {
+    display: inline-block; margin-left: 7px;
+    padding: 1px 6px; border-radius: 10px; font-size: 9.2px;
+    background: rgba(200,168,75,0.12); color: var(--gold-dim);
+  }
+  .legal-tab .tab-pill { background: rgba(74,127,165,0.12); color: var(--blue-dim); }
+  .docs-tab  .tab-pill { background: rgba(74,140,92,0.12); color: #2A5A3A; }
+
+  /* ══════════════════════════════
+     LEGEND STRIP
+  ══════════════════════════════ */
+  .legend {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    padding: 14px 48px; background: var(--surface);
+    border-bottom: 1px solid var(--border2);
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+  .leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .leg-dot.gold  { background: var(--gold); }
+  .leg-dot.red   { background: var(--red); box-shadow: 0 0 4px rgba(184,64,64,0.5); }
+  .leg-dot.blue  { background: var(--blue); }
+  .leg-dot.green { background: var(--green); box-shadow: 0 0 4px rgba(74,140,92,0.5); }
+
+  /* ══════════════════════════════
+     TAB PANELS
+  ══════════════════════════════ */
+  .tab-panel { display: none; padding-bottom: 100px; }
+  .tab-panel.active { display: block; }
+
+  /* ══════════════════════════════
+     TIMELINE PANEL (tabs 1 & 2)
+  ══════════════════════════════ */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 100px 1fr 6px 320px;
+    padding: 0 48px; margin: 28px 0 4px;
+  }
+  .col-label {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; padding-bottom: 7px;
+    border-bottom: 1px solid var(--border);
+  }
+  .col-label.story { color: var(--gold); padding-left: 22px; }
+  .col-label.legal { color: var(--blue); padding-left: 18px; }
+  .col-label.gap   { border-bottom: none; }
+
+  .timeline-wrap { padding: 0 48px; position: relative; }
+
+  .t-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 6px 320px;
+    position: relative;
+    animation: rowIn 0.35s ease both;
+  }
+  @keyframes rowIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+  .t-row:nth-child(1)  { animation-delay:.04s }
+  .t-row:nth-child(2)  { animation-delay:.08s }
+  .t-row:nth-child(3)  { animation-delay:.12s }
+  .t-row:nth-child(4)  { animation-delay:.16s }
+  .t-row:nth-child(5)  { animation-delay:.20s }
+  .t-row:nth-child(6)  { animation-delay:.24s }
+  .t-row:nth-child(7)  { animation-delay:.28s }
+  .t-row:nth-child(8)  { animation-delay:.32s }
+  .t-row:nth-child(9)  { animation-delay:.36s }
+  .t-row:nth-child(10) { animation-delay:.40s }
+  .t-row:nth-child(11) { animation-delay:.44s }
+  .t-row:nth-child(12) { animation-delay:.48s }
+  .t-row:nth-child(13) { animation-delay:.52s }
+  .t-row:nth-child(14) { animation-delay:.56s }
+  .t-row:nth-child(15) { animation-delay:.60s }
+  .t-row:nth-child(16) { animation-delay:.64s }
+  .t-row:nth-child(17) { animation-delay:.68s }
+  .t-row:nth-child(18) { animation-delay:.72s }
+  .t-row:nth-child(19) { animation-delay:.76s }
+  .t-row:nth-child(20) { animation-delay:.80s }
+
+  .date-cell {
+    padding: 16px 10px 16px 0; text-align: right; position: relative;
+  }
+  .date-val { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--gold); display: block; line-height: 1.3; }
+  .date-yr  { font-family: var(--mono); font-size: 10.3px; color: var(--gold-dim); display: block; }
+
+  .story-cell {
+    padding: 11px 12px 11px 22px;
+    border-left: 1px solid var(--border); position: relative;
+  }
+  .story-cell .nd {
+    position: absolute; left:-5px; top:18px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--gold); border:2px solid var(--bg); z-index:3;
+  }
+  .story-cell .nd.flag { background:var(--red); width:11px; height:11px; left:-6px; top:16px; box-shadow:0 0 7px rgba(184,64,64,0.5); }
+  .story-cell .nd.ms   { background:var(--gold); width:13px; height:13px; left:-7px; top:14px; box-shadow:0 0 9px rgba(200,168,75,0.5); }
+
+  .gutter-cell { position: relative; }
+  .gutter-cell::before {
+    content:''; position:absolute; left:50%; top:0; bottom:0;
+    width:1px; background:var(--border2); transform:translateX(-50%);
+  }
+
+  .legal-cell {
+    padding: 11px 0 11px 16px;
+    border-left: 1px solid var(--border2); position: relative;
+  }
+  .legal-cell .nd {
+    position:absolute; left:-5px; top:18px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--blue); border:2px solid var(--bg); z-index:3;
+    box-shadow:0 0 5px rgba(74,127,165,0.4);
+  }
+  .legal-empty { padding: 0; }
+
+  /* cards */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px; padding: 11px 14px;
+    transition: border-color .2s, background .2s;
+  }
+  .card:hover { border-color: var(--gold-dim); background: var(--surface2); }
+  .card.fc  { border-color: rgba(184,64,64,.2); background: rgba(74,30,30,.1); }
+  .card.fc:hover { border-color: var(--red); }
+  .card.mc  { border-color: rgba(200,168,75,.17); }
+  .card.lc  { background: rgba(30,53,69,.3); border-color: rgba(74,127,165,.17); }
+  .card.lc:hover { border-color: var(--blue); }
+
+  .cm { display:flex; align-items:center; gap:6px; margin-bottom:5px; }
+  .cd { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+  .cd.g { background:var(--gold); } .cd.r { background:var(--red); } .cd.b { background:var(--blue); }
+  .ct { font-family:var(--mono); font-size: 9.8px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim); }
+  .cb { font-family:var(--serif); font-size: 16.1px; line-height:1.65; color:var(--text); font-weight:300; }
+  .cb strong { font-weight:400; color:var(--gold); }
+  .cb em     { font-style:italic; color:#5A4030; }
+  .src { margin-top:7px; font-family:var(--mono); font-size: 9.2px; letter-spacing:.1em; color:var(--text-dim); opacity:.5; text-transform:uppercase; }
+
+  /* doc ref chips in timeline */
+  .doc-chip {
+    display:inline-flex; align-items:center; gap:4px;
+    margin-top:8px; padding:3px 8px;
+    background:rgba(74,140,92,.07); border:1px solid rgba(74,140,92,.2);
+    border-radius:2px; font-family:var(--mono); font-size: 8px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--green);
+    cursor:pointer; transition:all .2s; user-select:none;
+  }
+  .doc-chip:hover { background:rgba(74,140,92,.15); border-color:var(--green); }
+
+  /* ══════════════════════════════
+     DOCUMENT EVIDENCE TAB
+  ══════════════════════════════ */
+  .docs-panel-wrap { padding: 32px 48px 80px; }
+
+  .docs-intro {
+    font-family: var(--serif); font-style: italic; font-size: 17.8px;
+    color: var(--text-dim); margin-bottom: 32px; max-width: 680px;
+    line-height: 1.7; font-weight: 300;
+    padding-left: 14px; border-left: 2px solid rgba(42,90,58,.3);
+  }
+
+  .claim-block {
+    margin-bottom: 40px;
+    animation: rowIn .35s ease both;
+  }
+  .claim-block:nth-child(2) { animation-delay:.06s }
+  .claim-block:nth-child(3) { animation-delay:.12s }
+  .claim-block:nth-child(4) { animation-delay:.18s }
+  .claim-block:nth-child(5) { animation-delay:.24s }
+  .claim-block:nth-child(6) { animation-delay:.30s }
+  .claim-block:nth-child(7) { animation-delay:.36s }
+  .claim-block:nth-child(8) { animation-delay:.42s }
+
+  .claim-header {
+    display: flex; align-items: flex-start; gap: 14px;
+    margin-bottom: 14px;
+  }
+  .claim-number {
+    font-family: var(--mono); font-size: 10.3px; color: #2A5A3A;
+    letter-spacing: 0.12em; flex-shrink: 0; padding-top: 3px;
+  }
+  .claim-stated {
+    flex: 1;
+  }
+  .claim-stated .claim-label {
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .claim-stated .claim-label::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--red); flex-shrink: 0;
+  }
+  .claim-stated .claim-quote {
+    font-family: var(--serif); font-size: 18.4px; font-weight: 300; font-style: italic;
+    color: #2C1810; line-height: 1.6;
+    padding: 10px 14px; background: rgba(139,32,32,.04);
+    border-left: 2px solid rgba(184,64,64,.3);
+    border-radius: 0 2px 2px 0;
+  }
+  .claim-who {
+    font-family: var(--mono); font-size: 9.8px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B2020; opacity: 1;
+    margin-top: 5px;
+  }
+
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .ev-card {
+    background: #FAF6EE;
+    border: 1px solid rgba(42,90,58,.2);
+    border-radius: 3px; padding: 14px;
+    transition: border-color .2s, background .2s;
+    position: relative;
+  }
+  .ev-card:hover { border-color: rgba(74,140,92,.5); background: #F0EAD8; }
+
+  .ev-ref {
+    font-family: var(--mono); font-size: 9.8px; letter-spacing: .12em;
+    text-transform: uppercase; color: #2A5A3A; opacity: 1;
+    margin-bottom: 8px; line-height: 1.5;
+  }
+  .ev-date {
+    font-family: var(--mono); font-size: 9.2px; color: #8B6B50;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .ev-text {
+    font-family: var(--serif); font-size: 16.7px; line-height: 1.65;
+    color: #2C1810; font-weight: 300;
+  }
+  .ev-text strong { color: #1B3A2D; font-weight: 500; font-style: normal; }
+  .ev-text em { font-style: italic; color: #2E5C45; }
+
+  .ev-verdict {
+    margin-top: 10px; padding: 6px 9px;
+    background: rgba(139,32,32,.06); border-left: 2px solid rgba(139,32,32,.35);
+    font-family: var(--mono); font-size: 9.8px; letter-spacing: .09em;
+    text-transform: uppercase; color: #8B2020; line-height: 1.5;
+  }
+
+  .ev-card .dataset-badge {
+    position: absolute; top: 10px; right: 10px;
+    font-family: var(--mono); font-size: 7.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: #2A5A3A; opacity: .8;
+    background: rgba(42,90,58,.07); padding: 2px 6px; border-radius: 2px;
+  }
+
+
+  .deck-list {
+    list-style: none; padding: 0; margin-top: 10px; max-width: 560px;
+  }
+  .deck-list li {
+    font-family: var(--serif); font-style: italic; font-size: 17.2px;
+    color: var(--text-dim); line-height: 1.6; font-weight: 300;
+    padding-left: 1.2em; position: relative; margin-bottom: 3px;
+  }
+  .deck-list li::before {
+    content: '✦'; position: absolute; left: 0;
+    font-size: 8px; color: var(--gold); top: 5px; font-style: normal;
+  }
+
+
+  /* ── RIGHT SIDEBAR ── */
+  .sidebar-col {
+    position: sticky; top: 56px; max-height: calc(100vh - 80px); overflow-y: auto;
+    padding: 16px 0 16px 20px;
+    border-left: 1px solid var(--border2);
+    display: flex; flex-direction: column; gap: 20px;
+  }
+
+  .sidebar-section-label {
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(184,150,62,.2);
+  }
+
+  .status-chip {
+    display: flex; flex-direction: column; gap: 2px;
+    margin-bottom: 7px;
+  }
+  .status-chip-label {
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .status-chip-val {
+    font-family: var(--mono); font-size: 9.8px; letter-spacing: .06em;
+  }
+  .status-chip-val.pending  { color: var(--gold); }
+  .status-chip-val.alert    { color: var(--red); }
+  .status-chip-val.dismissed{ color: var(--text-dim); }
+  .status-chip-val.active-g { color: var(--green); }
+
+  .efta-chip {
+    display: inline-block;
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 7px; border-radius: 2px; margin: 2px 2px 2px 0;
+    background: rgba(42,90,58,.07);
+    border: 1px solid rgba(42,90,58,.2);
+    color: #2A5A3A;
+    cursor: default;
+    line-height: 1.4;
+  }
+  .efta-chip.red {
+    background: rgba(139,32,32,.06);
+    border-color: rgba(139,32,32,.2);
+    color: #8B2020;
+  }
+  .efta-chip.gold {
+    background: rgba(184,150,62,.07);
+    border-color: rgba(184,150,62,.25);
+    color: #7A5A10;
+  }
+  .efta-chip-desc {
+    font-family: var(--serif); font-size: 15px; line-height: 1.5;
+    color: var(--text-dim); margin-top: 3px; font-weight: 300; font-style: italic;
+  }
+
+
+  /* clickable names in timeline */
+  .tl-name-link {
+    cursor: pointer;
+    border-bottom: 1px solid rgba(184,150,62,.4);
+    transition: color .1s, border-color .1s;
+  }
+  .tl-name-link:hover {
+    color: #1B3A2D;
+    border-bottom-color: #1B3A2D;
+  }
+
+  /* divider between claim blocks */
+  .claim-divider {
+    border: none; border-top: 1px solid var(--border2);
+    margin: 0 0 40px; opacity: .5;
+  }
+
+  footer {
+    margin: 0 48px;
+    padding: 18px 0;
+    border-top: 1px solid var(--border2);
+    font-family: var(--mono); font-size: 8.6px; color: var(--text-dim);
+    letter-spacing: .08em; opacity: .45; line-height: 1.7;
+  }
+
+  @media (max-width:800px) {
+    header,.legend,.timeline-wrap,.docs-panel-wrap,footer { padding-left:16px; padding-right:16px; }
+    .col-headers { display:none; }
+    .t-row { grid-template-columns:68px 1fr; }
+    /* gutter/legal cells already hidden globally */
+    .tab-btn { padding:12px 14px; font-size: 9.2px; }
+    .evidence-grid { grid-template-columns:1fr; }
+  }
+
 </style>
 </head>
 <body>
+
+<!-- PAGE NAV -->
+<nav id="page-nav">
+  <button class="pnav-btn active" onclick="showPage('network', this)">Interactive Diagram</button>
+  <button class="pnav-btn"        onclick="showPage('timeline', this)">Trump Timeline</button>
+</nav>
+
+<!-- PAGE: NETWORK DIAGRAM -->
+<div id="page-network" class="page-section active">
 <div id="wrap">
   <div id="canvas-wrap">
     <svg id="sv"></svg>
@@ -330,8 +876,7 @@ body::before {
         <button class="chip on" data-s="social">Social / Cultural</button>
       </div>
 
-      <span id="count-label">122 individuals</span>
-    </div>
+      <span id="count-label">121 individuals</span>
     </div>
     <div id="hint">Click a name to open file · Drag to reposition · Scroll to zoom</div>
     <div id="signature">Designed by <a href="https://www.yourlocalanthropologist.com" target="_blank" rel="noopener noreferrer">Cyramatique</a></div>
@@ -1570,7 +2115,7 @@ function updateCount() {
     const nameMatch = !searchTerm || p.name.toLowerCase().includes(searchTerm);
     return nameMatch && activeStatuses.has(p.status) && activeSectors.has(p.sector);
   }).length;
-  document.getElementById('count-label').textContent = `${n} individual${n===1?'':'s'}`;
+  document.getElementById('count-label').textContent = `${n} individuals + Epstein`;
 }
 
 document.querySelectorAll('.chip[data-f]').forEach(btn => {
@@ -1596,5 +2141,920 @@ document.getElementById('search-box').addEventListener('input', function() {
   updateVis();
 });
 </script>
+</div>
+
+<!-- PAGE: TIMELINE -->
+<div id="page-timeline" class="page-section">
+<header>
+  <div class="eyebrow">Public Record · Mar 2026</div>
+  <h1>The Resident Representatives &amp; Affiliates</h1>
+  <p class="deck"><strong>The Three Tracks</strong></p>
+  <ul class="deck-list">
+    <li>The administration's official version of events.</li>
+    <li>The legal record.</li>
+    <li>What the documents themselves actually say — with file references.</li>
+  </ul>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active"        onclick="switchTab('timeline',this)">Timeline <span class="tab-pill">20 entries</span></button>
+  <button class="tab-btn legal-tab"     onclick="switchTab('legal',this)">Legal Track <span class="tab-pill">10 proceedings</span></button>
+  <button class="tab-btn docs-tab"      onclick="switchTab('docs',this)">Document Record <span class="tab-pill">8 claims</span></button>
+</div>
+
+<!-- ══════════════════════
+     TAB 1 — TIMELINE
+══════════════════════ -->
+<div id="tab-timeline" class="tab-panel active">
+  <div class="legend">
+    <div class="legend-item"><span class="leg-dot gold"></span>Administration comms</div>
+    <div class="legend-item"><span class="leg-dot red"></span>Reversal / contested claim</div>
+  </div>
+  <div class="col-headers">
+    <div></div><div class="col-label story">Administration &amp; files narrative</div>
+    
+  </div>
+  <div class="timeline-wrap">
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jun–Sep</span><span class="date-yr">2024</span></div>
+      <div class="story-cell"><div class="nd ms"></div>
+        <div class="card mc">
+          <div class="cm"><span class="cd g"></span><span class="ct">Campaign promise</span></div>
+          <div class="cb"><strong><span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span></strong> promises on Fox News and Lex Fridman's podcast to release the Epstein files if elected. The crowd goes wild. Filed under: commitments.</div>
+          <div class="src">src · Fox News Jun 2024 · Lex Fridman Podcast Sep 2024</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="sidebar-col">
+
+  <div>
+    <div class="sidebar-section-label">⚖ Proceedings status</div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--blue);">Trump v. Dow Jones · $20B</span>
+      <span class="status-chip-val pending">⏳ Pending — dismissal ruling</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--blue);">Wolff v. Melania Trump</span>
+      <span class="status-chip-val pending">⏳ Procedural — service dispute</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--purple);">Bondi subpoena</span>
+      <span class="status-chip-val alert">⚠ Outstanding — not complied</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--purple);">GAO investigation</span>
+      <span class="status-chip-val active-g">● Active — opened Mar 11 2026</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--purple);">Missing FBI 302s</span>
+      <span class="status-chip-val alert">⚠ Withheld — DOJ silent</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--amber);">Grand jury unsealing</span>
+      <span class="status-chip-val dismissed">✗ Denied — Jul 23 2025</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--amber);">MCC guards indictment</span>
+      <span class="status-chip-val dismissed">✗ Dismissed 2021 — not refiled</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--purple);">Jagland corruption charges</span>
+      <span class="status-chip-val alert">⚠ Charged — Feb 2026 · Norway</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--purple);">Rød-Larsen / Juul investigation</span>
+      <span class="status-chip-val alert">⚠ Criminal investigation — Norway</span>
+    </div>
+    <div class="status-chip">
+      <span class="status-chip-label" style="color:var(--purple);">Andrew / Mandelson arrests</span>
+      <span class="status-chip-val pending">⏳ Released on bail — under investigation</span>
+    </div>
+  </div>
+
+  <div>
+    <div class="sidebar-section-label">📄 Key EFTA documents</div>
+
+    <span class="efta-chip red">EFTA02857524</span>
+    <div class="efta-chip-desc">Operation Leap Year — 60-count indictment recommendation (2007). Abandoned in favour of NPA.</div>
+
+    <span class="efta-chip red">EFTA01656152</span>
+    <div class="efta-chip-desc">FBI Prominent Names briefing p.17 — Trump, Weinstein, Black, Dershowitz, Wexner listed with victim statements.</div>
+
+    <span class="efta-chip red">EFTA01648950</span>
+    <div class="efta-chip-desc">FBI "derog" emails Jul 24 2025 — Trump, Lutnick, Barr named. Same day DAG Blanche interviewed Maxwell.</div>
+
+    <span class="efta-chip red">EFTA00025553</span>
+    <div class="efta-chip-desc">Trump/Maxwell photo on Bannon's phone. AUSA: "no need to do anything with this one."</div>
+
+    <span class="efta-chip gold">EFTA01660651</span>
+    <div class="efta-chip-desc">NTOC tip — Victoria's Secret parties. Clinton and Trump named. FBI follow-up: none.</div>
+
+    <span class="efta-chip gold">EFTA00666117</span>
+    <div class="efta-chip-desc">Sultan bin Sulayem "torture video" email. 4,700+ Sulayem references in corpus.</div>
+
+    <span class="efta-chip">EFTA02857729</span>
+    <div class="efta-chip-desc">June 2008 immunity memo — Lesley Groff identified as most likely to cooperate.</div>
+
+    <span class="efta-chip">EFTA00090314</span>
+    <div class="efta-chip-desc">FBI CHS FD-1023 — Epstein "belonged to intelligence services," trained as spy under Barak.</div>
+  </div>
+
+
+
+<div id="mini-dos" style="display:none;">
+    <div class="sidebar-section-label" style="margin-top:4px;">⊞ Dossier</div>
+    <div id="mini-dos-name" style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:#1B3A2D;line-height:1.2;margin-bottom:3px;"></div>
+    <div id="mini-dos-title" style="font-family:'Cormorant SC',Georgia,serif;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:#B8963E;margin-bottom:10px;"></div>
+    <div id="mini-dos-travel" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;"></div>
+    <div id="mini-dos-conn" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;line-height:1.65;color:#2C1810;font-weight:300;"></div>
+    <div id="mini-dos-cons" style="margin-top:8px;font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;line-height:1.6;color:#2C1810;padding:7px 10px;border-radius:2px;border-left:2px solid #B8963E;background:rgba(184,150,62,.06);"></div>
+    <a id="mini-dos-pinpoint" href="#" target="_blank" rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 10px;
+              font-family:'Cormorant SC',Georgia,serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;
+              color:#1B3A2D;text-decoration:none;border:1px solid rgba(27,58,45,.2);background:rgba(27,58,45,.06);border-radius:2px;">
+      ⊞ Search in DOJ files ↗
+    </a>
+    <button onclick="closeMiniDos()"
+       style="display:block;margin-top:8px;width:100%;padding:5px;font-family:'Cormorant SC',Georgia,serif;
+              font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:#8B6B50;
+              background:none;border:1px solid rgba(90,65,30,.15);border-radius:2px;cursor:pointer;">
+      ✕ close
+    </button>
+  </div>
+
+
+
+</div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Feb 21</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd"></div>
+        <div class="card">
+          <div class="cm"><span class="cd g"></span><span class="ct">DOJ statement</span></div>
+          <div class="cb"><strong>AG Pam Bondi</strong> tells Fox News the Epstein client list is <em>"sitting on my desk right now to review."</em> Viewers assume release is imminent. This assumption proves optimistic.</div>
+          <div class="src">src · Fox News w/ John Roberts, Feb 21 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Feb 27</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd"></div>
+        <div class="card">
+          <div class="cm"><span class="cd g"></span><span class="ct">First release</span></div>
+          <div class="cb">DOJ drops flight logs and a contact book that is <strong>mostly redacted</strong>. White House hands binders labelled <em>"Epstein Files: Phase 1 — Declassified"</em> to conservative influencers. Rep. Luna calls it <em>"old info."</em></div>
+          <div class="src">src · DOJ release · Rep. Luna statement, Feb 27 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Apr 25</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">Death of key witness</span></div>
+          <div class="cb"><strong><span class="tl-name-link" onclick="openNodeFromTimeline('giuffre')" title="Open dossier">Giuffre</span></strong>, Epstein's most prominent survivor-accuser, dies by suicide in Australia. Her FBI 302 interview records are among those still not released as of Mar 2026.</div>
+          <div class="src">src · AP · BBC · family statement, Apr 25 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 7</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">"Nothing to see" memo</span></div>
+          <div class="cb">DOJ declares the <strong>client list does not exist</strong>, no blackmail evidence found, death was suicide. Same day: DOJ fires <strong>Maurene Comey</strong> — the prosecutor who actually prosecuted Epstein. Her father is James Comey. The timing is described as coincidental.</div>
+          <div class="src">src · DOJ memo Jul 7 2025 · Wikipedia / Epstein files</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-1')">↗ Document record contradicts this</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 11–16</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">The hoax pivot</span></div>
+          <div class="cb">FBI Deputy Director <strong>Bongino</strong> confronts Bondi; considers resigning. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> responds: Epstein is <em>"somebody nobody cares about"</em> (Jul 12) and the files are <em>"a big hoax"</em> (Jul 16). <strong>Joe Rogan</strong> calls it gaslighting.</div>
+          <div class="src">src · Truth Social Jul 12 &amp; 16 2025 · Wikipedia / EFTA</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-2')">↗ Document record contradicts this</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 17–18</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd"></div>
+        <div class="card">
+          <div class="cm"><span class="cd g"></span><span class="ct">Birthday book</span></div>
+          <div class="cb"><strong>WSJ</strong> reports Epstein's 2003 birthday book contains a letter in <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s name — text framed by a hand-drawn naked woman, signed <em>"Donald"</em> where pubic hair would be, ending: <em>"may every day be another wonderful secret."</em> <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> calls it fake. He sues the next day.</div>
+          <div class="src">src · WSJ Jul 17 2025 (Safdar &amp; Palazzolo)</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-3')">↗ Document record on the birthday book</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 23</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">Name in the files — denied</span></div>
+          <div class="cb"><strong>WSJ</strong> reports Bondi told <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> in May his name is <em>"among many"</em> in the files. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> denies it. A federal judge also denies grand jury release the same day, in what becomes a pattern.</div>
+          <div class="src">src · Wall Street Journal Jul 23 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Aug–Sep</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">Congress vs administration</span></div>
+          <div class="cb"><span class="tl-name-link" onclick="openNodeFromTimeline('maxwell')" title="Open dossier">Maxwell</span> interview released — she says <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> and Epstein were <em>"friendly in social settings."</em> Rep. <strong>Massie</strong> files discharge petition. Administration calls signing it <em>"a very hostile act."</em> Sep 2: Oversight releases 33,000+ pages including cell block video with a <strong>one-minute gap</strong>.</div>
+          <div class="src">src · DOJ Maxwell release · Wikipedia / EFTA · CBS Sep 2 2025</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-4')">↗ Document record on the prison death</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Nov 12–19</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd ms"></div>
+        <div class="card mc">
+          <div class="cm"><span class="cd g"></span><span class="ct">Law signed — 30-day clock</span></div>
+          <div class="cb">Petition hits <strong>218 signatures</strong>. Epstein Files Transparency Act passes <strong>427–1</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> signs it, then posts calling it <em>"a Hoax"</em> on Truth Social. He has signed a law to release files he says are fake. Sole no vote: Rep. Clay Higgins.</div>
+          <div class="src">src · Wikipedia / EFTA · Truth Social Nov 19 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Dec 19</span><span class="date-yr">2025</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">Deadline missed — partial release</span></div>
+          <div class="cb">DOJ releases partial batch — <strong>500+ pages entirely blacked out</strong>. Sixteen files vanish from the webpage within 24 hrs. Faulty PDF redactions allow public to <strong>copy-paste blacked-out text</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> absent from all photos. DOJ: <em>"fully complying."</em></div>
+          <div class="src">src · DOJ release · PBS NewsHour · Wikipedia / Epstein files Dec 19 2025</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-5')">↗ Document record on the redaction failures</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jan 30</span><span class="date-yr">2026</span></div>
+      <div class="story-cell"><div class="nd ms"></div>
+        <div class="card mc">
+          <div class="cm"><span class="cd g"></span><span class="ct">Mass release — "final"</span></div>
+          <div class="cb">DOJ releases <strong>3M+ pages</strong>, 2,000 videos, 180,000 images. Declares it final. Site requires 18+ confirmation because the release contains <strong>pornography</strong> seized from Epstein's properties. Critics note up to 6M pages may qualify. File EFTA01660679 removed and silently restored.</div>
+          <div class="src">src · DOJ release · CNN (Paula Reid) · Wikipedia Jan 30 2026</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-6')">↗ Key revelations from the Jan 30 release</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Feb–Mar</span><span class="date-yr">2026</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card fc">
+          <div class="cm"><span class="cd r"></span><span class="ct">Files removed — NPR investigation</span></div>
+          <div class="cb">NPR finds DOJ <strong>removed FBI records</strong> related to <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> accusations. A 6th release on <strong>Mar 5</strong> backfills prosecution memos initially withheld as <em>"privileged"</em> — 35 days after the declared final release.</div>
+          <div class="src">src · NPR investigation Feb 24 2026 · Wikipedia / EFTA</div>
+          <span class="doc-chip" onclick="switchTab('docs',null,'claim-7')">↗ Document record on the withheld files</span>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+  </div><!-- /timeline-wrap -->
+</div>
+
+<!-- ══════════════════════
+     TAB 2 — LEGAL TRACK
+══════════════════════ -->
+<div id="tab-legal" class="tab-panel">
+  <div class="legend">
+    <div class="legend-item"><span class="leg-dot blue"></span>Civil litigation</div>
+    <div class="legend-item"><span class="leg-dot" style="background:var(--purple);"></span>Congressional &amp; oversight</div>
+    <div class="legend-item"><span class="leg-dot" style="background:var(--amber);"></span>Criminal / judicial</div>
+    <div class="legend-item"><span class="leg-dot gold"></span>Legislation</div>
+  </div>
+
+  <!-- STATUS STRIP -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);border-bottom:1px solid var(--border);">
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Trump v. Dow Jones</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--gold);">⏳ Pending — dismissal ruling</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Wolff v. Melania Trump</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--gold);">⏳ Procedural — service dispute</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Trump v. Wolff (threatened)</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-dim);">◌ Not filed as of Mar 13 2026</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">Bondi subpoena</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--red);">⚠ Outstanding — not complied</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">GAO investigation</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--gold);">⏳ Active — Mar 11 2026</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">Missing FBI 302s</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--red);">⚠ Unresolved — DOJ silent</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">Grand jury unsealing</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-dim);">✗ Denied — Jul 23 2025</div>
+    </div>
+    <div style="background:#FAF6EE;padding:12px 20px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">MCC guards indictment</div>
+      <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-dim);">✗ Dismissed 2021 — not refiled</div>
+    </div>
+  </div>
+
+  <!-- SECTION DIVIDER -->
+  <div style="padding:18px 48px 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);border-bottom:1px solid var(--border2);">I. Civil litigation — Trump v. press</div>
+
+  <div class="timeline-wrap">
+
+    <!-- WSJ SUIT -->
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 18</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">Trump v. Dow Jones · $20B defamation · S.D. Florida · No. 1:25-cv-23232</span></div>
+          <div class="cb">Filed the day after the WSJ birthday book story. Defendants: Dow Jones, News Corp, Rupert Murdoch personally, CEO Robert Thomson, and reporters Safdar and Palazzolo. Two counts at <strong>$10B each</strong>. Assigned to Judge <strong>Darrin Gayles</strong> (Obama appointee, first openly gay Black federal judge). <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> had hoped to land Judge Aileen Cannon — he did not. Murdoch told Trump he would "take care of it." He did not do that either.</div>
+          <div class="src">src · CourtListener 1:25-cv-23232 · CBS · CNBC · Newsweek · The Advocate</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 28</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">Murdoch deposition — expedited motion filed, then deferred</span></div>
+          <div class="cb"><span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s lawyers file motion seeking an <em>expedited</em> deposition of Murdoch on grounds of his age (94) and reported health deterioration, including a February collapse. Gayles grants a joint stipulation: deposition deferred until after dismissal ruling. Murdoch and Thomson waive personal jurisdiction objections. The stipulation includes provisions requiring regular health updates on Murdoch, which are now a matter of federal court record. All discovery is suspended pending the dismissal ruling.</div>
+          <div class="src">src · Newsweek · CourtListener joint stipulation · CNBC Aug 4 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Sep 8</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">Birthday book produced to Congress — enters lawsuit record</span></div>
+          <div class="cb">The Epstein estate produces the birthday book to a congressional subpoena. WSJ's attorneys file to have it taken into judicial notice. Defendants argue: "the very document <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> called 'nonexistent' has now been produced by Epstein's own estate and matches our reporting in every detail." White House press secretary Leavitt announces this <em>"PROVES the story is false."</em> <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s own lawyers do not appear to share this analysis.</div>
+          <div class="src">src · House Oversight · ABC · Newsweek Nov 5 2025 (judicial notice motion)</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Sep 22</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">WSJ motion to dismiss — "The article is true"</span></div>
+          <div class="cb">Opening line of WSJ's motion: <strong>"The article is true."</strong> The motion argues the story cannot defame <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> because it is consistent with his own self-documented history — citing the Access Hollywood tape, the NY magazine 2002 "many of them on the younger side" quote about Epstein, and other Trump statements. Seeks dismissal with prejudice, attorneys' fees, and costs. Calls the suit <em>"an affront to the First Amendment."</em> Filed the same week a federal judge tossed <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s separate $15B NYT suit as "tedious and burdensome."</div>
+          <div class="src">src · Variety Sep 22 2025 · Deadline · ABC</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Oct 20</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">Trump opposes dismissal · Gayles yet to rule</span></div>
+          <div class="cb"><span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s opposition filing calls the Journal a <em>"deliberate smear campaign"</em> with "reckless disregard for the truth." Argues that publishing a denial while implying it was false constitutes actual malice under <em>New York Times v. Sullivan</em>. <strong>Status as of Mar 13 2026: Judge Gayles has not ruled.</strong> Discovery remains suspended. Murdoch has not been deposed. Precedent note: <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> dropped his $500M suit against Cohen the moment Gayles scheduled a deposition requiring Trump's own testimony under oath.</div>
+          <div class="src">src · ABC · Newsweek Oct 20–21 2025 · CourtListener docket · CNBC (Cohen precedent)</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <!-- WOLFF SUIT -->
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Oct 22</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">Wolff v. Melania Trump · anti-SLAPP · NY Supreme Court, Manhattan</span></div>
+          <div class="cb">Author <strong><span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span></strong> — who conducted years of recorded interviews with Epstein — sues Melania <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> in NY Supreme Court under New York's anti-SLAPP statute after her lawyer sent a letter demanding retraction of Epstein-related reporting under threat of a <strong>$1B defamation suit</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> says the suit gives him subpoena power to depose both Trumps about their Epstein relationship. He raised $800K via GoFundMe to fund it. As of Feb 2026: Melania has moved to dismiss for improper service and seeks transfer to S.D. Florida. Service and residency are disputed — Wolff claims he located where Melania actually lives and served her there. <strong>Status: procedural only, no merits ruling.</strong></div>
+          <div class="src">src · NBC News · Courthouse News · Axios · Newsweek Jan 6 2026 · factually.co Feb 2026 · The Hill Feb 3 2026</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jan 31</span><span class="date-yr">2026</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd b"></span><span class="ct">Trump threatens Wolff suit · Epstein estate · not yet filed</span></div>
+          <div class="cb">Responding to journalists aboard Air Force One the day after the 3M-page release, <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> says he will <em>"probably sue"</em> <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> for <em>"conspiring with Epstein to hurt me politically."</em> Also threatens to sue the Epstein estate. <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> responds via Instagram: <em>"Bring it on."</em> As of Mar 13 2026: <strong>no lawsuit has been filed by <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> against <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span></strong>. This is at minimum the third occasion <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> has threatened to sue <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span>. He has not done so.</div>
+          <div class="src">src · Fox News Feb 1 2026 · The Hill Feb 3 2026 · Michael Wolff Substack Feb 1 2026</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+  </div><!-- /section 1 -->
+
+  <!-- SECTION DIVIDER -->
+  <div style="padding:22px 48px 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);border-bottom:1px solid var(--border2);">II. Congressional &amp; oversight proceedings</div>
+
+  <div class="timeline-wrap">
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Nov 19</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--gold);box-shadow:0 0 8px rgba(200,168,75,0.5);"></div>
+        <div class="card mc">
+          <div class="cm"><span class="cd g"></span><span class="ct">Epstein Files Transparency Act · Pub. L. 119–38 · H.R.4405</span></div>
+          <div class="cb">Passes <strong>427–1</strong> (sole no: Rep. Clay Higgins, Louisiana). Mandates full release by Dec 19 with no redactions for embarrassment, political sensitivity, or reputational harm. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> signs it the same day, then posts to Truth Social calling the files <em>"a Hoax."</em> The law he signed to release the hoax files carries no enforcement mechanism — Republicans blocked a penalty clause. DOJ subsequently applies politically sensitive redactions, declares itself in full compliance, and is investigated.</div>
+          <div class="src">src · Congress.gov H.R.4405 · Truth Social Nov 19 2025 · The Hill (Merkley on enforcement)</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Feb 9</span><span class="date-yr">2026</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--purple);box-shadow:0 0 6px rgba(138,95,165,0.5);"></div>
+        <div class="card" style="border-color:rgba(138,95,165,.2);background:rgba(40,20,60,.2);">
+          <div class="cm"><span class="cd" style="background:var(--purple);"></span><span class="ct">Maxwell testimony — Fifth Amendment · House Oversight · Feb 9 2026</span></div>
+          <div class="cb"><strong><span class="tl-name-link" onclick="openNodeFromTimeline('maxwell')" title="Open dossier">Maxwell</span></strong> appears before House Oversight Committee and invokes the Fifth Amendment on every question. Her lawyer simultaneously states she will speak fully and honestly if <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> grants her <strong>clemency</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> does not respond. The committee then votes to subpoena <strong>AG Pam Bondi</strong> as part of its Epstein probe. Bondi's subpoena is outstanding as of Mar 13 2026. Massie and Khanna attend the session and report FBI victim interview memos naming abusers remain missing even from the unredacted congressional review set.</div>
+          <div class="src">src · CSMonitor Feb 12 2026 · CNN (Maxwell/Fifth Amendment) · The Hill (Massie/Khanna)</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Mar 11</span><span class="date-yr">2026</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--purple);box-shadow:0 0 6px rgba(138,95,165,0.5);"></div>
+        <div class="card" style="border-color:rgba(138,95,165,.2);background:rgba(40,20,60,.2);">
+          <div class="cm"><span class="cd" style="background:var(--purple);"></span><span class="ct">GAO investigation requested · bipartisan · Mar 11 2026 — two days ago</span></div>
+          <div class="cb">Senators <strong>Merkley (D-OR), Murkowski (R-AK), Luján (D-NM), and Durbin (D-IL)</strong> write to Acting Comptroller General Orice Williams Brown requesting a GAO audit of DOJ's redaction and release process. The letter asks specifically whether political appointees approved redactions of "politically exposed persons," whether directives were given to shield powerful figures, and whether the release served to <em>"cover up child sexual abuse."</em> GAO confirms receipt and is reviewing the request. Senator Merkley has separately introduced legislation to create penalties for EFTA non-compliance — Republican leadership blocked it. Ron Wyden identifies <strong>$1.5B in suspicious activity reports</strong> at Treasury linked to Epstein associates.</div>
+          <div class="src">src · CNBC Mar 11 2026 · WaPo Mar 11 2026 · Merkley.senate.gov · The Hill · KTVZ</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Ongoing</span><span class="date-yr">2026</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--purple);box-shadow:0 0 6px rgba(138,95,165,0.5);"></div>
+        <div class="card" style="border-color:rgba(138,95,165,.2);background:rgba(40,20,60,.2);">
+          <div class="cm"><span class="cd" style="background:var(--purple);"></span><span class="ct">Congressional unredacted access — outstanding demands · NBC/NPR investigation live</span></div>
+          <div class="cb">Massie and Khanna have formally requested unredacted review access to FBI 302 interview memos. Rep. Robert Garcia (D-CA, House Oversight ranking member) went to DOJ in person to view unredacted files and could not locate the missing FBI interview records there either — he states this is <em>"evidence of a cover-up."</em> The missing files relate to a South Carolina woman who made sexual abuse allegations against both Epstein and <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>, interviewed by the FBI four times. Only one of the four transcripts has been publicly released. The others are absent from the congressional unredacted set as well as the public database. <strong>DOJ has not explained the absence.</strong></div>
+          <div class="src">src · NBC News Feb 25 2026 · NPR Feb 24 2026 · CNN Mar 5 2026</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+  </div><!-- /section 2 -->
+
+  <!-- SECTION DIVIDER -->
+  <div style="padding:22px 48px 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--border2);">III. Criminal &amp; judicial proceedings</div>
+
+  <div class="timeline-wrap">
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Jul 23</span><span class="date-yr">2025</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--amber);box-shadow:0 0 6px rgba(200,124,48,0.4);"></div>
+        <div class="card" style="border-color:rgba(200,124,48,.18);background:rgba(40,25,10,.2);">
+          <div class="cm"><span class="cd" style="background:var(--amber);"></span><span class="ct">Grand jury unsealing — denied · Judge Rosenberg · S.D. Florida</span></div>
+          <div class="cb">Federal judge <strong>Robin Rosenberg</strong> denies the administration's motion to unseal Epstein grand jury transcripts from the original Palm Beach investigation — three days after <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> publicly called for their release. A separate request to unseal <span class="tl-name-link" onclick="openNodeFromTimeline('maxwell')" title="Open dossier">Maxwell</span> deposition transcripts is granted. The Palm Beach grand jury testimony — which includes Det. Joe Recarey's account of the first victim complaint (14-year-old girl, 2005) and subsequent testimony from dozens of girls — remains sealed.</div>
+          <div class="src">src · NPR timeline · CBS Jul 23 2025</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Unresolved</span><span class="date-yr">2019–</span></div>
+      <div class="story-cell" style="border-left-color:var(--border2);">
+        <div class="nd" style="background:var(--amber);box-shadow:0 0 6px rgba(200,124,48,0.4);"></div>
+        <div class="card" style="border-color:rgba(200,124,48,.18);background:rgba(40,25,10,.2);">
+          <div class="cm"><span class="cd" style="background:var(--amber);"></span><span class="ct">MCC corrections officers indictment · S.D.N.Y. · falsified records</span></div>
+          <div class="cb">Two Metropolitan Correctional Center guards — <strong>Tova Noel and Michael Thomas</strong> — were indicted by S.D.N.Y. for falsifying prison records on the night of Epstein's death (Aug 10 2019). Both pleaded not guilty. The DOJ under Biden moved to dismiss the case in 2021 citing inability to bring it to trial during COVID. The case was not refiled. DAG Blanche's Jan 30 2026 letter to Congress acknowledges DOJ is still attempting to obtain grand jury materials from this case. The related MCC cell block footage — released Sep 2 2025 — contains a one-minute gap. No one has been convicted in connection with Epstein's death.</div>
+          <div class="src">src · DAG Blanche letter to Congress Jan 30 2026 · CBS Sep 2 2025 (cell block footage)</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
+  </div><!-- /section 3 -->
+</div>
+
+<!-- ══════════════════════
+     TAB 3 — DOCUMENT RECORD
+══════════════════════ -->
+<div id="tab-docs" class="tab-panel">
+  <div class="docs-panel-wrap">
+
+    <p class="docs-intro">What follows is the documentary record — specific files, case references, and document IDs from the released Epstein files — cross-referenced against specific public claims made by the administration. Each entry lists the document, what it says, and what official statement it contradicts. The green cards are the files talking back.</p>
+
+    <!-- CLAIM 1 -->
+    <div class="claim-block" id="claim-1">
+      <div class="claim-header">
+        <div class="claim-number">01 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Official claim — Jul 7 2025</div>
+          <div class="claim-quote">"There is no credible evidence that Epstein blackmailed prominent individuals… No 'client list' exists… We conducted an exhaustive review."</div>
+          <div class="claim-who">— DOJ memo, Jul 7 2025 · signed off under AG Pam Bondi</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">Dataset 12</span>
+          <div class="ev-ref">EFTA02857524 · 205 pages · dated May 1, 2007<br>"Operation Leap Year" — prosecution memo</div>
+          <div class="ev-date">Event: 2007 · Released: Mar 5 2026 (35 days after "final" release)</div>
+          <div class="ev-text">A federal prosecutor formally asked US Attorney <strong><span class="tl-name-link" onclick="openNodeFromTimeline('acosta')" title="Open dossier">Alexander Acosta</span></strong> for permission to indict Epstein on <strong>60 counts</strong>. The memo documents <strong>27 named victims aged 14–23</strong>, recruited from local schools. The indictment was abandoned in favour of the NPA. This document was <em>initially withheld</em> from the Jan 30 release, labelled as duplicative.</div>
+          <div class="ev-verdict">↯ "exhaustive review" missed a 205-page prosecution memo recommending 60-count indictment</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">Dataset 12</span>
+          <div class="ev-ref">EFTA02857729 · Jun 2008 immunity memo</div>
+          <div class="ev-date">Event: Jun 2008 · Released: Mar 5 2026</div>
+          <div class="ev-text">Written while the NPA was being finalised, prosecutors were still seeking immunity orders to <strong>flip Lesley Groff</strong>, Epstein's personal assistant — calling her <em>"the most likely to flip if we have sufficient evidence to charge her."</em> No charges were brought. Groff continued working for Epstein.</div>
+          <div class="ev-verdict">↯ NPA granted immunity not just to Epstein but to "any potential co-conspirators" — the review found this unremarkable</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">DOJ OPR</span>
+          <div class="ev-ref">DOJ Office of Professional Responsibility Report · Nov 2020 · USAO S.D. Florida</div>
+          <div class="ev-date">Event: 2006–2008 · Report published: Nov 2020</div>
+          <div class="ev-text">DOJ's own OPR found Acosta used <strong>"poor judgment"</strong> in the plea deal and that victims were kept in the dark in potential violation of the Crime Victims' Rights Act, 18 U.S.C. § 3771. The NPA granted immunity to Epstein, four named co-conspirators, and <em>"any potential co-conspirators."</em></div>
+          <div class="ev-verdict">↯ the DOJ reviewed its own prior misconduct in 2020 and then declared its 2025 review "exhaustive"</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 2 -->
+    <div class="claim-block" id="claim-2">
+      <div class="claim-header">
+        <div class="claim-number">02 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Official claim — Jul 12–16 2025</div>
+          <div class="claim-quote">Epstein is "somebody that nobody cares about." The files are "a big hoax." This is "all over a guy who never dies, Jeffrey Epstein."</div>
+          <div class="claim-who">— Trump / Truth Social, Jul 12 &amp; 16 2025</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">FBI 302</span>
+          <div class="ev-ref">FBI 302 — interview with former Palm Beach Police Chief Michael Reiter · Oct 2019 · Released Jan 30 2026</div>
+          <div class="ev-date">Event: Jul 2006 · Interview: Oct 2019 · Released: Jan 30 2026</div>
+          <div class="ev-text">Reiter told the FBI that in <strong>July 2006</strong> Trump called him to say: <em>"thank goodness you're stopping him, everyone has known he's been doing this."</em> Trump told Reiter that <em>"people in New York knew Epstein was disgusting"</em> and called Maxwell <em>"evil — focus on her."</em> Trump also said he had been around Epstein once when teenagers were present and <strong>"got the hell out of there."</strong></div>
+          <div class="ev-verdict">↯ Trump knew enough about Epstein in 2006 to call the police chief — he is not somebody nobody cares about</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">SDNY email</span>
+          <div class="ev-ref">SDNY prosecutor email · 2020 · Released Jan 30 2026</div>
+          <div class="ev-date">Event: 2020 internal DOJ correspondence</div>
+          <div class="ev-text">A prosecutor's internal email notes that <strong>"Donald Trump traveled on Epstein's private jet many more times than previously reported (or that we were aware)."</strong> This was written by the administration that, five years later, would call all Epstein files a hoax.</div>
+          <div class="ev-verdict">↯ DOJ's own prosecutors documented Trump's jet travel in 2020; the administration called the files a hoax in 2025</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">FBI internal</span>
+          <div class="ev-ref">FBI internal note · Jul 22 2025 · Released Jan 30 2026 (and briefly removed)</div>
+          <div class="ev-date">Event: Jul 22 2025 — written six days after "big hoax" statement</div>
+          <div class="ev-text">An FBI agent wrote — six days after Trump called the files a hoax — that Trump's name was present in the Epstein case files and that <strong>"one identified victim claimed abuse by Trump but ultimately refused to cooperate."</strong> This document was among those briefly removed from the DOJ website on Jan 30 before being restored.</div>
+          <div class="ev-verdict">↯ FBI was documenting Trump's name in the case files the same week Trump was calling the files a Democrat fabrication</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 3 -->
+    <div class="claim-block" id="claim-3">
+      <div class="claim-header">
+        <div class="claim-number">03 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Official claim — Jul 17–18 2025</div>
+          <div class="claim-quote">"This is not me. This is a fake thing… no authentic letter or drawing exists… I never drew a picture in my life."</div>
+          <div class="claim-who">— Trump to WSJ, Jul 15 2025 · White House press secretary Leavitt, Sep 8 2025</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">House Oversight</span>
+          <div class="ev-ref">Epstein 50th birthday book · 238 pages · produced by Epstein estate under congressional subpoena · Sep 2025</div>
+          <div class="ev-date">Event: 2003 · Produced to Congress: Sep 8 2025</div>
+          <div class="ev-text">The birthday book, assembled by Maxwell as "Family, Friends, Business" categories, contains a letter <strong>identical in every detail</strong> to the WSJ's description: typewritten text in the outline of a hand-drawn nude figure, with "Donald" signed below the hips. The letter ends: <em>"may every day be another wonderful secret."</em> Trump is listed as a <em>"friend."</em> Maxwell says in her introduction she cannot recall if he responded. She then appeared before Congress and invoked the Fifth Amendment.</div>
+          <div class="ev-verdict">↯ the letter the lawsuit calls "nonexistent" was produced by Epstein's own estate to Congress</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">Historical record</span>
+          <div class="ev-ref">Trump hand-drawn auction items · documented public record · NYT, 2016</div>
+          <div class="ev-date">Note: prior to the birthday book claim</div>
+          <div class="ev-text">NYT reported in 2016 that Trump had <strong>auctioned hand-drawn sketches</strong> — including a drawing of the George Washington Bridge — with signatures closely matching the one on the Epstein birthday letter. The claim "I never drew a picture in my life" appears to be contradicted by Trump's own prior commercial activity.</div>
+          <div class="ev-verdict">↯ "I never drew a picture in my life" — NYT documented auction of Trump hand-drawn sketches in 2016</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 4 -->
+    <div class="claim-block" id="claim-4">
+      <div class="claim-header">
+        <div class="claim-number">04 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Official claim — DOJ memo, Jul 7 2025</div>
+          <div class="claim-quote">"Epstein's death was a suicide. The investigation is complete. No evidence supports any other conclusion."</div>
+          <div class="claim-who">— DOJ memo, Jul 7 2025</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">Datasets 1–8</span>
+          <div class="ev-ref">MCC New York cell block video · released Sep 2 2025 · House Oversight Committee</div>
+          <div class="ev-date">Event: Aug 10 2019 · Released: Sep 2 2025</div>
+          <div class="ev-text">The cell block video released by the House Oversight Committee shows Epstein's corridor at the Metropolitan Correctional Center on the night of his death — <strong>with a one-minute gap in the footage</strong>. The DOJ had declared its review exhaustive. The existence of the gap had not been previously disclosed in official statements.</div>
+          <div class="ev-verdict">↯ "complete" investigation — the released footage has a gap not previously disclosed</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">SDNY</span>
+          <div class="ev-ref">Grand jury indictment — corrections officers · S.D.N.Y. · referenced in DAG Blanche's Jan 30 letter to Congress</div>
+          <div class="ev-date">Event: 2019 · Referenced: Jan 30 2026</div>
+          <div class="ev-text">Deputy AG Blanche's letter to Congress on Jan 30 2026 acknowledges the DOJ is still seeking to obtain <strong>grand jury materials from an S.D.N.Y. case charging corrections officers</strong> with falsifying records related to Epstein's death. A "complete" investigation has, as of Mar 2026, not secured those records.</div>
+          <div class="ev-verdict">↯ the DOJ declared the death investigation complete while still trying to obtain records from it</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 5 -->
+    <div class="claim-block" id="claim-5">
+      <div class="claim-header">
+        <div class="claim-number">05 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Official claim — DOJ, Dec 19 2025</div>
+          <div class="claim-quote">"The Department is not redacting the names of any politicians. We are fully complying with the Act."</div>
+          <div class="claim-who">— DOJ statement following Dec 19 2025 release</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">Dec 19 release</span>
+          <div class="ev-ref">Redaction failure · Dec 19 2025 · traced to 2021 USVI AG civil racketeering filing incorporated into DOJ release</div>
+          <div class="ev-date">Discovered: Dec 19–20 2025</div>
+          <div class="ev-text">Social media users discovered blacked-out text in several documents could be <strong>revealed by copy-pasting into any text application</strong>. The flaw originated in a 2021 Virgin Islands attorney general civil racketeering filing the DOJ had incorporated verbatim. The accidentally-visible content included details about <strong>trafficking network members and operational methods</strong> — not victim names. These were what officials had specifically chosen to conceal.</div>
+          <div class="ev-verdict">↯ redactions were protecting network operational details, not just victim identities as stated</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">Dec 19 release</span>
+          <div class="ev-ref">Photo releases — Trump image alterations · identified by comparing DOJ and House Oversight versions · Dec 2025</div>
+          <div class="ev-date">Identified: Dec 19–22 2025</div>
+          <div class="ev-text">Multiple outlets identified that DOJ-released versions of photographs <strong>did not include Trump</strong> in images where House Oversight Committee versions — obtained separately from Epstein's estate — showed him present. On Dec 22, Trump acknowledged he was in the photos and denied wrongdoing. The DOJ said it was not redacting politicians.</div>
+          <div class="ev-verdict">↯ DOJ said it was not redacting politicians; Trump was absent from DOJ photo releases where House Oversight had him present</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 6 -->
+    <div class="claim-block" id="claim-6">
+      <div class="claim-header">
+        <div class="claim-number">06 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Key revelations — Jan 30 2026 release</div>
+          <div class="claim-quote">"The White House had no oversight of this process. This is the final release. The Department has met its legal obligations."</div>
+          <div class="claim-who">— DAG Todd Blanche press conference, Jan 30 2026</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">Dataset 9</span>
+          <div class="ev-ref">Howard Lutnick email correspondence · 2011–2012 · Dataset 9 · Released Jan 30 2026</div>
+          <div class="ev-date">Event: 2011–2012</div>
+          <div class="ev-text">Commerce Secretary <strong><span class="tl-name-link" onclick="openNodeFromTimeline('lutnick')" title="Open dossier">Howard Lutnick</span></strong> — who had said publicly he'd vowed never to be in the same room as Epstein after his crimes came to light — is shown in emails from <strong>2011 and 2012</strong> returning Epstein's calls and scheduling meetings, including <em>drinks</em> and a <em>lunch on Epstein's Caribbean island</em>. This is 3–4 years after Epstein's 2008 guilty plea to soliciting a minor.</div>
+          <div class="ev-verdict">↯ Lutnick's stated distance from Epstein is contradicted by email records in files his own department helped release</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">SDNY draft</span>
+          <div class="ev-ref">Draft indictment · S.D. Florida · circa 2001–2005 · Released Jan 30 2026 · CNN</div>
+          <div class="ev-date">Event: 2001–2005 · Document: c. 2007</div>
+          <div class="ev-text">An uncharged draft indictment names Epstein and <strong>three unnamed co-defendants</strong> (names redacted) in a conspiracy to "procure females under the age of 18." These are described as <em>employees</em>, not clients. The question of who they are remains unanswered. This is not the "client list" — it is potentially more directly incriminating.</div>
+          <div class="ev-verdict">↯ DOJ claimed nothing in the files required prosecution of co-conspirators; uncharged draft names three of them</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">FBI / SDNY</span>
+          <div class="ev-ref">FBI Child Exploitation &amp; Human Trafficking Task Force · SDNY · internal document dated Aug 2025 · Released Jan 30 2026</div>
+          <div class="ev-date">Document created: Aug 2025 — while administration was calling files a hoax</div>
+          <div class="ev-text">The FBI compiled an internal list of <strong>sexual assault allegations related to Donald Trump</strong> in August 2025. It contains more than a dozen entries. An annotating note reads: <em>"Yellow highlighting is for the salacious piece."</em> Two versions of the document were briefly removed from the DOJ website on Jan 30 before being silently restored.</div>
+          <div class="ev-verdict">↯ compiled by FBI while administration was calling files a hoax; briefly removed from public release on day of publication</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 7 -->
+    <div class="claim-block" id="claim-7">
+      <div class="claim-header">
+        <div class="claim-number">07 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Official claim — DOJ, Jan 30 2026</div>
+          <div class="claim-quote">"January 30 is the final release. The Department has fulfilled its obligations under the Epstein Files Transparency Act."</div>
+          <div class="claim-who">— DAG Todd Blanche, Jan 30 2026</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">Dataset 12</span>
+          <div class="ev-ref">Dataset 12 backfill · 16 documents · 900+ pages · Published Mar 5 2026 — 35 days after "final" release</div>
+          <div class="ev-date">Withheld: Jan 30 2026 · Released: Mar 5 2026</div>
+          <div class="ev-text">Sixteen documents totalling 900+ pages were backfilled into Dataset 12 on March 5 — including <strong>four prosecution memos (313 pages)</strong>, the immunity memo targeting Lesley Groff, and the <strong>582-page FBI file that restarted the 2018 investigation</strong>. They had been labelled <em>"incorrectly coded as duplicative"</em> (15 documents) and <em>"privileged"</em> (5 prosecution memos). These are the government's own record of its worst failures in the Epstein case.</div>
+          <div class="ev-verdict">↯ the "final" release was followed 35 days later by another release; the withheld documents were the most consequential in the entire case</div>
+        </div>
+        <div class="ev-card">
+          <span class="dataset-badge">NPR investigation</span>
+          <div class="ev-ref">NPR investigation · Feb 24 2026 · serial number gap analysis in DOJ release database</div>
+          <div class="ev-date">Investigation published: Feb 24 2026</div>
+          <div class="ev-text">NPR identified <strong>dozens of pages catalogued but not released</strong> by examining sequential serial numbers in the DOJ's release database — pages present in the catalogue that had no corresponding public document. The missing pages include <strong>FBI 302 interviews with a woman who accused Trump of abuse as a minor</strong> and notes from conversations with her mother. The DOJ declined to answer questions about specific files.</div>
+          <div class="ev-verdict">↯ "final release" — NPR found catalogued-but-absent documents including victim interview records about Trump</div>
+        </div>
+      </div>
+    </div>
+    <hr class="claim-divider">
+
+    <!-- CLAIM 8 -->
+    <div class="claim-block" id="claim-8">
+      <div class="claim-header">
+        <div class="claim-number">08 /</div>
+        <div class="claim-stated">
+          <div class="claim-label">Public Law 119-38 — the law itself, Nov 19 2025</div>
+          <div class="claim-quote">"No record shall be withheld, delayed, or redacted on the basis of embarrassment, reputational harm, or political sensitivity, including to any government official, public figure, or foreign dignitary."</div>
+          <div class="claim-who">— Epstein Files Transparency Act, Pub. L. 119–38, § 2(b)(2) · signed by Trump Nov 19 2025</div>
+        </div>
+      </div>
+      <div class="evidence-grid">
+        <div class="ev-card">
+          <span class="dataset-badge">Pattern</span>
+          <div class="ev-ref">Collective record · Dec 2025 – Mar 2026</div>
+          <div class="ev-date">Across all releases</div>
+          <div class="ev-text">The administration: missed the Dec 19 statutory deadline; released 500+ entirely blacked-out pages; briefly removed 16 files without explanation; released photographs with Trump cropped out; withheld 16 prosecution documents initially coded as duplicative; declined to release FBI 302 victim interview memos naming abusers; compiled a list of victim names that were <em>unredacted</em> while perpetrator names were redacted — the reverse of what the Act required; and declared the release complete while 2.5 million catalogued pages remained unreleased.</div>
+          <div class="ev-verdict">↯ the law Trump signed prohibits redaction for political sensitivity · the pattern of releases suggests systematic application of exactly that standard</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /docs-panel-wrap -->
+</div><!-- /tab-docs -->
+
+<footer>
+  three-track investigation · compiled from public record · mar 2026 ·
+  document refs: EFTA02857524, EFTA02857729, EFTA01660679, FBI 302 (Reiter interview), FBI CEHTTF internal document, Dataset 9 email evidence, Dataset 12 backfill ·
+  sources: NPR, WSJ, CNN, CBS, ABC, PBS, CNBC, Reuters, Newsweek, Time, Deadline, Variety, Al Jazeera, Wikipedia / Epstein Files &amp; EFTA ·
+  legislation: H.R.4405 / Pub. L. 119–38 (119th Congress) · DOJ OPR Report Nov 2020 · US District Court S.D. Florida (Trump v. Dow Jones et al.)
+</footer>
+
+<script>
+  function switchTab(id, btn, scrollTo) {
+    // hide all panels
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    // show target
+    document.getElementById('tab-' + id).classList.add('active');
+    // activate btn
+    if (btn) btn.classList.add('active');
+    else {
+      const btns = document.querySelectorAll('.tab-btn');
+      if (id === 'timeline') btns[0].classList.add('active');
+      if (id === 'legal')    btns[1].classList.add('active');
+      if (id === 'docs')     btns[2].classList.add('active');
+    }
+    // scroll to anchor if provided
+    if (scrollTo) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollTo);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+</script>
+</div>
+
+<script>
+
+// ── Timeline name → dossier links ──
+function openNodeFromTimeline(nodeId) {
+  const node = typeof PEOPLE !== 'undefined' && PEOPLE.find(p => p.id === nodeId);
+  if (!node) return;
+
+  const PINPOINT = 'https://journaliststudio.google.com/pinpoint/search?collection=c109fa8e7dcf42c1&q=';
+  const STATUS_LABEL = {
+    removed:'Resigned / removed', stripped:'Stripped / sanctioned',
+    active:'Active — no formal action', deceased:'Deceased',
+    pending:'Pending / under investigation', incarcerated:'Incarcerated',
+    center:'Central figure'
+  };
+  const STATUS_CLR = {
+    removed:'#8B2020', stripped:'#9B5A10', active:'#1B3A6B',
+    deceased:'#2A5A3A', pending:'#5A2A8B', incarcerated:'#111111', center:'#B8963E'
+  };
+
+  const cleanName = node.name.split('\n')[0];
+
+  const elName = document.getElementById('mini-dos-name'); if(elName) elName.textContent = cleanName;
+  const elTitle = document.getElementById('mini-dos-title'); if(elTitle) elTitle.textContent = node.title || '';
+
+  // Travel tags
+  const travel = node.travel || {};
+  let th = '';
+  if (travel.plane === true)  th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(139,32,32,.25);background:rgba(139,32,32,.05);color:#8B2020;margin-right:4px;">✈ Flew on plane</span>';
+  if (travel.plane === false) th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(27,58,107,.25);background:rgba(27,58,107,.05);color:#1B3A6B;margin-right:4px;">✈ Denied flights</span>';
+  if (travel.plane === 'unclear') th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(184,150,62,.3);background:rgba(184,150,62,.06);color:#7A5A10;margin-right:4px;">✈ Unclear</span>';
+  if (travel.island === true)  th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(139,32,32,.25);background:rgba(139,32,32,.05);color:#8B2020;">⛵ Visited island</span>';
+  if (travel.island === false) th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(27,58,107,.25);background:rgba(27,58,107,.05);color:#1B3A6B;">⛵ Denied island</span>';
+  if (travel.island === 'claimed_never') th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(27,58,107,.25);background:rgba(27,58,107,.05);color:#1B3A6B;">⛵ Claims never went</span>';
+  if (travel.island === 'unclear') th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(184,150,62,.3);background:rgba(184,150,62,.06);color:#7A5A10;">⛵ Unclear</span>';
+  const elTravel = document.getElementById('mini-dos-travel'); if(elTravel) elTravel.innerHTML = th;
+
+  // Connection — first 400 chars, strip HTML tags
+  const connRaw = (node.conn || '').replace(/<[^>]+>/g, '').replace(/\\n/g,' ').substring(0, 400);
+  const elConn = document.getElementById('mini-dos-conn'); if(elConn) elConn.textContent = connRaw + (node.conn && node.conn.length > 400 ? '…' : '');
+
+  // Consequence
+  const consText = (node.cons?.text || '').replace(/\\n/g,' ');
+  const consEl = document.getElementById('mini-dos-cons'); if(!consEl) return;
+  consEl.textContent = consText;
+  const clr = STATUS_CLR[node.cons?.cls || node.status] || '#8B6B50';
+  consEl.style.borderLeftColor = clr;
+  consEl.style.color = clr;
+
+  // Pinpoint
+  const elPin = document.getElementById('mini-dos-pinpoint'); if(elPin) elPin.href = PINPOINT + encodeURIComponent(cleanName);
+
+  // Show panel, scroll sidebar to top
+  // Ensure timeline page is visible
+  if (!document.getElementById('page-timeline').classList.contains('active')) {
+    const tlBtn = document.querySelectorAll('.pnav-btn')[1];
+    showPage('timeline', tlBtn);
+  }
+  const panel = document.getElementById('mini-dos');
+  if (!panel) return;
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Highlight the clicked name briefly
+  document.querySelectorAll('.tl-name-link').forEach(el => el.style.fontWeight = '');
+  event.target.style.fontWeight = '700';
+}
+
+function closeMiniDos() {
+  const closePanel = document.getElementById('mini-dos'); if(closePanel) closePanel.style.display = 'none';
+  document.querySelectorAll('.tl-name-link').forEach(el => el.style.fontWeight = '');
+}
+
+function showPage(name, btn) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.pnav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  btn.classList.add('active');
+  // D3 simulation needs a kick when canvas becomes visible
+  if (name === 'network' && typeof sim !== 'undefined') {
+    setTimeout(() => sim.alpha(0.1).restart(), 50);
+  }
+}
+</script>
+
 </body>
-</html>
+</html
