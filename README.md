@@ -1,9 +1,9 @@
-# The Island Ledger \& The Resident Representatives
+# The Island Ledger & The Resident Representatives
 
-### An interactive investigation into the Epstein files
+### An interactive log of those who appear the Epstein files
 
 **Designed by** [**Cyramatique**](https://www.yourlocalanthropologist.com)  
-A project by Elena Walton · *Your Local Anthropologist*
+A project by Elina · *Your Local Anthropologist*
 
 \---
 
