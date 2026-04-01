@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Island Ledger — Cyramatique</title>
+<title>The Epstein Files — Cyramatique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -337,10 +337,10 @@ body::before {
 
 /* ── SIGNATURE ── */
 #signature {
-  position: fixed;
-  bottom: 14px;
-  left: 18px;
-  z-index: 50;
+  position: absolute; bottom: 14px; left: 18px;
+  font-family: var(--display); font-size: 14.9px;
+  letter-spacing: .04em; z-index: 20;
+  color: var(--text-dim);
 }
 #signature a {
   color: rgba(0,97,161,1); text-decoration: none;
@@ -352,15 +352,10 @@ body::before {
 
 /* hint */
 #hint {
-  position: fixed;
-  bottom: 14px;
-  right: 18px;
-  font-family: var(--caps);
-  font-size: 10.3px;
-  color: #8B6B50;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  z-index: 50;
+  position: absolute; bottom: 14px; right: 18px;
+  font-family: var(--caps); font-size: 10.3px;
+  color: #8B6B50; letter-spacing: .1em;
+  text-transform: uppercase; z-index: 20;
 }
 
 /* dossier bullet points */
@@ -838,14 +833,134 @@ body::before {
     .evidence-grid { grid-template-columns:1fr; }
   }
 
+
+/* ══════════════════════════════════════════════════════
+   MOBILE — ≤768px
+══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── NAV ── */
+  #page-nav { padding: 0 12px; gap: 0; }
+  #page-nav::before { display: none; }
+  .pnav-btn {
+    font-size: 8px; padding: 0 10px; letter-spacing: .1em;
+    flex: 1; text-align: center;
+  }
+
+  /* ── NETWORK PAGE: hide diagram, show list ── */
+  #canvas-wrap { display: none; }
+  #dossier { display: none !important; }
+  #hint, #signature { display: none; }
+  #toolbar {
+    position: relative !important;
+    top: auto !important;
+    padding: 8px 12px 6px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #toolbar-title { font-size: 14px; }
+  #search-box { width: 100%; font-size: 13px; padding: 7px 10px; }
+  #wrap { flex-direction: column; height: auto; padding-top: 40px; }
+  #page-network { height: auto; overflow: visible; padding-top: 0; }
+
+  /* mobile list view */
+  #mobile-list {
+    display: block !important;
+    padding: 8px 0 60px;
+  }
+  .mob-item {
+    border-bottom: 1px solid rgba(90,65,30,.12);
+    cursor: pointer;
+  }
+  .mob-item-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+  }
+  .mob-dot {
+    width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+  }
+  .mob-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px; font-weight: 500; color: #1B3A2D; flex: 1;
+  }
+  .mob-sector {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 8px; letter-spacing: .1em; text-transform: uppercase;
+    color: #8B6B50;
+  }
+  .mob-chevron {
+    font-size: 10px; color: #B8963E; transition: transform .2s;
+  }
+  .mob-item.open .mob-chevron { transform: rotate(90deg); }
+  .mob-body {
+    display: none; padding: 0 16px 14px 35px;
+    border-top: 1px solid rgba(90,65,30,.07);
+    background: rgba(184,150,62,.03);
+  }
+  .mob-item.open .mob-body { display: block; }
+  .mob-title {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    color: #B8963E; margin-bottom: 8px; margin-top: 10px;
+  }
+  .mob-travel { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .mob-travel span {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 8px; padding: 2px 7px; border-radius: 2px; border: 1px solid;
+  }
+  .mob-conn {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 14px; line-height: 1.65; color: #2C1810;
+    font-weight: 300; margin-bottom: 8px;
+  }
+  .mob-cons {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 13px; line-height: 1.6; padding: 7px 10px;
+    border-radius: 2px; border-left: 2px solid #B8963E;
+    background: rgba(184,150,62,.06); margin-bottom: 8px;
+  }
+  .mob-pinpoint {
+    display: inline-block; margin-top: 4px;
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    color: #1B3A2D; text-decoration: none;
+    padding: 5px 10px; border: 1px solid rgba(27,58,45,.2);
+    background: rgba(27,58,45,.06); border-radius: 2px;
+  }
+
+  /* ── TIMELINE PAGE ── */
+  #page-timeline header { padding: 54px 16px 20px; }
+  #page-timeline h1 { font-size: 22px; }
+  .deck-list { display: none; } /* collapse on mobile */
+
+  .tab-bar { padding: 0 8px; overflow-x: auto; white-space: nowrap; }
+  .tab-btn { padding: 10px 12px; font-size: 9px; }
+
+  /* collapse sidebar on mobile */
+  .t-row { grid-template-columns: 60px 1fr !important; }
+  .gutter-cell, .sidebar-col { display: none !important; }
+  .col-headers { display: none; }
+
+  .legend { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+  .timeline-wrap { padding: 0 16px; }
+  .date-cell { min-width: 60px; }
+  .card { padding: 10px 12px; }
+  .cb { font-size: 13px; }
+
+  /* docs tab */
+  .docs-panel-wrap { padding: 20px 16px 60px; }
+  .evidence-grid { grid-template-columns: 1fr !important; }
+  .claim-header { flex-direction: column; gap: 8px; }
+}
+
 </style>
 </head>
 <body>
 
 <!-- PAGE NAV -->
 <nav id="page-nav">
-  <button class="pnav-btn active" onclick="showPage('network', this)">Interactive Diagram</button>
-  <button class="pnav-btn"        onclick="showPage('timeline', this)">Trump Timeline</button>
+  <button class="pnav-btn active" onclick="showPage('network', this)">The Island Ledger</button>
+  <button class="pnav-btn"        onclick="showPage('timeline', this)">The Resident Representatives</button>
 </nav>
 
 <!-- PAGE: NETWORK DIAGRAM -->
@@ -2141,13 +2256,22 @@ document.getElementById('search-box').addEventListener('input', function() {
   updateVis();
 });
 </script>
+
+<!-- MOBILE LIST VIEW (shown ≤768px instead of D3 diagram) -->
+<div id="mobile-list" style="display:none;">
+  <div id="mob-search-note" style="padding:8px 16px 4px;font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8B6B50;">
+    Tap a name to open dossier
+  </div>
+  <div id="mob-items"></div>
+</div>
+
 </div>
 
 <!-- PAGE: TIMELINE -->
 <div id="page-timeline" class="page-section">
 <header>
   <div class="eyebrow">Public Record · Mar 2026</div>
-  <h1>Resident Representatives &amp; Affiliates</h1>
+  <h1>The Resident Representatives &amp; Affiliates</h1>
   <p class="deck"><strong>The Three Tracks</strong></p>
   <ul class="deck-list">
     <li>The administration's official version of events.</li>
@@ -2687,6 +2811,8 @@ document.getElementById('search-box').addEventListener('input', function() {
 <div id="tab-docs" class="tab-panel">
   <div class="docs-panel-wrap">
 
+    <p class="docs-intro">What follows is the documentary record — specific files, case references, and document IDs from the released Epstein files — cross-referenced against specific public claims made by the administration. Each entry lists the document, what it says, and what official statement it contradicts. The green cards are the files talking back.</p>
+
     <!-- CLAIM 1 -->
     <div class="claim-block" id="claim-1">
       <div class="claim-header">
@@ -3041,6 +3167,85 @@ function closeMiniDos() {
   const closePanel = document.getElementById('mini-dos'); if(closePanel) closePanel.style.display = 'none';
   document.querySelectorAll('.tl-name-link').forEach(el => el.style.fontWeight = '');
 }
+
+
+// ── Mobile list view ──────────────────────────────────
+const PINPOINT_BASE = 'https://journaliststudio.google.com/pinpoint/search?collection=c109fa8e7dcf42c1&q=';
+const STATUS_COLOURS = {
+  removed:'#8B2020', stripped:'#9B5A10', active:'#1B3A6B',
+  deceased:'#2A5A3A', pending:'#5A2A8B', incarcerated:'#111111', center:'#C9A84C'
+};
+
+function buildMobileList(filter) {
+  const container = document.getElementById('mob-items');
+  if (!container) return;
+  const term = (filter || '').toLowerCase();
+  const people = PEOPLE.filter(p => p.id !== 'ep' && p.r > 0);
+  const filtered = term
+    ? people.filter(p => p.name.toLowerCase().includes(term) || (p.title||'').toLowerCase().includes(term))
+    : people;
+
+  container.innerHTML = filtered.map(p => {
+    const name = p.name.split('\n')[0];
+    const dot = `<span class="mob-dot" style="background:${STATUS_COLOURS[p.status]||'#8B6B50'}"></span>`;
+    const sector = p.sector.charAt(0).toUpperCase() + p.sector.slice(1);
+
+    // Travel tags
+    const t = p.travel || {};
+    let travel = '';
+    if (t.plane === true)  travel += '<span style="color:#8B2020;border-color:rgba(139,32,32,.3);background:rgba(139,32,32,.05)">✈ Flew on plane</span>';
+    if (t.plane === false) travel += '<span style="color:#1B3A6B;border-color:rgba(27,58,107,.3);background:rgba(27,58,107,.05)">✈ Denied flights</span>';
+    if (t.plane === 'unclear') travel += '<span style="color:#7A5A10;border-color:rgba(184,150,62,.3);background:rgba(184,150,62,.06)">✈ Unclear</span>';
+    if (t.island === true)  travel += '<span style="color:#8B2020;border-color:rgba(139,32,32,.3);background:rgba(139,32,32,.05)">⛵ Visited island</span>';
+    if (t.island === false) travel += '<span style="color:#1B3A6B;border-color:rgba(27,58,107,.3);background:rgba(27,58,107,.05)">⛵ Denied island</span>';
+    if (t.island === 'claimed_never') travel += '<span style="color:#1B3A6B;border-color:rgba(27,58,107,.3);background:rgba(27,58,107,.05)">⛵ Claims never</span>';
+    if (t.island === 'unclear') travel += '<span style="color:#7A5A10;border-color:rgba(184,150,62,.3);background:rgba(184,150,62,.06)">⛵ Unclear</span>';
+
+    const conn = (p.conn || '').replace(/<[^>]+>/g,'').replace(/\\n/g,' ').substring(0,350);
+    const cons = (p.cons?.text || '').replace(/\\n/g,' ');
+    const clr = STATUS_COLOURS[p.cons?.cls || p.status] || '#8B6B50';
+
+    return `<div class="mob-item" onclick="toggleMobItem(this)">
+      <div class="mob-item-header">
+        ${dot}
+        <span class="mob-name">${name}</span>
+        <span class="mob-sector">${sector}</span>
+        <span class="mob-chevron">›</span>
+      </div>
+      <div class="mob-body">
+        <div class="mob-title">${p.title||''}</div>
+        <div class="mob-travel">${travel}</div>
+        <div class="mob-conn">${conn}${p.conn && p.conn.length > 350 ? '…' : ''}</div>
+        <div class="mob-cons" style="border-left-color:${clr};color:${clr}">${cons}</div>
+        <a class="mob-pinpoint" href="${PINPOINT_BASE}${encodeURIComponent(name)}" target="_blank" rel="noopener">⊞ Search in DOJ files ↗</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleMobItem(el) {
+  el.classList.toggle('open');
+}
+
+// Wire search box to filter list on mobile
+const searchBox = document.getElementById('search-box');
+if (searchBox) {
+  searchBox.addEventListener('input', function() {
+    if (window.innerWidth <= 768) buildMobileList(this.value);
+  });
+}
+
+// Build on load if mobile
+function initMobileIfNeeded() {
+  if (window.innerWidth <= 768) {
+    buildMobileList('');
+  }
+}
+window.addEventListener('resize', function() {
+  if (window.innerWidth <= 768 && document.getElementById('mob-items').innerHTML === '') {
+    buildMobileList('');
+  }
+});
 
 function showPage(name, btn) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
