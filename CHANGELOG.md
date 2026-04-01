@@ -103,3 +103,49 @@ Previous "122" count was inflated by 7 duplicate/placeholder nodes. After cleanu
 ---
 
 *Corrections and additions: open an issue on this repository*
+
+---
+
+## 2026-04-01 — v1.1 · Mobile, sidebar, and UX improvements
+
+### File renamed
+- `epstein-unified.html` → `index.html` for GitHub Pages compatibility
+- Live at `https://[username].github.io/epstein-files/`
+
+### New: Mobile responsive layout (≤768px)
+- **The Island Ledger** — D3 diagram replaced on mobile with a searchable list of all 121 individuals
+  - Tap any name to expand inline dossier: title, travel tags, connection summary, consequence, DOJ Pinpoint link
+  - Search box filters list live as you type
+  - Status dot colour preserved from desktop diagram
+- **The Resident Representatives** — full mobile pass
+  - Sidebar hidden on mobile (proceedings status + EFTA chips desktop-only)
+  - Timeline collapses to single column, tightened padding
+  - Evidence grid goes single column
+  - Tab bar horizontally scrollable
+
+### New: Timeline right sidebar
+- **⚖ Proceedings status** — 10 live status items: Trump v. Dow Jones, Wolff v. Melania, Bondi subpoena, GAO investigation, Missing FBI 302s, Grand jury unsealing, MCC guards indictment, Jagland charges, Rød-Larsen/Juul investigation, Andrew/Mandelson arrests
+- **📄 Key EFTA documents** — 8 document reference chips with one-line descriptions, colour-coded by severity (red / gold / green)
+- Sidebar is sticky — stays in view while scrolling through timeline entries
+
+### New: Clickable names in timeline
+- 48 name links across timeline `.cb` entries wired to inline mini-dossier
+- Clicking a name (Trump, Maxwell, Wolff, Giuffre, Acosta, Lutnick etc.) updates the right sidebar with that person's full dossier — title, travel tags, connection summary, consequence, Pinpoint link — without leaving the timeline page
+- ✕ close button returns sidebar to default proceedings/documents view
+
+### UX fixes
+- Scroll restored on The Resident Representatives page (network CSS `overflow:hidden` was leaking globally)
+- Dossier panel CSS restored after being dropped in a previous update (`.dos-bullets`, `.dos-travel`, `.dos-travel-tag`)
+- Orphaned legend HTML fragment removed — was rendering as visible text in top-right corner and disrupting flex layout
+- Timeline right column empty gutter replaced with functional sidebar
+- Nested `tl-name-link` spans cleaned (multiple regex passes had triple-wrapped some names)
+- `getElementById` null guards added throughout — prevents crash when timeline page is not yet visible
+
+### Typography
+- All font sizes increased ~15% across both pages for readability
+- Affects: nav bar, dossier panel, travel tags, sidebar chips, legal track dividers, timeline card text, evidence cards, claim quotes
+
+### Node count
+- Display count corrected: toolbar now shows `121 individuals + Epstein` (Epstein excluded from count as centre node)
+- Underlying data unchanged at 122 total nodes
+
