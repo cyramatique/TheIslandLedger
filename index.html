@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Island Ledger — Cyramatique</title>
+<title>The Epstein Files — Cyramatique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -337,10 +337,10 @@ body::before {
 
 /* ── SIGNATURE ── */
 #signature {
-  position: fixed;
-  bottom: 14px;
-  left: 18px;
-  z-index: 50;
+  position: absolute; bottom: 14px; left: 18px;
+  font-family: var(--display); font-size: 14.9px;
+  letter-spacing: .04em; z-index: 20;
+  color: var(--text-dim);
 }
 #signature a {
   color: rgba(0,97,161,1); text-decoration: none;
@@ -352,15 +352,10 @@ body::before {
 
 /* hint */
 #hint {
-    position: fixed;
-  bottom: 14px;
-  right: 18px;
-  font-family: var(--caps);
-  font-size: 10.3px;
-  color: #8B6B50;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  z-index: 50;
+  position: absolute; bottom: 14px; right: 18px;
+  font-family: var(--caps); font-size: 10.3px;
+  color: #8B6B50; letter-spacing: .1em;
+  text-transform: uppercase; z-index: 20;
 }
 
 /* dossier bullet points */
@@ -965,7 +960,7 @@ body::before {
 <!-- PAGE NAV -->
 <nav id="page-nav">
   <button class="pnav-btn active" onclick="showPage('network', this)">The Island Ledger</button>
-  <button class="pnav-btn"        onclick="showPage('timeline', this)">Trump Timeline</button>
+  <button class="pnav-btn"        onclick="showPage('timeline', this)">The Resident Representatives</button>
 </nav>
 
 <!-- PAGE: NETWORK DIAGRAM -->
