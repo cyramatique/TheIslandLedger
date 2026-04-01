@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-531004668"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Island Ledger — Cyramatique</title>
@@ -3255,6 +3263,13 @@ function showPage(name, btn) {
   // D3 simulation needs a kick when canvas becomes visible
   if (name === 'network' && typeof sim !== 'undefined') {
     setTimeout(() => sim.alpha(0.1).restart(), 50);
+  }
+  // Track page view
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'page_view', {
+      page_title: name === 'network' ? 'The Island Ledger' : 'The Resident Representatives',
+      page_path: '/' + name
+    });
   }
 }
 </script>
