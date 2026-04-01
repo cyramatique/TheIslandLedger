@@ -345,9 +345,9 @@ body::before {
 
 /* ── SIGNATURE ── */
 #signature {
-  position: absolute; bottom: 14px; left: 18px;
+  position: fixed; bottom: 14px; left: 18px;
   font-family: var(--display); font-size: 14.9px;
-  letter-spacing: .04em; z-index: 20;
+  letter-spacing: .04em; z-index: 200;
   color: var(--text-dim);
 }
 #signature a {
@@ -1968,7 +1968,7 @@ svg.append('defs').append('marker')
   .attr('stroke-width',1.5).attr('stroke-linecap','round').attr('stroke-linejoin','round');
 
 // ── decorative background: crest watermark + corner ornaments ──
-const bgG = svg.append('g').attr('class','bg-deco').attr('pointer-events','none');
+const bgG = svg.append('g').attr('class','bg-deco').attr('pointer-events','all');
 
 // central watermark crest (text-based, very faint)
 bgG.append('text')
