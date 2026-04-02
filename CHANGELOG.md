@@ -108,6 +108,27 @@ Previous "122" count was inflated by 7 duplicate/placeholder nodes. After cleanu
 
 ## 2026-04-01 — v1.1 · Mobile, sidebar, and UX improvements
 
+## 2026-04-02 — Breaking: Bondi fired
+
+### Timeline — new entry added
+- **Apr 2 2026 · AG fired** — Pam Bondi removed as Attorney General after 14 months.
+  Epstein files handling cited as the primary cause: her Feb 2025 "client list on my 
+  desk" claim, the subsequent DOJ reversal, the EFTA it triggered, and the House 
+  Oversight subpoena she had not complied with. Last day technically Apr 1. Only an 
+  estimated 2% of total Epstein data released under her tenure. Todd Blanche (Trump's 
+  former personal attorney) named acting AG. Lee Zeldin (EPA) frontrunner for 
+  permanent replacement. Rep. Khanna called it the direct result of a "cover-up." 
+  Rep. Garcia warned the firing does not get her out of testifying under oath.
+- Sources: CNN, NBC News, NPR, CBS News, CNBC, Euronews, Newsweek · Apr 2 2026
+
+### Sidebar updated
+- Bondi subpoena chip: "Outstanding — not complied" → "Bondi fired Apr 2 2026 · subpoena unresolved"
+
+### Note on placement
+- Timeline only — Bondi is not named in the Epstein files and has no documented 
+  personal connection to Epstein. Her relevance is as the AG who oversaw the EFTA 
+  release process and was fired for mishandling it.
+
 ### File renamed
 - `epstein-unified.html` → `index.html` for GitHub Pages compatibility
 - Live at `https://[username].github.io/epstein-files/`
