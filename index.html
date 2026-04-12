@@ -1,21 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK2YQQRP2E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-VK2YQQRP2E');
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Island Ledger — Cyramatique</title>
+<title>The Epstein Files — Cyramatique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-  
 /* ── SHARED BASE ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; }
@@ -350,7 +341,9 @@ body::before {
   font-family: var(--display); font-size: 14.9px;
   letter-spacing: .04em; z-index: 200;
   color: var(--text-dim);
+  pointer-events: none;
 }
+#signature a { pointer-events: all; }
 #signature a {
   color: rgba(0,97,161,1); text-decoration: none;
   border-bottom: 1px solid rgba(0,97,161,0.3);
@@ -365,6 +358,7 @@ body::before {
   font-family: var(--caps); font-size: 10.3px;
   color: #8B6B50; letter-spacing: .1em;
   text-transform: uppercase; z-index: 200;
+  pointer-events: none;
 }
 
 /* dossier bullet points */
@@ -968,8 +962,8 @@ body::before {
 
 <!-- PAGE NAV -->
 <nav id="page-nav">
-  <button class="pnav-btn active" onclick="showPage('network', this)">Interactive Diagram</button>
-  <button class="pnav-btn"        onclick="showPage('timeline', this)">Trump Timeline</button>
+  <button class="pnav-btn active" onclick="showPage('network', this)">The Island Ledger</button>
+  <button class="pnav-btn"        onclick="showPage('timeline', this)">The Resident Representatives</button>
 </nav>
 
 <!-- PAGE: NETWORK DIAGRAM -->
@@ -1000,7 +994,7 @@ body::before {
         <button class="chip on" data-s="social">Social / Cultural</button>
       </div>
 
-      <span id="count-label">121 individuals</span>
+      <span id="count-label">122 individuals</span>
     </div>
     <div id="hint">Click a name to open file · Drag to reposition · Scroll to zoom</div>
     <div id="signature">Designed by <a href="https://www.yourlocalanthropologist.com" target="_blank" rel="noopener noreferrer">Cyramatique</a></div>
@@ -1930,6 +1924,13 @@ const people = [
     cons:{ cls:'active', text:'No charges. No formal action.\nAppearance on Epstein\'s St Barth\'s guest list documented.' },
     ref:'Britannica Epstein timeline Jan 2026' },
 
+  { id:'melania', name:'Melania Trump', title:'First Lady of the United States', sector:'social', status:'active', r:11,
+    travel:{plane:'unclear', island:false},
+    badges:['social','postconv'],
+    conn:'First Lady and wife of Donald Trump. Named in the released Epstein files.\nOct 23 2002 email to Ghislaine Maxwell authenticated in the EFTA corpus (EFTA02332411): praised a New York Magazine profile of Epstein, complimented a photo of Maxwell, signed off <em>"Love, Melania."</em> Maxwell replied calling her <em>"sweet pea."</em>\nAppears in a Feb 12 2000 photograph with Trump, Epstein, and Maxwell at Mar-a-Lago.\nApr 9 2026: Delivered unscheduled White House statement denying all meaningful Epstein ties. Acknowledged the Maxwell email but called it <em>"casual correspondence"</em> and a <em>"trivial note."</em>\nStated Epstein did not introduce her to Trump and she first crossed paths with him in 2000.\nCalled on Congress to hold public hearings for Epstein survivors — directly contradicting the administration\'s move-on messaging.\nHer legal team previously forced the Daily Beast to retract a story on her Epstein ties.',
+    cons:{ cls:'active', text:'No charges. No formal action.\nApr 9 2026 White House statement created an on-record denial that is now relevant to the Wolff v. Melania Trump anti-SLAPP proceedings.\nGloria Allred has called on her to testify before Congress.' },
+    ref:'EFTA02332411 · CNBC Apr 9 2026 · CNN Apr 9 2026 · Snopes fact-check Apr 2026 · White House transcript Apr 9 2026' },
+
 ];
 
 // filter out the placeholder duplicate
@@ -1969,7 +1970,7 @@ svg.append('defs').append('marker')
   .attr('stroke-width',1.5).attr('stroke-linecap','round').attr('stroke-linejoin','round');
 
 // ── decorative background: crest watermark + corner ornaments ──
-const bgG = svg.append('g').attr('class','bg-deco').attr('pointer-events','all');
+const bgG = svg.append('g').attr('class','bg-deco').attr('pointer-events','none');
 
 // central watermark crest (text-based, very faint)
 bgG.append('text')
@@ -2570,17 +2571,6 @@ document.getElementById('search-box').addEventListener('input', function() {
       </div>
       <div class="gutter-cell"></div><div class="legal-empty"></div>
     </div>
-    <div class="t-row">
-  <div class="date-cell"><span class="date-val">Apr 2</span><span class="date-yr">2026</span></div>
-  <div class="story-cell"><div class="nd flag"></div>
-    <div class="card lc">
-      <div class="cm"><span class="cd" style="background:var(--red);"></span><span class="ct">AG fired · Epstein files cited as cause · Apr 2 2026</span></div>
-      <div class="cb"><strong>AG Pam Bondi</strong> fired by Trump after 14 months. Her handling of the Epstein files was central to her removal — specifically her Feb 2025 Fox News claim that a client list was <em>"sitting on my desk right now to review,"</em> which the DOJ later said did not exist, triggering the congressional push for the EFTA. White House chief of staff Susie Wiles had previously said Bondi <em>"completely whiffed"</em> on the files. Last day was technically Apr 1. Rep. Ro Khanna called her removal the direct result of an attempted <em>"cover-up"</em> of the Epstein files. Only an estimated 2% of total Epstein data released under her tenure. Deputy AG <strong>Todd Blanche</strong> — Trump's former personal criminal defense attorney — named acting AG. Lee Zeldin (EPA) frontrunner as permanent replacement. House Oversight's Rep. Garcia: <em>"Bondi and Trump may think her firing gets her out of testifying. They are wrong."</em></div>
-      <div class="src">src · CNN · NBC News · NPR · CBS News · CNBC · Euronews · Newsweek · Apr 2 2026</div>
-    </div>
-  </div>
-  <div class="gutter-cell"></div><div class="legal-empty"></div>
-</div>
 
   </div><!-- /timeline-wrap -->
 </div>
@@ -2710,7 +2700,7 @@ document.getElementById('search-box').addEventListener('input', function() {
         <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
         <div class="card lc">
           <div class="cm"><span class="cd b"></span><span class="ct">Wolff v. Melania Trump · anti-SLAPP · NY Supreme Court, Manhattan</span></div>
-          <div class="cb">Author <strong><span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span></strong> — who conducted years of recorded interviews with Epstein — sues Melania <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> in NY Supreme Court under New York's anti-SLAPP statute after her lawyer sent a letter demanding retraction of Epstein-related reporting under threat of a <strong>$1B defamation suit</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> says the suit gives him subpoena power to depose both Trumps about their Epstein relationship. He raised $800K via GoFundMe to fund it. As of Feb 2026: Melania has moved to dismiss for improper service and seeks transfer to S.D. Florida. Service and residency are disputed — Wolff claims he located where Melania actually lives and served her there. <strong>Status: procedural only, no merits ruling.</strong></div>
+          <div class="cb">Author <strong><span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span></strong> — who conducted years of recorded interviews with Epstein — sues Melania <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> in NY Supreme Court under New York's anti-SLAPP statute after her lawyer sent a letter demanding retraction of Epstein-related reporting under threat of a <strong>$1B defamation suit</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> says the suit gives him subpoena power to depose both Trumps about their Epstein relationship. He raised $800K via GoFundMe to fund it. As of Feb 2026: Melania has moved to dismiss for improper service and seeks transfer to S.D. Florida. Service and residency are disputed — Wolff claims he located where Melania actually lives and served her there. <strong>Status: procedural only, no merits ruling.</strong> Apr 9 2026: Melania issued a public White House statement denying Epstein ties and acknowledging the Maxwell email — creating an on-record denial Wolff's lawyers have indicated they will use in proceedings.</div>
           <div class="src">src · NBC News · Courthouse News · Axios · Newsweek Jan 6 2026 · factually.co Feb 2026 · The Hill Feb 3 2026</div>
         </div>
       </div>
@@ -2820,6 +2810,18 @@ document.getElementById('search-box').addEventListener('input', function() {
         </div>
       </div>
       <div class="gutter-cell"></div><div class="legal-empty"></div>
+    <div class="t-row">
+      <div class="date-cell"><span class="date-val">Apr 2</span><span class="date-yr">2026</span></div>
+      <div class="story-cell"><div class="nd flag"></div>
+        <div class="card lc">
+          <div class="cm"><span class="cd" style="background:var(--red);"></span><span class="ct">AG fired — Epstein files cited as cause · Apr 2 2026</span></div>
+          <div class="cb"><strong>AG Pam Bondi</strong> fired by Trump. Multiple sources confirm her handling of the Epstein files played a central role in her removal. She had told Fox News in Feb 2025 that an Epstein client list was <em>"sitting on my desk right now to review"</em> — the DOJ later said no such list existed. The reversal triggered the congressional push for the EFTA and a House Oversight subpoena she had not complied with. White House chief of staff Susie Wiles had previously acknowledged Bondi had <em>"completely whiffed"</em> on the Epstein files. Deputy AG <strong>Todd Blanche</strong> — Trump's former personal criminal defense attorney — named acting AG. Lee Zeldin (EPA) reported as frontrunner to replace her permanently. House Oversight's Rep. Garcia: <em>"Bondi and Trump may think her firing gets her out of testifying. They are wrong."</em></div>
+          <div class="src">src · CNN Apr 2 2026 · NBC News Apr 2 2026 · NPR Apr 2 2026 · CBS News Apr 2 2026 · CNBC Apr 2 2026</div>
+        </div>
+      </div>
+      <div class="gutter-cell"></div><div class="legal-empty"></div>
+    </div>
+
     </div>
 
   </div><!-- /section 3 -->
@@ -3275,13 +3277,6 @@ function showPage(name, btn) {
   // D3 simulation needs a kick when canvas becomes visible
   if (name === 'network' && typeof sim !== 'undefined') {
     setTimeout(() => sim.alpha(0.1).restart(), 50);
-  }
-  // Track page view
-  if (typeof gtag !== 'undefined') {
-    gtag('event', 'page_view', {
-      page_title: name === 'network' ? 'The Island Ledger' : 'The Resident Representatives',
-      page_path: '/' + name
-    });
   }
 }
 </script>
