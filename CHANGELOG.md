@@ -4,6 +4,30 @@ All notable changes to The Island Ledger & The Resident Representatives are docu
 Format: `[Date] — Description · Source`
 
 ---
+## 2026-04-09 — Melania Trump added to The Island Ledger
+
+### New node: Melania Trump
+- **Sector:** Social / Cultural
+- **Status:** Active — no charges, no formal action
+- **Added because:** Named in the released Epstein files with a documented, 
+  authenticated EFTA document reference
+- **Key evidence:**
+  - EFTA02332411 — Oct 23 2002 email to Ghislaine Maxwell, authenticated by 
+    Snopes and confirmed in Melania's own Apr 9 White House statement. Signed 
+    "Love, Melania." Maxwell replied calling her "sweet pea."
+  - Feb 12 2000 photograph with Trump, Epstein, and Maxwell at Mar-a-Lago
+  - Apr 9 2026 White House statement acknowledged the Maxwell email while 
+    calling it "casual correspondence" — creating an on-record admission now 
+    relevant to Wolff v. Melania Trump proceedings
+- **Travel:** Island denied · Plane unclear
+- **Source:** EFTA02332411 · CNBC · CNN · Snopes · White House transcript
+
+### Timeline name link
+- "Melania Trump" in the Apr 9 timeline entry is now clickable — opens her 
+  dossier inline in the sidebar without leaving the timeline page
+
+### Node count
+- 122 individuals + Epstein (previously 121 + Epstein)
 
 ## 2026-03-31 — Initial public release
 
