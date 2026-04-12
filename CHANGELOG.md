@@ -4,30 +4,6 @@ All notable changes to The Island Ledger & The Resident Representatives are docu
 Format: `[Date] — Description · Source`
 
 ---
-## 2026-04-09 — Melania Trump added to The Island Ledger
-
-### New node: Melania Trump
-- **Sector:** Social / Cultural
-- **Status:** Active — no charges, no formal action
-- **Added because:** Named in the released Epstein files with a documented, 
-  authenticated EFTA document reference
-- **Key evidence:**
-  - EFTA02332411 — Oct 23 2002 email to Ghislaine Maxwell, authenticated by 
-    Snopes and confirmed in Melania's own Apr 9 White House statement. Signed 
-    "Love, Melania." Maxwell replied calling her "sweet pea."
-  - Feb 12 2000 photograph with Trump, Epstein, and Maxwell at Mar-a-Lago
-  - Apr 9 2026 White House statement acknowledged the Maxwell email while 
-    calling it "casual correspondence" — creating an on-record admission now 
-    relevant to Wolff v. Melania Trump proceedings
-- **Travel:** Island denied · Plane unclear
-- **Source:** EFTA02332411 · CNBC · CNN · Snopes · White House transcript
-
-### Timeline name link
-- "Melania Trump" in the Apr 9 timeline entry is now clickable — opens her 
-  dossier inline in the sidebar without leaving the timeline page
-
-### Node count
-- 122 individuals + Epstein (previously 121 + Epstein)
 
 ## 2026-03-31 — Initial public release
 
@@ -132,27 +108,6 @@ Previous "122" count was inflated by 7 duplicate/placeholder nodes. After cleanu
 
 ## 2026-04-01 — v1.1 · Mobile, sidebar, and UX improvements
 
-## 2026-04-02 — Breaking: Bondi fired
-
-### Timeline — new entry added
-- **Apr 2 2026 · AG fired** — Pam Bondi removed as Attorney General after 14 months.
-  Epstein files handling cited as the primary cause: her Feb 2025 "client list on my 
-  desk" claim, the subsequent DOJ reversal, the EFTA it triggered, and the House 
-  Oversight subpoena she had not complied with. Last day technically Apr 1. Only an 
-  estimated 2% of total Epstein data released under her tenure. Todd Blanche (Trump's 
-  former personal attorney) named acting AG. Lee Zeldin (EPA) frontrunner for 
-  permanent replacement. Rep. Khanna called it the direct result of a "cover-up." 
-  Rep. Garcia warned the firing does not get her out of testifying under oath.
-- Sources: CNN, NBC News, NPR, CBS News, CNBC, Euronews, Newsweek · Apr 2 2026
-
-### Sidebar updated
-- Bondi subpoena chip: "Outstanding — not complied" → "Bondi fired Apr 2 2026 · subpoena unresolved"
-
-### Note on placement
-- Timeline only — Bondi is not named in the Epstein files and has no documented 
-  personal connection to Epstein. Her relevance is as the AG who oversaw the EFTA 
-  release process and was fired for mishandling it.
-
 ### File renamed
 - `epstein-unified.html` → `index.html` for GitHub Pages compatibility
 - Live at `https://[username].github.io/epstein-files/`
@@ -194,3 +149,31 @@ Previous "122" count was inflated by 7 duplicate/placeholder nodes. After cleanu
 - Display count corrected: toolbar now shows `121 individuals + Epstein` (Epstein excluded from count as centre node)
 - Underlying data unchanged at 122 total nodes
 
+
+---
+
+## 2026-04-02 — Breaking: Bondi fired
+
+### Timeline — new entry added
+- **Apr 2 2026 · AG fired** — Pam Bondi removed as Attorney General. Multiple sources confirm Epstein files handling was central to her firing. Her Feb 2025 "client list on my desk" statement, the subsequent DOJ reversal, and her failure to comply with the House Oversight subpoena all cited. Todd Blanche named acting AG. Lee Zeldin (EPA) frontrunner to replace permanently.
+- Sources: CNN, NBC News, NPR, CBS News, CNBC · Apr 2 2026
+
+### Sidebar updated
+- Bondi subpoena status: "Outstanding — not complied" → "Bondi fired Apr 2 2026 · subpoena unresolved"
+
+### Note on placement
+- Bondi added to timeline only — she is not named in the Epstein files directly and has no documented personal connection to Epstein. Her relevance is as the AG who oversaw and mishandled the EFTA release process.
+
+---
+
+## 2026-04-09 — Melania White House statement
+
+### Timeline — new entry added
+- **Apr 9 2026 · Melania statement** — First Lady delivers unscheduled White House address denying Epstein ties. Acknowledges 2002 "Love Melania" email to Maxwell, calls it trivial. Calls on Congress to hold public survivor hearings — directly contradicting administration messaging. Trump said he didn't know about the statement; White House said he did. Bipartisan support from Mace and Garcia for hearing call. Survivors mixed; Gloria Allred called on Melania to testify herself.
+- Sources: CNN, CNBC, Fortune, NPR, ABC News, White House transcript · Apr 9–10 2026
+
+### Legal track updated
+- Wolff v. Melania Trump entry: noting Melania's Apr 9 on-record denial and Maxwell email acknowledgment as new material in the proceedings
+
+### Note on Ivanka / DOAC
+- Ivanka Trump appeared on Diary of a CEO Apr 9 — personal/family content only, no Epstein material. Not added to the ledger.
