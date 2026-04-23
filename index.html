@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK2YQQRP2E"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-VK2YQQRP2E');
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Island Ledger — Cyramatique</title>
+<title>The Island Ledger & Trump Timeline — Cyramatique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 /* ── SHARED BASE ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -964,14 +956,95 @@ body::before {
   .claim-header { flex-direction: column; gap: 8px; }
 }
 
+
+/* ── PROXIMITY LEGEND ── */
+#prox-legend {
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap; padding: 5px 0 2px;
+}
+#prox-toggle {
+  font-family: var(--caps); font-size: 8px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold); background: none;
+  border: none; cursor: pointer; padding: 0; display: flex;
+  align-items: center; gap: 4px; white-space: nowrap;
+}
+#prox-toggle:hover { color: var(--green); }
+#prox-key {
+  display: none; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+#prox-key.open { display: flex; }
+.prox-item {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--caps); font-size: 7.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: #5A4030;
+}
+.prox-circle {
+  border-radius: 50%; border: 1.5px solid currentColor; flex-shrink: 0;
+}
+.prox-circle.t1 { width: 14px; height: 14px; color: #8B2020; background: rgba(139,32,32,.12); }
+.prox-circle.t2 { width: 10px; height: 10px; color: #9B5A10; background: rgba(155,90,16,.1); }
+.prox-circle.t3 { width: 7px;  height: 7px;  color: #1B3A6B; background: rgba(27,58,107,.08); }
+
+
+/* ── ABOUT MODAL ── */
+#about-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(44,24,16,.5); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+#about-overlay.open { display: flex; }
+#about-modal {
+  background: #FAF6EE; border: 1px solid rgba(184,150,62,.4);
+  border-radius: 2px; max-width: 540px; width: 90%;
+  padding: 40px 44px 36px; position: relative;
+  box-shadow: 0 12px 50px rgba(44,24,16,.2);
+}
+#about-modal::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #B8963E 30%, #B8963E 70%, transparent);
+}
+#about-close {
+  position: absolute; top: 16px; right: 20px;
+  font-size: 20px; color: #8B6B50; cursor: pointer;
+  background: none; border: none; line-height: 1;
+}
+#about-close:hover { color: #1B3A2D; }
+#about-modal p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px; line-height: 1.75; color: #2C1810;
+  font-weight: 300; margin-bottom: 16px;
+}
+#about-modal p:last-child { margin-bottom: 0; }
+#about-modal a { color: #1B3A2D; font-weight: 500; }
+#about-modal a:hover { color: #B8963E; }
+.about-sig {
+  font-family: 'Cormorant SC', Georgia, serif !important;
+  font-size: 11px !important; letter-spacing: .12em;
+  text-transform: uppercase; color: #8B6B50 !important;
+  margin-top: 20px !important;
+  padding-top: 16px; border-top: 1px solid rgba(184,150,62,.2);
+}
+
 </style>
 </head>
 <body>
 
 <!-- PAGE NAV -->
+
+<!-- ABOUT MODAL -->
+<div id="about-overlay" onclick="if(event.target===this)closeAbout()">
+  <div id="about-modal">
+    <button id="about-close" onclick="closeAbout()">×</button>
+    <p>The Island Ledger is a curatorial project — not a research database. It exists to make 120+ documented connections legible at a glance: who was involved, what sector they operated in, and whether anyone faced consequences. Every entry is sourced to primary documents.</p>
+    <p>If you want to go deeper into the raw record — 2.1 million searchable documents, 1,713 persons, full flight logs, and original EFTA filings — the best resource available is <a href="https://epsteinexposed.com" target="_blank" rel="noopener noreferrer">Epstein Exposed</a>, a remarkable one-person public interest project that has done extraordinary work making the primary sources accessible. I use it. I recommend it without reservation.</p>
+    <p class="about-sig">— Elena / Cyramatique</p>
+  </div>
+</div>
+
 <nav id="page-nav">
   <button class="pnav-btn active" onclick="showPage('network', this)">The Island Ledger</button>
   <button class="pnav-btn"        onclick="showPage('timeline', this)">Trump Timeline</button>
+  <button class="pnav-btn" onclick="openAbout()" style="margin-left:auto;">About</button>
 </nav>
 
 <!-- PAGE: NETWORK DIAGRAM -->
@@ -1002,6 +1075,14 @@ body::before {
         <button class="chip on" data-s="social">Social / Cultural</button>
       </div>
 
+      <div id="prox-legend">
+        <button id="prox-toggle" onclick="document.getElementById('prox-key').classList.toggle('open');this.textContent=document.getElementById('prox-key').classList.contains('open')?'Proximity key ▴':'Proximity key ▾'">Proximity key ▾</button>
+        <div id="prox-key">
+          <div class="prox-item"><div class="prox-circle t1"></div>Direct — flew &amp; island · operational</div>
+          <div class="prox-item"><div class="prox-circle t2"></div>Close — flew or island · financial</div>
+          <div class="prox-item"><div class="prox-circle t3"></div>Peripheral — social · correspondence</div>
+        </div>
+      </div>
       <span id="count-label">123 individuals</span>
     </div>
     <div id="hint">Click a name to open file · Drag to reposition · Scroll to zoom</div>
@@ -1024,6 +1105,9 @@ body::before {
       <div class="dos-section-label" style="margin-top:14px;">Consequence / status</div>
       <ul class="dos-bullets" id="dos-cons"></ul>
       <div class="dos-ref" id="dos-ref"></div>
+      <a id="dos-ee" href="https://epsteinexposed.com/persons" target="_blank" rel="noopener noreferrer" class="pinpoint-btn" style="margin-bottom:6px;background:rgba(27,58,45,.04);">
+        ⊞ Search Epstein Exposed ↗
+      </a>
       <a id="dos-pinpoint" href="#" target="_blank" rel="noopener noreferrer" class="pinpoint-btn">
         <span class="pp-icon">⊞</span>
         Search in DOJ Epstein files ↗
@@ -1077,28 +1161,28 @@ const people = [
     ref:'Flight logs · House Oversight · Wikipedia Connections' },
 
   { id:'barak', name:'Ehud Barak', title:'Former Israeli Prime Minister', sector:'political', status:'active', r:14,
-    travel:{plane:'unclear', island:true},
+    travel:{plane:true, island:true},
     badges:['financial','social','postconv'],
     conn:'Met Epstein 2003. Visited 30+ times 2013–2017, often staying at Manhattan building where Epstein housed associates. Flew on Lolita Express. Invested in Carbyne (Israeli surveillance startup) using funds substantially sourced from Epstein. In 2016, Israeli government installed security equipment at the Manhattan building for Epstein\'s associates. Epstein emailed Barak "keep very private" regarding Mandelson\'s stay.',
     cons:{ cls:'active', text:'No charges. Denied wrongdoing. Carbyne investment under scrutiny for Epstein funding provenance.' },
     ref:'EFTA DataSet 11 · Wikipedia Connections · PBS Feb 2026' },
 
   { id:'mandelson', name:'Peter Mandelson', title:'UK Trade Commissioner · Labour', sector:'political', status:'stripped', r:14,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:true},
     badges:['social','access','postconv'],
     conn:'Emails confirm he <em>"stayed the week"</em> at Epstein\'s home. In March 2010, forwarded classified meeting notes between UK Chancellor Darling and US National Economic Council director to Epstein five minutes after receiving them. In May 2010, gave Epstein advance notice of a €500bn EU bailout; emailed <em>"finally got him to go today"</em> — Gordon Brown resigned the next day. A photo of Mandelson in his underwear was released in the files.',
     cons:{ cls:'stripped', text:'Dismissed as UK Ambassador to the US Sept 2025. Forced to resign from Labour Party and House of Lords Feb 2026. Apologised "unequivocally to the women and girls who suffered."' },
     ref:'DOJ files Jan 2026 · Wikipedia List of people · CBS Feb 2026' },
 
   { id:'bannon', name:'Steve Bannon', title:'Trump strategist · Breitbart', sector:'political', status:'active', r:12,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     badges:['social','access'],
     conn:'Exchanged thousands of texts with Epstein discussing European coalition politics, China pressure and Middle East ties. Epstein lent Bannon use of his Paris apartment, Palm Beach house and plane. Bannon coached Epstein on media strategy in early 2019. They ate together frequently up to February 2019 — months before Epstein\'s arrest. <strong>EFTA00025553:</strong> During FBI forensic review of Bannon\'s iPhone 7 (WBTW fraud case) a reviewer found a photo of Trump and Ghislaine Maxwell on the device. Flagged to senior AUSA handling both cases; response: <em>"Thanks very much for flagging — no need to do anything with this one."</em>',
     cons:{ cls:'active', text:'No Epstein-related charges. Photo of Trump and Maxwell found on his phone during separate FBI review; AUSA directed no action. Currently serving unrelated contempt of Congress sentence.' },
     ref:'Wikipedia Connections · House Oversight email release Nov 2025 · EFTA00025553 · rhowardstone/Epstein-research LEAD_VERIFICATION_REPORT.md' },
 
   { id:'barr', name:'William Barr', title:'US Attorney General 2019–2020', sector:'legal', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['alleged','access'],
     conn:'Named in the same FBI "derog" email chain as Trump and Lutnick dated July 24 2025 (EFTA01648950/51/55) — the day DAG Blanche was interviewing Maxwell in prison. Two separate NTOC tips referenced Barr: (1) alleged present during abuses at a model event; (2) a separate encounter. As AG, Barr was in oversight of the federal Epstein prosecution during the period when the case was being built. Nature of the NTOC allegations not fully detailed in public reporting.',
     cons:{ cls:'active', text:'No charges. No formal action. NTOC tips marked as unverified. Barr was AG when Epstein died in federal custody Aug 2019.' },
@@ -1112,49 +1196,49 @@ const people = [
     ref:'EFTA00398857 · EFTA00435530 · EFTA00173881 · EFTA01660622 · NBC News Feb 14 2026 · rhowardstone/Epstein-research LUTNICK_DUBIN_INVESTIGATION.md' },
 
   { id:'ruemmler', name:'Kathryn Ruemmler', title:'Obama White House Counsel → Goldman Sachs GC', sector:'legal', status:'removed', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','access','postconv'],
     conn:'Had extensive email correspondence with Epstein documented in the released files. Said her relationship was in the context of being a criminal defence attorney and regrets having known him. In one exchange referred to Trump as <em>"so gross"</em>; Epstein replied <em>"worse in real life and up close."</em> Epstein approached her as a political access node.',
     cons:{ cls:'removed', text:'Resigned from Goldman Sachs as General Counsel February 2026 due to Epstein file fallout. No charges. No wrongdoing alleged.' },
     ref:'House Oversight email release Nov 2025 · NBC News Feb 14 2026' },
 
   { id:'oz', name:'Mehmet Oz', title:'CMS Administrator (Trump) · former TV host', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social'],
     conn:'A 2016 email from Oz to Epstein contained an invitation to a Valentine\'s Day celebration hosted by Mehmet and Lisa Oz in Palm Beach — eight years after Epstein\'s 2008 guilty plea and three years before his 2019 federal charges. It is unclear if Epstein attended.',
     cons:{ cls:'active', text:'No charges. No formal action. CMS did not respond to request for comment.' },
     ref:'EFTA01788803 · NBC News Feb 14 2026' },
 
   { id:'feinberg', name:'Stephen Feinberg', title:'Deputy Sec. of Defense (Trump) · Cerberus Capital', sector:'finance', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial'],
     conn:'Multiple Cerberus Capital Management business documents naming Feinberg appear in the Epstein files spanning 2009–2018, including documents involving Deutsche Bank compliance reviews of Cerberus accounts. Reason for inclusion in the Epstein files is unclear — no allegation of personal contact with Epstein has been reported.',
     cons:{ cls:'active', text:'No charges. No formal action. Pentagon and Cerberus declined comment on files appearance.' },
     ref:'EFTA01359040 · NBC News Feb 14 2026' },
 
   { id:'rfk', name:'RFK Jr.', title:'HHS Secretary (Trump admin)', sector:'political', status:'active', r:10,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     badges:['social'],
     conn:'Appears in Epstein\'s flight logs and in a 2012 email exchange between Epstein and Maxwell in which Epstein described going dinosaur and fossil hunting on a ranch with a fossil expert — context of RFK Jr.\'s specific appearance in the files not fully detailed in public reporting.',
     cons:{ cls:'active', text:'No charges. No formal action. No allegations of wrongdoing.' },
     ref:'EFTA01875865 · NBC News Feb 14 2026' },
 
   { id:'barrack', name:'Tom Barrack', title:'US Ambassador to Turkey · Colony Capital', sector:'political', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','financial'],
     conn:'Part of 1980s–90s New York elite social circle with Trump and Epstein. Early 2000s business ties to Middle East developed alongside Epstein. They introduced each other to diplomats and investors. Epstein repeatedly asked Barrack to use Signal, outside the released files. Barrack wrote to Epstein in 2009 after his release from jail.',
     cons:{ cls:'active', text:'No Epstein-related charges. Appointed US Ambassador to Turkey by Trump 2025.' },
     ref:'Wikipedia Connections · DOJ files' },
 
   { id:'wexner', name:'Les Wexner', title:'Victoria\'s Secret CEO · L Brands founder', sector:'political', status:'stripped', r:15,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:true, island:true},
     badges:['financial','enabler'],
     conn:'Epstein\'s most important early patron. Gave Epstein power of attorney over his entire financial empire — an extraordinary and highly unusual arrangement. Epstein effectively managed Wexner\'s finances, properties and legal affairs for over a decade, accumulating his own wealth in the process. Listed as a co-conspirator on FBI documents — name initially redacted, unredacted after pressure from Rep. Massie Feb 2026.',
     cons:{ cls:'stripped', text:'Resigned as L Brands / Victoria\'s Secret CEO 2020 following Epstein revelations. Name redacted from initial DOJ releases; unredacted after congressional pressure Feb 2026.' },
     ref:'Epstein files · Wikipedia · EFTA transparency act pressure Feb 2026' },
 
   { id:'acosta', name:'Alexander Acosta', title:'US Attorney SDFL → Trump Labor Secretary', sector:'legal', status:'removed', r:14,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['legal','enabler'],
     conn:'As US Attorney for South Florida in 2008, approved the NPA granting Epstein and unnamed co-conspirators immunity from federal prosecution — despite his own prosecutors recommending a 60-count indictment (EFTA02857524). Later told colleagues he was instructed to back off because Epstein <em>"belonged to intelligence."</em> DOJ OPR found he used "poor judgment." Victims were not informed of the deal, violating the Crime Victims\' Rights Act.',
     cons:{ cls:'removed', text:'Resigned as Labor Secretary July 2019 after Miami Herald reporting on the NPA. DOJ OPR "poor judgment" finding Nov 2020.' },
@@ -1163,14 +1247,14 @@ const people = [
 
   // ── FINANCE ──
   { id:'staley', name:'Jes Staley', title:'JPMorgan Private Bank → Barclays CEO', sector:'finance', status:'removed', r:15,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:true, island:true},
     badges:['financial','social','postconv','alleged'],
     conn:'Developed close relationship with Epstein at JPMorgan. Visited Epstein\'s Palm Beach home Jan 2009 while Epstein was on work release; wires of $2K–$3K to Eastern European women followed the visit. Exchange included <em>"need anything?"</em> reply. EFTA files show Epstein sent Staley a blueprint for a $100M+ Gates donor-advised fund. Continued contact through his appointment as Barclays CEO in 2015. <strong>Specific allegation in files:</strong> A victim alleged Staley forced her to touch his genitals and raped her at Epstein\'s townhouse after a massage. The matter was referred to New York authorities.',
     cons:{ cls:'removed', text:'Forced out of Barclays Oct 2021. FCA fined and banned from senior financial roles 2023 for mischaracterising the relationship. Contesting findings. Rape allegation referred to NY authorities — no charges filed.' },
     ref:'FCA final notice 2023 · Al Jazeera Feb 2026 · EFTA DataSet 11 · DOJ files victim allegation' },
 
   { id:'black', name:'Leon Black', title:'Apollo Global Management co-founder', sector:'finance', status:'removed', r:15,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:true, island:true},
     badges:['financial','social','postconv','alleged'],
     conn:'Epstein\'s most lucrative client relationship. Paid Epstein $170M total for "tax and estate planning." Donated $5M (via shell BV70 LLC) to Epstein\'s nonprofit and $5.5M to MIT routed via Epstein. Met Epstein through Rothschild connections early 2000s. JPMorgan filed a suspicious activity report for Black\'s transactions weeks after Epstein\'s death. Epstein referred to Black as <em>"Mr. Big"</em> in emails. Files listed more than $600K in "gifts" from Black to a former model connected to Epstein. <strong>Specific allegation in files:</strong> A victim (approximately age 20) told prosecutors that Epstein directed her to give Black a massage; she alleged Black attempted to sexually assault her and she ran out of the room.',
     cons:{ cls:'removed', text:'Resigned as Apollo CEO March 2021. Dechert independent review confirmed $170M in payments. JPMorgan SAR filed. Sexual assault allegation reported; Black denies, attorney states no corroboration. Civil lawsuits filed.' },
@@ -1205,7 +1289,7 @@ const people = [
     ref:'MIT Goodwin Procter 2020 · Inside Philanthropy Jan 2026 · Gates Feb 2026' },
 
   { id:'summers', name:'Larry Summers', title:'US Treasury Secretary · Harvard president', sector:'political', status:'removed', r:13,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:true},
     badges:['social','access','postconv'],
     conn:'Corresponded routinely with Epstein across many years. Attended May 2011 dinner at Epstein\'s NY mansion with Gates and Staley, emailing he was <em>&ldquo;pretzelling schedule big time to be there.&rdquo;</em> Peter Mandelson forwarded Summers\' government meeting notes to Epstein. Files show Summers asking Epstein for romantic advice and joking about women\'s intelligence. In 2017 Nowak asked Epstein if he could bring Summers back to the Harvard presidency after Drew Faust stepped down. Correspondence documented to 2019. Named in Trump DOJ investigation ordered by Bondi Nov 2025 alongside Clinton, Hoffman and JPMorgan.',
     cons:{ cls:'removed', text:'Deeply ashamed of correspondence. Took leave from Harvard teaching Nov 2025. Harvard announced he would resign all academic and faculty roles by end of school year. Stepped down from OpenAI board. Subject of Trump DOJ investigation.' },
@@ -1219,7 +1303,7 @@ const people = [
     ref:'EFTA files Jan 2026 · PBS Feb 2026' },
 
   { id:'thiel', name:'Peter Thiel', title:'Palantir / PayPal co-founder · Valar Ventures', sector:'tech', status:'active', r:12,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'Epstein reportedly invested ~$40M in Valar Ventures (Thiel co-founded). In a 2013 recording Epstein nudged Barak to work with Thiel\'s Palantir. Appeared in 2015 dinner photo alongside Musk, Zuckerberg and others. Epstein used Thiel connections for further Silicon Valley networking.',
     cons:{ cls:'active', text:'No charges. No formal action. Investment relationship documented but extent still being established.' },
@@ -1233,28 +1317,28 @@ const people = [
     ref:'MIT Goodwin Procter report 2020 · New Yorker 2019' },
 
   { id:'hoffman', name:'Reid Hoffman', title:'LinkedIn co-founder · Greylock Partners', sector:'tech', status:'active', r:12,
-    travel:{plane:'unclear', island:true},
+    travel:{plane:false, island:true},
     badges:['social','access'],
     conn:'Attended December 2014 breakfast hosted by Epstein for billionaires to pitch the Gates DAF scheme. Hosted a 2015 dinner at his Palo Alto home — Epstein described it as <em>"wild"</em> in emails; Musk, Thiel and Zuckerberg were present. Named in Epstein email releases Nov 2025 alongside Bannon and Summers. Named in Trump DOJ investigation ordered Nov 2025.',
     cons:{ cls:'active', text:'No charges. Named in DOJ investigation Nov 2025 alongside Clinton. Subject of significant public scrutiny.' },
     ref:'Inside Philanthropy Jan 2026 · House Oversight emails Nov 2025' },
 
   { id:'church', name:'George Church', title:'Harvard geneticist · Personal Genome Project', sector:'tech', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'Met Epstein multiple times from 2014. Epstein\'s tissue samples were inappropriately prioritised for DNA sequencing at Church\'s Personal Genome Project after Epstein\'s conviction — staff protested until the special treatment stopped. Church had stated he was unaware of Epstein\'s crimes; later reporting contradicted this.',
     cons:{ cls:'active', text:'Apologised 2019. No charges. Lab practices under scrutiny for Epstein prioritisation.' },
     ref:'Wikipedia List of people named · Harvard' },
 
   { id:'nowak', name:'Martin Nowak', title:'Harvard math / biology professor', sector:'tech', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social'],
     conn:'Epstein donated $30M to fund Nowak\'s Harvard Program for Evolutionary Dynamics — one of the largest single donations from Epstein. Named as a $5M beneficiary in Epstein\'s will. Nowak attended dinners with Epstein, Gates, Church and Hoffman.',
     cons:{ cls:'active', text:'No charges. Received $5M in Epstein\'s will. Harvard reviewing the Program for Evolutionary Dynamics funding.' },
     ref:'Epstein files · Wikipedia · Harvard' },
 
   { id:'attia', name:'Peter Attia', title:'Physician · longevity researcher', sector:'tech', status:'removed', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Name appears over 1,700 times in the files. In one email wrote to Epstein: <em>"the life you lead is so outrageous, and yet I can\'t tell a soul."</em> Regular contact post-conviction. Included in Epstein\'s exclusive social and intellectual circle.',
     cons:{ cls:'removed', text:'Stepped down as science officer at protein bar company. Lost position as advisor to sleep tech company and as CBS News contributor.' },
@@ -1304,28 +1388,28 @@ const people = [
     ref:'Wikipedia List of people named · PBS Feb 2026' },
 
   { id:'allen', name:'Woody Allen', title:'Film director', sector:'social', status:'active', r:11,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     badges:['social','postconv'],
     conn:'Allen and wife Soon-Yi Previn were regular guests at Epstein\'s Upper East Side townhouse from 2010 onwards. Allen wrote a letter for Epstein\'s 63rd birthday. Photographs showed them together including on a private plane with Larry Summers. Epstein helped Allen\'s daughter get into Bard College by connecting her to Leon Botstein.',
     cons:{ cls:'active', text:'No charges. No formal action. Association adds to wider reputational concerns.' },
     ref:'Wikipedia List of people named' },
 
   { id:'branson', name:'Richard Branson', title:'Virgin Group founder', sector:'social', status:'active', r:12,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:true},
     badges:['social','postconv'],
     conn:'Exchanged numerous emails with Epstein post-conviction. In 2013 invited Epstein to his own private Caribbean island: <em>"Any time you\'re in the area would love to see you. As long as you bring your harem!"</em> A representative said the email was sent after a business meeting where Epstein had arrived with three adult women he called his harem.',
     cons:{ cls:'active', text:'No charges. No formal action. Denied involvement in or knowledge of Epstein\'s crimes.' },
     ref:'DOJ files Jan 2026 · PBS Feb 2026' },
 
   { id:'chomsky', name:'Noam Chomsky', title:'Linguist · philosopher · MIT professor', sector:'social', status:'active', r:12,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     badges:['financial','social','postconv'],
     conn:'In 2015 Epstein offered Chomsky use of his residences. Photograph shows Chomsky seated next to Epstein on a plane. Wrote a letter praising Epstein and recounted arranging his meeting with Barak. In 2019, after Giuffre\'s accusations, Chomsky advised Epstein that commenting would cause <em>"additional negative attention"</em> citing <em>"hysteria about abuse of women."</em> In March 2018, ~$270K transferred from an Epstein-linked account to Chomsky, who disputes it was Epstein\'s money.',
     cons:{ cls:'active', text:'No charges. $270K transfer disputed. Widely criticised for 2019 advice to Epstein dismissing victims.' },
     ref:'Wikipedia List of people named · WSJ · DOJ files' },
 
   { id:'brende', name:'Børge Brende', title:'World Economic Forum CEO · resigned Feb 2026', sector:'political', status:'removed', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','access'],
     conn:'Exchanged more than 120 emails and texts with Epstein. Guest at several dinners at Epstein\'s NY townhouse. Photographed at Epstein\'s home with Bannon and Terje Rød-Larsen. Introduced to Epstein by Rød-Larsen.',
     cons:{ cls:'removed', text:'Resigned as WEF CEO Feb 2026 following Epstein file revelations. No charges.' },
@@ -1343,7 +1427,7 @@ const people = [
 
 
   { id:'ariely', name:'Dan Ariely', title:'Behavioural economist · Duke / MIT', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Longstanding relationship with Epstein. In a 2012 email asked Epstein for the name and email of a <em>"redhead"</em> he had met earlier.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
@@ -1370,14 +1454,14 @@ const people = [
     ref:'DOJ files Jan 2026 · CNN · PBS' },
 
   { id:'brockman', name:'John Brockman', title:'Literary agent · Edge Foundation founder', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'Epstein was the biggest donor to Brockman\'s Edge Foundation. Epstein funded numerous private dinners attended by Silicon Valley billionaires organised by Brockman. In 2018 Epstein advised Brockman not to care about diversity, calling women "weak" and "a distraction." Brockman boasted to Epstein that the net worth of his 2014 billionaires dinner equalled the wealth of 60% of Americans.',
     cons:{ cls:'active', text:'No charges. No formal action. Edge Foundation under reputational scrutiny.' },
     ref:'Wikipedia List of people named' },
 
   { id:'bach', name:'Joscha Bach', title:'Cognitive scientist · MIT Media Lab', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'MIT Media Lab research subsidised by Epstein. Wrote to Epstein in 2016 with racist and sexist views. Maintained contact post-conviction because academics "vouched for his reformation."',
     cons:{ cls:'active', text:'No charges. No formal action. MIT Media Lab funding relationship documented.' },
@@ -1417,7 +1501,7 @@ const people = [
   // ── EUROPEAN / INTERNATIONAL ──
 
   { id:'jagland', name:'Thorbjørn Jagland', title:'Former PM Norway · Council of Europe SG', sector:'political', status:'pending', r:14,
-    travel:{plane:'unclear', island:true},
+    travel:{plane:true, island:true},
     badges:['financial','social','postconv'],
     conn:'Former Norwegian Prime Minister (1996–97) and Secretary-General of the Council of Europe. Exchanged emails with Epstein frequently, including in 2018 when Epstein suggested Jagland connect him with Russian FM Sergey Lavrov — Jagland appears to have agreed. Epstein covered Jagland\'s expenses and those of his family. Jagland stayed at Epstein\'s properties in New York and Florida and visited his private island.',
     cons:{ cls:'pending', text:'Charged with "aggravated corruption" Feb 2026. Properties searched. Faces up to ten years in prison if convicted. Denies wrongdoing.' },
@@ -1452,7 +1536,7 @@ const people = [
     ref:'Al Jazeera Feb 2026 · Reuters factbox · France 24 · rhowardstone/Epstein-research' },
 
   { id:'lajcak', name:'Miroslav Lajčák', title:'Slovak FM · UN General Assembly president', sector:'political', status:'stripped', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','access'],
     conn:'Slovak politician, former Foreign Minister, former President of the UN General Assembly. Extensive email correspondence with Epstein 2017–2019. A 2018 exchange when serving as FM referenced women and a planned meeting with Russian FM Lavrov. Described the messages as "foolish male banter" reflecting "poor judgment."',
     cons:{ cls:'stripped', text:'Resigned as national security adviser to Slovak PM Jan 2026. No criminal charges.' },
@@ -1466,21 +1550,21 @@ const people = [
     ref:'Connections of Jeffrey Epstein Wikipedia · France 24 Feb 2026 · Euronews' },
 
   { id:'churkin', name:'Vitaly Churkin', title:'Russia\'s Permanent Rep to the UN', sector:'political', status:'deceased', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['access','financial'],
     conn:'Russia\'s Permanent Representative to the United Nations 2006–2017. Met Epstein frequently in New York. Epstein offered to help Churkin\'s son get a job at a US wealth management firm. Epstein indicated he advised Churkin on how to deal with Trump. After Churkin\'s 2017 death, Epstein offered his insights to Lavrov and Putin.',
     cons:{ cls:'deceased', text:'Died in office Feb 2017. No charges possible. Files released posthumously.' },
     ref:'Connections of Jeffrey Epstein Wikipedia · Euronews Mar 2026 · Axios Feb 2026' },
 
   { id:'belyakov', name:'Sergey Belyakov', title:'Russian Deputy Minister of Economic Development', sector:'political', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['access','social'],
     conn:'Russian Deputy Minister of Economic Development 2012–2014. Also studied at an academy for intelligence personnel. Epstein described Belyakov as "my very good friend" to Peter Thiel referencing a Moscow conference. Epstein asked Belyakov to investigate a Russian woman allegedly blackmailing a US businessman; Belyakov provided a profile including her "sex and escort" activities.',
     cons:{ cls:'active', text:'No charges. Russian government declined to comment.' },
     ref:'Connections of Jeffrey Epstein Wikipedia · Euronews Mar 2026 · Axios Feb 2026' },
 
   { id:'candy', name:'Nick Candy', title:'Property developer · Reform UK treasurer', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social'],
     conn:'British luxury property developer and treasurer of Nigel Farage\'s Reform UK party. Appears in Epstein emails from late 2004 meeting Sarah Kellen and Ghislaine Maxwell. In 2010 offered one of his Knightsbridge properties to Epstein for £80 million. Epstein said in 2014: "I like both of those guys" — referring to Nick and his brother Christian Candy.',
     cons:{ cls:'active', text:'No charges. No formal action. Farage said he had "no concerns" about Candy\'s appearance in the files.' },
@@ -1489,49 +1573,49 @@ const people = [
   // ── SCIENCE / ACADEMIA (new) ──
 
   { id:'pinker', name:'Steven Pinker', title:'Harvard cognitive psychologist · author', sector:'tech', status:'active', r:11,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     badges:['social','postconv'],
     conn:'Harvard psychology professor. Attended Epstein-funded salons and dinners organised via John Brockman\'s Edge network alongside Lawrence Krauss and others. Listed as a potential character reference for Epstein during his 2008 plea negotiations. Pinker acknowledged the associations.',
     cons:{ cls:'active', text:'No charges. No formal action. Acknowledged associations and expressed regret.' },
     ref:'Connections of Jeffrey Epstein Wikipedia · Wikipedia Epstein files list' },
 
   { id:'krauss', name:'Lawrence Krauss', title:'Theoretical physicist · Arizona State University', sector:'tech', status:'removed', r:12,
-    travel:{plane:'unclear', island:true},
+    travel:{plane:true, island:true},
     badges:['financial','social','postconv'],
     conn:'Theoretical physicist. Organised a 2006 conference on Little Saint James hosting 20 prominent physicists. His Origins Project received $250,000 from an Epstein foundation. Publicly defended Epstein post-conviction. In 2011 wrote to Epstein: <em>"Beyond anything else, you are my friend."</em> In 2017 asked Epstein for advice on responding to his own sexual misconduct allegations. Correspondence continued to 2018.',
     cons:{ cls:'removed', text:'Retired from Arizona State University 2018 amid separate sexual misconduct allegations. Epstein correspondence revealed 2026.' },
     ref:'Connections of Jeffrey Epstein Wikipedia · EverybodyWiki · Wikipedia Epstein files list' },
 
   { id:'minsky', name:'Marvin Minsky', title:'MIT AI pioneer (deceased)', sector:'tech', status:'deceased', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','alleged'],
     conn:'Pioneering MIT artificial intelligence researcher. Key academic in Epstein\'s network, used to build scientific legitimacy. Virginia Giuffre alleged in a legal filing she was directed to have sex with Minsky at an Epstein gathering. Epstein used Minsky\'s affiliation to approach Gates with AI funding proposals.',
     cons:{ cls:'deceased', text:'Died January 2016. Allegation by Giuffre documented in legal filing. Estate denied wrongdoing. No prosecution possible.' },
     ref:'Wikipedia Connections of Epstein · Giuffre legal filings · Bloomberg' },
 
   { id:'lloyd', name:'Seth Lloyd', title:'MIT quantum computing professor', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'MIT quantum computing pioneer. Received direct payments from Epstein post-conviction. MIT\'s independent Goodwin Procter review found Lloyd was among faculty who cultivated Epstein as a donor after his conviction. Attended Epstein-organised science events. Publicly apologised.',
     cons:{ cls:'active', text:'Formally reprimanded by MIT. Stepped down from advisory roles. Remained on MIT faculty.' },
     ref:'MIT Goodwin Procter report 2020 · Wikipedia Epstein files list' },
 
   { id:'zuckerberg', name:'Mark Zuckerberg', title:'Meta CEO · Facebook founder', sector:'tech', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social'],
     conn:'Photographed at a 2015 dinner hosted by Reid Hoffman in Palo Alto where Epstein was present alongside Musk and Thiel. Epstein described the event as "wild." Epstein sent himself a photo from the dinner. No evidence of ongoing relationship beyond this single event.',
     cons:{ cls:'active', text:'No charges. No formal action. Single documented event.' },
     ref:'Wikipedia List of people named · rhowardstone/Epstein-research' },
 
   { id:'brin', name:'Sergey Brin', title:'Google co-founder', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:true},
     badges:['social'],
     conn:'Google co-founder. Contacted Maxwell about attending dinners at Epstein\'s home. Extent of contact limited in public documentation.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Wikipedia List of people named · NYT' },
 
   { id:'dawkins', name:'Richard Dawkins', title:'British biologist · author', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'British evolutionary biologist. Had dinner with Epstein at a gala conference in Arizona in April 2014 — post-conviction. Wrote that Epstein\'s case was "not as black as painted" and referenced a "witch-hunt." Attended Brockman Edge Foundation events cultivated by Epstein.',
     cons:{ cls:'active', text:'No charges. No formal action. Comments about Epstein widely criticised.' },
@@ -1545,7 +1629,7 @@ const people = [
     ref:'EverybodyWiki Epstein files list · DOJ files Jan 2026 · Wikipedia List of people named' },
 
   { id:'dbrooks', name:'David Brooks', title:'New York Times columnist', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social'],
     conn:'NYT opinion columnist. Appears in photographs in the Epstein files taken at a 2011 event with Epstein. In 2025 wrote a NYT column dismissing continuing media coverage of the Epstein files — while his own presence in those files had not yet been widely reported.',
     cons:{ cls:'active', text:'No charges. No formal action. 2025 column attracted criticism.' },
@@ -1561,7 +1645,7 @@ const people = [
     ref:'Wikipedia List of people named · DOJ files Dec 2025 · Sjoberg testimony' },
 
   { id:'cosby', name:'Bill Cosby', title:'Comedian · actor (convicted)', sector:'social', status:'incarcerated', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social'],
     conn:'Cosby and Epstein corresponded and Epstein invited Cosby to dinner parties. Epstein followed Cosby\'s sexual assault case closely in 2015. Between 2017 and 2018 Epstein unsuccessfully tried to purchase Cosby\'s home.',
     cons:{ cls:'incarcerated', text:'Serving state sentence for sexual assault (Pennsylvania). Epstein correspondence separate from his convictions.' },
@@ -1575,28 +1659,28 @@ const people = [
     ref:'Wikipedia List of people named · Time · USVI civil case' },
 
   { id:'wolff', name:'Michael Wolff', title:'Author · journalist · Fire and Fury', sector:'social', status:'active', r:12,
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     badges:['access'],
     conn:'Conducted up to 100 hours of recorded interviews with Epstein, using him as a source for his Trump book Fire and Fury. In 2019 encouraged Epstein to go public about his relationship with Trump. House Judiciary submitted his Epstein tape recordings as a congressional exhibit (HHRG-119-JU08-20250227-SD006). Epstein on tape (Aug 2017): called Trump "closest friend for 10 years," claimed Melania first slept with Trump on his plane. Filed anti-SLAPP suit against Melania Trump after she threatened him with a $1B defamation suit.',
     cons:{ cls:'active', text:'No charges. Filed anti-SLAPP suit against Melania Oct 2025. Trump threatened suit against Wolff; not filed as of Mar 2026. Raised $800K GoFundMe.' },
     ref:'House Judiciary exhibit HHRG-119-JU08-20250227-SD006 · Daily Beast · NBC News Oct 2025' },
 
   { id:'dagostino', name:'Francisco D\'Agostino', title:'Venezuelan businessman', sector:'finance', status:'active', r:10,
-    travel:{plane:'unclear', island:true},
+    travel:{plane:false, island:true},
     badges:['financial','access'],
     conn:'Venezuelan businessman. Visited Epstein on his island and in New York 2012–2018. Shared political intelligence and proposed business deals. Repeatedly asked Epstein about a female he nicknamed "water gazelle" he met on the island. On Epstein\'s advice purchased $4.5M in PDVSA bonds. By 2019 the US Treasury scrutinised D\'Agostino for attempts to evade Venezuelan oil sanctions.',
     cons:{ cls:'active', text:'Under US Treasury scrutiny for sanction evasion. No Epstein-specific charges.' },
     ref:'Wikipedia List of people named' },
 
   { id:'briatore', name:'Flavio Briatore', title:'Italian businessman · Formula One', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Italian businessman and former Formula One team principal. Maintained email contact with Epstein. In a 2010 email Epstein referred to Briatore as his "Italian friend." Contact documented post-conviction.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Wikipedia List of people named' },
 
   { id:'siegal', name:'Peggy Siegal', title:'Entertainment publicist · NYC', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','access','postconv'],
     conn:'New York entertainment publicist. Continued including Epstein in private events post-conviction, citing his assurances he had changed. Served as a key node in Epstein\'s social rehabilitation within Manhattan elite circles after his 2008 guilty plea.',
     cons:{ cls:'active', text:'No charges. No formal action. Role in post-conviction social rehabilitation documented.' },
@@ -1605,14 +1689,14 @@ const people = [
   // ── FINANCE (new) ──
 
   { id:'harris', name:'Josh Harris', title:'Apollo Global Management co-founder', sector:'finance', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'Co-founder of Apollo Global Management alongside Leon Black. Attended the December 2014 breakfast at Epstein\'s Manhattan mansion where Epstein pitched the Gates donor-advised fund scheme. Present alongside Hoffman, Baron, and Gates.',
     cons:{ cls:'active', text:'No charges. No formal action. Co-founder Leon Black paid Epstein $170M; Harris\'s own financial relationship not documented at that scale.' },
     ref:'Inside Philanthropy Jan 2026 · Wikipedia Connections of Epstein' },
 
   { id:'baron', name:'Ron Baron', title:'Baron Capital Group founder', sector:'finance', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'Billionaire hedge fund manager. Attended the December 2014 breakfast at Epstein\'s Manhattan mansion for the donor-advised fund pitch alongside Gates, Josh Harris and Reid Hoffman.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
@@ -1626,7 +1710,7 @@ const people = [
     ref:'rhowardstone/Epstein-research PHASE3_HIDDEN_DOMAINS · Wikipedia Connections of Epstein' },
 
   { id:'bradkarp', name:'Brad Karp', title:'Paul Weiss law firm chairman', sector:'legal', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['legal','access'],
     conn:'Chairman of Paul, Weiss, Rifkind, Wharton & Garrison.\nAttended dinner gatherings at Epstein\'s Upper East Side residence.\nIn July 2015 wrote to Epstein: <em>&ldquo;I can\'t thank you enough for including me in an evening I\'ll never forget. It was truly once in a lifetime in every way, though I hope to be invited again.&rdquo;</em>\nEpstein replied he would be invited often; Karp responded <em>&ldquo;You\'re amazing.&rdquo;</em>\nIn a separate July 2015 exchange Epstein asked Karp about revoking a woman\'s visa; Karp responded <em>&ldquo;Both good ideas; will work on this.&rdquo;</em>\nIn July 2016 asked Epstein for help getting his son a job on a Woody Allen film.\nIn Feb 2019 corresponded with Epstein about finding legal representation for Robert Kraft.',
     cons:{ cls:'active', text:'No charges.\nCorrespondence revealed in Jan 2026 release attracted significant criticism given seniority of role.' },
@@ -1636,7 +1720,7 @@ const people = [
   // ── ACADEMIA (additional) ──
 
   { id:'boyden', name:'Edward Boyden', title:'MIT neuroscientist · optogenetics pioneer', sector:'tech', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'MIT neuroscientist and pioneer of optogenetics (using light to control brain activity). Attended the August 2015 Hoffman dinner in Palo Alto alongside Musk, Thiel, Zuckerberg and Epstein. Files now show at least one visit to Epstein\'s Zorro Ranch in New Mexico — which he omitted from his account in MIT\'s 2020 Goodwin Procter review. New Mexico is conducting an active investigation into the ranch.',
     cons:{ cls:'active', text:'No charges. Misrepresentation to MIT review revealed in 2026 files. Ranch is subject of active New Mexico investigation.' },
@@ -1650,49 +1734,49 @@ const people = [
     ref:'Inside Higher Ed Feb 2026 · Wikipedia List of people named' },
 
   { id:'christakis', name:'Nicholas Christakis', title:'Yale sociologist and physician', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Yale sociologist and physician. Met with Epstein in September 2013 after moving from Harvard to Yale, having arranged a meeting with him. Corresponded with Epstein between 2013 and 2016 across multiple topics.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Inside Higher Ed Feb 2026 · Yale Daily News' },
 
   { id:'gelernter', name:'David Gelernter', title:'Yale computer scientist', sector:'tech', status:'stripped', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Yale computer science professor. Exchanged emails with Epstein 2009–2015. In a 2011 email recommended an undergraduate student to Epstein by her appearance: <em>&ldquo;a perfect editoress in mind: Yale sr, worked at Vogue last summer … v[ery] small goodlooking blonde.&rdquo;</em> In a 2009 email to Brockman called Epstein &ldquo;the most interesting guy&rdquo; and praised his &ldquo;horsepower &amp; faster acceleration.&rdquo;',
     cons:{ cls:'stripped', text:'Relieved of teaching duties Feb 2026 amid a Yale review. No charges.' },
     ref:'Inside Higher Ed Feb 2026 · Yale Daily News · EverybodyWiki Epstein list' },
 
   { id:'horner', name:'Jack Horner', title:'Paleontologist · Montana State / Chapman University', sector:'tech', status:'removed', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social','postconv'],
     conn:'Paleontologist best known for advising the Jurassic Park films. Visited Epstein\'s Zorro Ranch in New Mexico in 2012 and corresponded with him thereafter. Epstein expressed interest in funding Horner\'s &ldquo;Dinochicken Project&rdquo; — an attempt to bioengineer a dinosaur from a chicken. Emails suggest possible financial and logistical support from Epstein for Horner\'s projects.',
     cons:{ cls:'removed', text:'Employment at Chapman University ended Feb 2026. No charges.' },
     ref:'Wikipedia List of people named · Inside Higher Ed Feb 2026' },
 
   { id:'kosslyn', name:'Steven Kosslyn', title:'Harvard psychologist · Minerva University', sector:'tech', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['access','postconv'],
     conn:'Harvard psychologist and cognitive scientist. In 2006 — while Epstein was under active investigation — Kosslyn arranged for Epstein to be made a visiting researcher in Harvard\'s psychology department. This gave Epstein an institutional Harvard affiliation at a critical moment in the federal investigation. Kosslyn later became founding dean of Minerva Schools.',
     cons:{ cls:'active', text:'No charges. Arrangement of Harvard visiting researcher status in 2006 has attracted significant criticism given the timing.' },
     ref:'fancycomma.com Mar 2026 · Scientific American' },
 
   { id:'wolfe', name:'Nathan Wolfe', title:'Virologist · Global Viral founder', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social'],
     conn:'American virologist and founder of Global Viral and Metabiota. Appears in the files in connection with the Epstein academic and science funding network. Listed among Scientific American board advisers with documented Epstein connections.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Scientific American Feb 2026 · rhowardstone/Epstein-research science report' },
 
   { id:'hillis', name:'Danny Hillis', title:'Computer scientist · inventor', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social'],
     conn:'American inventor and computer scientist, pioneer of parallel computing. Listed among Scientific American board advisers with documented Epstein connections. Part of the Brockman Edge Foundation science network that Epstein funded and attended.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Scientific American Feb 2026 · Wikipedia Connections of Epstein' },
 
   { id:'damasio', name:'Antonio Damasio', title:'USC neuroscientist · somatic marker theory', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial'],
     conn:'Neuroscientist at the University of Southern California, known for work on emotion and consciousness. Solicited Epstein directly for a $500,000 donation toward robotics neuroscience research at USC, expressing frustration with traditional grant mechanisms and seeking to retain &ldquo;creative control.&rdquo;',
     cons:{ cls:'active', text:'No charges. No formal action. Solicitation documented in released files.' },
@@ -1711,28 +1795,28 @@ const people = [
 
   { id:'dougband', name:'Doug Band', title:'Clinton aide · Teneo founder', sector:'political', status:'active', r:11,
     badges:['social','access'],
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     conn:'Key aide to Bill Clinton who connected Clinton to Epstein.\nFlew on Epstein\'s plane more than 35 times.\nEpstein and Maxwell gifted Band a $35,000 Audemars Piguet watch in 2005.\nMaxwell emailed Band invitations to dinner with a "sluty [sic] Spanish girl."\nExchanged flirtatious emails with Maxwell in 2002.\nIn 2011 began removing Maxwell from Clinton event invitation lists.',
     cons:{ cls:'active', text:'No charges.\nFounded Teneo consulting firm.\nNo formal action.' },
     ref:'Wikipedia List of people named · House Oversight releases' },
 
   { id:'middleton', name:'Mark Middleton', title:'Clinton White House special adviser', sector:'political', status:'deceased', r:10,
     badges:['access'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Special adviser to Bill Clinton in the White House.\nFacilitated at least 17 Epstein visits to the Clinton White House between 1993 and 1995.\nEpstein used the White House access for legitimacy and networking.\nMiddleton died May 2023 — ruled suicide.',
     cons:{ cls:'deceased', text:'Died May 2023. Ruled suicide.\nNo charges.\nRole in facilitating Epstein White House access documented.' },
     ref:'House Oversight investigation · Wikipedia Connections' },
 
   { id:'pastrana', name:'Andrés Pastrana', title:'Former President of Colombia', sector:'political', status:'active', r:10,
     badges:['social','access'],
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     conn:'Former President of Colombia. Flew with Epstein on the Lolita Express to Cuba in 2003 to meet Fidel Castro.\nAppears in both the Epstein files and flight logs.\nCastro had invited Epstein; the trip was arranged through their shared networks.',
     cons:{ cls:'active', text:'No charges. No formal action.\nFlight to Cuba documented.' },
     ref:'Wikipedia List of people named · Flight logs' },
 
   { id:'aznar', name:'José María Aznar', title:'Former Prime Minister of Spain', sector:'political', status:'active', r:10,
     badges:['access'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Former Prime Minister of Spain. He and his wife Ana Botella received two parcels from Epstein in 2003 and 2004.\nContents of the packages not specified in the released files.\nListed in the DOJ politically exposed persons letter to Congress.',
     cons:{ cls:'active', text:'No charges. No formal action.\nPackages documented in files.' },
     ref:'Wikipedia List of people named · DOJ PEP letter Feb 2026' },
@@ -1746,14 +1830,14 @@ const people = [
 
   { id:'trivers', name:'Robert Trivers', title:'Biologist · evolutionary theorist', sector:'tech', status:'active', r:10,
     badges:['financial','social'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'American evolutionary and social biologist known for reciprocal altruism theory.\nFunded by Gordon Getty, whom Trivers introduced to Epstein in 2013 — characterising Epstein\'s crime as merely <em>&ldquo;providing protection to young women.&rdquo;</em>\nEpstein gave Trivers approximately $40,000 for his research.\nIn Dec 2018 Trivers emailed Epstein about funding, writing that Epstein had once said he would <em>&ldquo;never not support me.&rdquo;</em>\nIn 2015 defended Epstein to Reuters stating girls <em>&ldquo;mature sooner than they used to&rdquo;</em> and that he did not <em>&ldquo;see these acts as so heinous.&rdquo;</em>',
     cons:{ cls:'active', text:'No charges.\nPublicly defended Epstein\'s crimes in 2015 Reuters interview.\nFBI FinCEN investigation referenced in forensic corpus.' },
     ref:'rhowardstone/Epstein-research science report · Wikipedia List of people named' },
 
   { id:'goertzel', name:'Ben Goertzel', title:'AI researcher · Hanson Robotics chief scientist', sector:'tech', status:'active', r:11,
     badges:['financial','social'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'AI researcher and chief scientist at Hanson Robotics. Epstein gave Goertzel a $100,000 grant and additional funds over the following decade.\nBetween 2010 and 2015 Epstein\'s non-profits channelled at least $113,000 to Goertzel\'s company.\nThis made Goertzel eligible to secure over $1 million in grants from the Hong Kong government.\nThe two corresponded 2011–2018.',
     cons:{ cls:'active', text:'No charges.\nNo formal action.\nFunding from Epstein totalled $113,000+ over five years.' },
     ref:'Wikipedia List of people named' },
@@ -1767,49 +1851,49 @@ const people = [
 
   { id:'chaslin', name:'Frédéric Chaslin', title:'French conductor and composer', sector:'social', status:'active', r:10,
     badges:['alleged','access'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'French conductor and composer. In September 2013 wrote to Epstein: <em>"I found a great girl for your next stay in Paris. Philosophy student. 21."</em>\nAfter the email became public Chaslin claimed Epstein had asked him to recommend an interpreter for museum visits.\nThe student declined after learning of Epstein\'s conviction.',
     cons:{ cls:'active', text:'No charges. No formal action.\nEmail widely reported.' },
     ref:'Wikipedia List of people named · European press reporting' },
 
   { id:'fekkai', name:'Frédéric Fekkai', title:'Celebrity hairstylist', sector:'social', status:'active', r:10,
     badges:['alleged'],
-    travel:{plane:true, island:'unclear'},
+    travel:{plane:true, island:false},
     conn:'French celebrity hairstylist. In a 2016 deposition former Epstein assistant Johanna Sjoberg stated she heard a phone call in which Epstein asked the caller whether they could <em>"find some girls"</em> for Fekkai.\nAppears in Epstein flight logs travelling with others.',
     cons:{ cls:'active', text:'No charges. No formal action.\nAppearance in deposition testimony documented.' },
     ref:'EverybodyWiki Epstein list · Sjoberg deposition' },
 
   { id:'wasserman', name:'Casey Wasserman', title:'LA 2028 Olympics chair · Wasserman Media', sector:'finance', status:'stripped', r:11,
     badges:['social','postconv'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Sports and entertainment mogul. Chair of the LA 2028 Olympics organising committee.\nFound to have email correspondence with Maxwell in the early 2000s including flirtatious exchanges.\nChappell Roan and multiple major Wasserman Management artists publicly cut ties after his Maxwell emails became known.',
     cons:{ cls:'stripped', text:'Announced he would sell his stake in Wasserman Management following the Maxwell email revelations.\nNo charges.\nMultiple major clients departed.' },
     ref:'Britannica Epstein timeline · Boston University News Service · Wikipedia' },
 
   { id:'pinto', name:'Alberto & Linda Pinto', title:'Interior designers', sector:'social', status:'active', r:10,
     badges:['financial','social'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Sibling interior designers who were paid millions by Epstein over many years.\nDesigned Epstein\'s Manhattan townhouse when it was owned by Wexner, and continued as his designers for other properties.\nShared birthday greetings and dinners with Epstein including a dinner with Maxwell and Virginia Giuffre.\nEpstein introduced them to other wealthy potential clients.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Wikipedia List of people named' },
 
   { id:'seckel', name:'Al Seckel', title:'Cognitive scientist · Epstein associate', sector:'legal', status:'active', r:10,
     badges:['enabler','access'],
-    travel:{plane:'unclear', island:true},
+    travel:{plane:false, island:true},
     conn:'Cognitive scientist and husband of Isabel Maxwell — Ghislaine\'s sister.\nWorked for Epstein as an event coordinator, a hacker, and a paid Wikipedia editor.\nOrganised the 2011 "Mindshift" science conference on Little Saint James island.\nOrchestrated Epstein\'s science legitimacy programme — arranging conferences, editing Wikipedia entries about Epstein, and curating his intellectual image.',
     cons:{ cls:'active', text:'No charges.\nRole as paid Wikipedia editor for Epstein documented.\nOrganised island conference.' },
     ref:'Wikipedia Connections of Epstein · rhowardstone/Epstein-research' },
 
   { id:'drokova', name:'Maria Drokova', title:'Russian investor · venture capitalist', sector:'finance', status:'active', r:10,
     badges:['access'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Russian investor and venture capitalist. Appeared in the files to have done public relations work for Epstein.\nIn 2017 contacted a Science magazine journalist presenting as Epstein\'s publicist.\nSelected "suitable" journalists for publications about Epstein.\nTold journalist Seth Hettena this was a one-time unpaid service.',
     cons:{ cls:'active', text:'No charges. No formal action.\nPR activities for Epstein documented in files.' },
     ref:'Wikipedia List of people named' },
 
   { id:'botstein', name:'Leon Botstein', title:'Bard College president', sector:'tech', status:'active', r:11,
     badges:['financial','social','postconv'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Longstanding president of Bard College.\nMet Epstein numerous times after his 2008 conviction actively soliciting donations.\nEpstein donated $75,000 to Bard in 2011.\nBotstein invited Epstein to a 2013 opera and 2016 concert — Epstein planned to bring young female assistants by helicopter.\nIn 2016 Botstein received $150,000 from Epstein routed through Gratitude America, an Epstein foundation.\nEpstein connected Botstein to Woody Allen\'s daughter to gain her Bard admission.',
     cons:{ cls:'active', text:'No charges.\nReceived $225,000 total from Epstein post-conviction.\nHad security on standby at Bard events due to Epstein\'s record.' },
     ref:'Wikipedia List of people named' },
@@ -1818,49 +1902,49 @@ const people = [
 
   { id:'marcrowan', name:'Marc Rowan', title:'Apollo Global Management CEO', sector:'finance', status:'active', r:10,
     badges:['financial'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Co-founder and current CEO of Apollo Global Management alongside Leon Black.\nIn March 2026 shareholders sued Apollo, Leon Black, and Rowan in a proposed class action related to the Epstein file revelations and Black\'s $170M payments to Epstein.\nRowan\'s own documented connection to Epstein is limited but he has faced governance scrutiny.',
     cons:{ cls:'active', text:'Named in shareholder class action Mar 2026 alongside Black.\nNo personal charges.' },
     ref:'Wikipedia List of people named · Reuters Mar 2026' },
 
   { id:'chopra', name:'Deepak Chopra', title:'New Age guru · author', sector:'social', status:'stripped', r:11,
     badges:['social','postconv'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'New Age author and alternative medicine advocate. Met with Epstein at least a dozen times 2016–2019 — post-conviction.\nIn July 2016 asked Epstein if he knew Trump\'s ex-wife Marla Maples; Epstein replied he had lost a $10,000 bet with Trump when Maples became pregnant.\nIn Nov 2016 Epstein sent Chopra a story claiming a woman fabricated assault allegations against Trump and Epstein; Chopra responded "Good."\nWhen civil charges against Epstein were dropped Chopra responded "Good."',
     cons:{ cls:'stripped', text:'University of California San Diego ended his affiliation by end of June 2026.\nNo charges.' },
     ref:'Wikipedia List of people named · Vazquez 2026' },
 
   { id:'staceyp', name:'Stacey Plaskett', title:'USVI congressional delegate', sector:'political', status:'active', r:10,
     badges:['access'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'US Virgin Islands congressional delegate. During a 2019 House Oversight hearing with Michael Cohen, Epstein texted Plaskett real-time.\nComparing the texts with hearing video shows that minutes after Epstein suggested Plaskett ask Cohen questions about the Trump Organisation, Plaskett posed similar questions.\nEpstein had unusual access to a sitting delegate during a nationally televised hearing.',
     cons:{ cls:'active', text:'No charges. No formal action.\nHouse censure motion failed.\nPlaskett denied the texts constituted coordination.' },
     ref:'NPR Nov 2025 · Britannica · Wikipedia Epstein files' },
 
   { id:'dchr', name:'DiChristina / Sci Am', title:'Mariette DiChristina · Boston University dean', sector:'tech', status:'active', r:10,
     badges:['access'],
-    travel:{plane:'unclear', island:true},
+    travel:{plane:false, island:true},
     conn:'Then-editor-in-chief of Scientific American, now dean of Boston University\'s College of Communications.\nCorresponded with Epstein 2014–2015 after Lawrence Krauss introduced them.\nEpstein had expressed interest in understanding how Scientific American identified innovations for coverage.\nName appeared on an Epstein guest list for his island — sent among files released Jan 2026.\nStated she met Epstein as she had others interested in learning about science editing.',
     cons:{ cls:'active', text:'No charges. No formal action.\nBoston University reported no personnel action.' },
     ref:'Scientific American Feb 2026 · Boston University News Service Feb 2026' },
 
   { id:'davidblaine', name:'David Blaine', title:'American illusionist', sector:'social', status:'active', r:11,
     badges:['social','access','postconv'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'American illusionist. Files showed years-long correspondence with Epstein and regular dinners 2012–2016 — post-conviction.\nIn 2015 agreed to write a letter of support for a US visa application for an unidentified woman.\nIn 2013 Epstein asked if Blaine\'s "French girl" was in town.\nDuring Blaine\'s 2014 South Africa tour Epstein offered to find him a new "assistant."',
     cons:{ cls:'active', text:'No charges. No formal action.\nVisa letter writing documented.' },
     ref:'Wikipedia List of people named' },
 
   { id:'lavrov', name:'Sergey Lavrov', title:'Russian Foreign Minister', sector:'political', status:'active', r:10,
     badges:['access'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'Russian Foreign Minister since 2004. Epstein sought to arrange a meeting with Lavrov via Thorbjørn Jagland in 2018 — Jagland appears to have agreed to facilitate.\nAfter Vitaly Churkin\'s death in 2017 Epstein offered his insights about Trump to Lavrov and Putin.\nNo evidence that Epstein ever actually met Lavrov.',
     cons:{ cls:'active', text:'No charges. No documented direct meeting with Epstein.\nRussian government declined to comment.' },
     ref:'Euronews Mar 2026 · Axios Feb 2026 · Wikipedia Connections of Epstein' },
 
   { id:'gordon', name:'Jeff Gordon', title:'NASCAR driver', sector:'social', status:'active', r:9,
     badges:['social'],
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     conn:'NASCAR driver. Name appears in the Epstein address book and files.\nContext of appearance is limited in public reporting — likely social contact through Epstein\'s broad elite sports and entertainment network.',
     cons:{ cls:'active', text:'No charges. No formal action. Incidental mention.' },
     ref:'DOJ PEP letter Feb 2026 · address book' },
@@ -1870,77 +1954,77 @@ const people = [
   // ── NEW ADDITIONS: reaching 130 ──
 
   { id:'farkas', name:'Andrew Farkas', title:'Real estate developer · Island Global Yachting', sector:'finance', status:'active', r:11,
-    travel:{plane:'unclear', island:true},
+    travel:{plane:false, island:true},
     badges:['financial','social','postconv'],
     conn:'American real estate developer. Co-owned a marina with Epstein in St Thomas, US Virgin Islands.\nExchanged crude emails about women in 2010.\nIn a 2018 note told Epstein he loved him and considered him one of his best friends, signing off <em>&ldquo;xoxo.&rdquo;</em>\nStayed on Epstein\'s island.\nA spokeswoman stated Farkas &ldquo;regrets their association&rdquo; and characterised it as purely business-related.',
     cons:{ cls:'active', text:'No charges. No formal action.\nCo-ownership of St Thomas marina with Epstein documented.\nIsland visit confirmed in files.' },
     ref:'Wikipedia List of people named · NYT Dec 2025 · EverybodyWiki' },
 
   { id:'previn', name:'Soon-Yi Previn', title:'Woody Allen\'s wife', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Wife of Woody Allen. Maintained email correspondence with Epstein.\nRepeatedly stated the MeToo movement had <em>&ldquo;gone too far.&rdquo;</em>\nDescribed a 15-year-old victim of Anthony Weiner as <em>&ldquo;despicable and disgusting&rdquo;</em> and blamed the victim.\nA Jan 2017 email from Allen\'s account but apparently written by Previn reads: <em>&ldquo;I can\'t thank you enough for getting Bechet into Bard.&rdquo;</em> — Epstein had arranged their daughter\'s Bard College admission via Leon Botstein.',
     cons:{ cls:'active', text:'No charges. No formal action.' },
     ref:'Wikipedia List of people named · Britannica Epstein timeline' },
 
   { id:'elbegdorj', name:'Tsakhiagiin Elbegdorj', title:'President of Mongolia 2009–2017', sector:'political', status:'active', r:11,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','access'],
     conn:'Former Prime Minister and President of Mongolia.\nEpstein hosted a dinner for Elbegdorj, Ehud Barak, and Terje Rød-Larsen at his Manhattan townhouse in September 2015.\nEpstein had connections to the Mongolia Advisory Board linked to the International Peace Institute (Rød-Larsen\'s organisation).\nDocuments show Epstein used his network to explore Mongolian business opportunities and helped broker a security agreement between Mongolia and Israel.',
     cons:{ cls:'active', text:'No charges. No formal action.\nDinner with Epstein, Barak and Rød-Larsen documented.' },
     ref:'Wikipedia List of people named · EverybodyWiki' },
 
   { id:'tisch', name:'Steve Tisch', title:'New York Giants co-owner · film producer', sector:'finance', status:'stripped', r:12,
-    travel:{plane:'unclear', island:false},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'Co-owner and executive VP of the New York Giants NFL franchise.\nNamed more than 400 times in the released files.\nOne document shows Tisch asking Epstein whether women were <em>&ldquo;pro or civilian.&rdquo;</em>\nIn Jan 2026 told ESPN: <em>&ldquo;We had a brief association where we exchanged emails about adult women, and in addition we discussed movies, philanthropy, and investments.&rdquo;</em>\nDenied visiting Epstein\'s island.',
     cons:{ cls:'stripped', text:'NFL announced Feb 2 2026 it would investigate Tisch\'s Epstein connections.\nNo charges.\nRemains Giants co-owner but under NFL review.' },
     ref:'Wikipedia List of people named · CNBC Feb 2026 · ESPN Jan 2026' },
 
   { id:'delson', name:'Lawrence Delson', title:'Fashion Institute of Technology professor', sector:'tech', status:'stripped', r:9,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','social'],
     conn:'Professor at the Fashion Institute of Technology.\nCorresponded with Epstein for several years, with emails showing mutual expressions of cherished friendship.\nFiles revealed financial transfers between them whose context remains unclear.',
     cons:{ cls:'stripped', text:'Suspended by FIT following file revelations.\nFIT launched an internal investigation.\nNo charges.' },
     ref:'Wikipedia List of people named' },
 
   { id:'dejongh', name:'John de Jongh Jr.', title:'US Virgin Islands Governor 2007–2015', sector:'political', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial','access'],
     conn:'Former Governor of the United States Virgin Islands — the jurisdiction where Epstein\'s Little St James island was located.\nEmails show Epstein paid university tuition for de Jongh\'s children from 2008 to 2009 across multiple institutions.\nAfter his wife Cecile thanked Epstein in June 2009 Epstein described the payments as <em>&ldquo;a treat&rdquo;</em> and said <em>&ldquo;It\'s as if I had my own kids in college.&rdquo;</em>',
     cons:{ cls:'active', text:'No charges. No formal action.\nTuition payments from Epstein documented — significant given his oversight role in the USVI where Epstein operated.' },
     ref:'Wikipedia List of people named · EverybodyWiki' },
 
   { id:'hanson', name:'David Hanson', title:'Hanson Robotics founder · Sophia robot creator', sector:'tech', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['financial'],
     conn:'Founder of Hanson Robotics and creator of the Sophia AI robot.\nWorked alongside Ben Goertzel and both solicited significant funding from Epstein for the Sophia project.\nEpstein invested in AI and robotics as part of his science legitimacy strategy.',
     cons:{ cls:'active', text:'No charges. No formal action.\nFunding from Epstein documented.' },
     ref:'Wikipedia List of people named · EverybodyWiki' },
 
   { id:'ratner', name:'Brett Ratner', title:'Film director', sector:'social', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['social'],
     conn:'Hollywood film director. Named in the Epstein files. Mentioned in Al Jazeera\'s comprehensive breakdown of prominent individuals in the files, in the context of his social connections with Epstein.',
     cons:{ cls:'active', text:'No charges related to Epstein. Separately faced sexual misconduct allegations in 2017 unrelated to Epstein.' },
     ref:'Al Jazeera Feb 2026 visual guide' },
 
   { id:'warsh', name:'Kevin Warsh', title:'Federal Reserve chair nominee · former Fed governor', sector:'finance', status:'active', r:10,
-    travel:{plane:'unclear', island:'unclear'},
+    travel:{plane:false, island:false},
     badges:['access'],
     conn:'Former Federal Reserve governor and 2026 nominee to chair the Federal Reserve.\nName appeared on a guest list for a St Barth\'s Christmas 2010 event hosted or attended by Epstein.',
     cons:{ cls:'active', text:'No charges. No formal action.\nAppearance on Epstein\'s St Barth\'s guest list documented.' },
     ref:'Britannica Epstein timeline Jan 2026' },
 
   { id:'melania', name:'Melania Trump', title:'First Lady of the United States', sector:'social', status:'active', r:11,
-    travel:{plane:'unclear', island:false},
+    travel:{plane:false, island:false},
     badges:['social','postconv'],
     conn:'First Lady and wife of Donald Trump. Named in the released Epstein files.\nOct 23 2002 email to Ghislaine Maxwell authenticated in the EFTA corpus (EFTA02332411): praised a New York Magazine profile of Epstein, complimented a photo of Maxwell, signed off <em>"Love, Melania."</em> Maxwell replied calling her <em>"sweet pea."</em>\nAppears in a Feb 12 2000 photograph with Trump, Epstein, and Maxwell at Mar-a-Lago.\nApr 9 2026: Delivered unscheduled White House statement denying all meaningful Epstein ties. Acknowledged the Maxwell email but called it <em>"casual correspondence"</em> and a <em>"trivial note."</em>\nStated Epstein did not introduce her to Trump and she first crossed paths with him in 2000.\nCalled on Congress to hold public hearings for Epstein survivors — directly contradicting the administration\'s move-on messaging.\nHer legal team previously forced the Daily Beast to retract a story on her Epstein ties.',
     cons:{ cls:'active', text:'No charges. No formal action.\nApr 9 2026 White House statement created an on-record denial that is now relevant to the Wolff v. Melania Trump anti-SLAPP proceedings.\nGloria Allred has called on her to testify before Congress.' },
     ref:'EFTA02332411 · CNBC Apr 9 2026 · CNN Apr 9 2026 · Snopes fact-check Apr 2026 · White House transcript Apr 9 2026' },
 
   { id:'bondi', name:'Pam Bondi', title:'US Attorney General 2025–2026 (fired)', sector:'legal', status:'removed', r:11,
-    travel:{plane:'unclear', island:false},
+    travel:{plane:false, island:false},
     badges:['legal','access'],
     conn:'87th US Attorney General, February 2025 – April 2026.\nDirect documented role in handling and suppression of the Epstein EFTA file release.\nFeb 21 2025: Told Fox News an Epstein client list was <em>&ldquo;sitting on my desk right now to review&rdquo;</em> — DOJ later stated no such list existed, triggering the congressional push for the EFTA.\nOversaw the DOJ\'s release process including: missed Dec 19 statutory deadline; 500+ entirely blacked-out pages; Trump photos cropped from releases; 16 prosecution memos withheld as \'duplicative\' then backfilled 35 days after declaring the release final.\nHouse Oversight Committee subpoenaed her to testify about Epstein file mismanagement — subpoena outstanding at time of firing.\nFired Apr 2 2026 by Trump. Multiple sources confirmed Epstein files handling was primary cause.\nWhite House chief of staff Susie Wiles had acknowledged Bondi <em>&ldquo;completely whiffed&rdquo;</em> on the Epstein files.\nOnly ~2% of total Epstein data released under her tenure.',
     cons:{ cls:'removed', text:'Fired as Attorney General Apr 2 2026.\nEpstein files handling cited as primary cause by multiple White House sources.\nHouse Oversight subpoena unresolved at time of firing. Rep. Garcia: "Bondi and Trump may think her firing gets her out of testifying. They are wrong."\nNo criminal charges.' },
@@ -2063,13 +2147,149 @@ function forceCluster() {
   };
 }
 
+const TIER = {
+  'chopra': 2,
+  'wexner': 1,
+  'gates': 2,
+  'ariely': 2,
+  'maxwell': 1,
+  'sulayem': 2,
+  'jarecki': 1,
+  'pritzker': 1,
+  'weinstein': 1,
+  'jagland': 2,
+  'rodlarsen': 2,
+  'churkin': 2,
+  'andersson': 1,
+  'dagostino': 1,
+  'razek': 2,
+  'dougband': 2,
+  'pastrana': 2,
+  'gordongety': 2,
+  'goertzel': 2,
+  'chaslin': 2,
+  'wasserman': 2,
+  'seckel': 1,
+  'botstein': 2,
+  'dchr': 2,
+  'lavrov': 3,
+  'farkas': 2,
+  'previn': 3,
+
+  'ep': 0,
+  'trump': 2,
+  'clinton': 2,
+  'barak': 1,
+  'mandelson': 1,
+  'bannon': 2,
+  'barr': 2,
+  'lutnick': 2,
+  'ruemmler': 2,
+  'oz': 3,
+  'feinberg': 3,
+  'rfk': 2,
+  'barrack': 3,
+  'acosta': 1,
+  'staley': 1,
+  'black': 1,
+  'dubin': 2,
+  'dershowitz': 1,
+  'erdoes': 2,
+  'summers': 1,
+  'musk': 3,
+  'thiel': 2,
+  'ito': 1,
+  'hoffman': 2,
+  'church': 2,
+  'nowak': 3,
+  'attia': 2,
+  'axel': 2,
+  'brunel': 1,
+  'kellen': 1,
+  'groff': 1,
+  'andrew': 1,
+  'ferguson': 2,
+  'allen': 2,
+  'branson': 2,
+  'chomsky': 2,
+  'brende': 3,
+  'boehly': 3,
+  'burns': 1,
+  'giuffre': 1,
+  'brockman': 2,
+  'bach': 2,
+  'ambani': 1,
+  'juul': 3,
+  'metteMarit': 2,
+  'jacklang': 2,
+  'lajcak': 3,
+  'ariane': 2,
+  'belyakov': 3,
+  'candy': 3,
+  'pinker': 2,
+  'krauss': 1,
+  'minsky': 2,
+  'lloyd': 2,
+  'zuckerberg': 3,
+  'brin': 2,
+  'dawkins': 3,
+  'kamen': 2,
+  'dbrooks': 3,
+  'copperfield': 2,
+  'cosby': 1,
+  'wolff': 2,
+  'briatore': 3,
+  'siegal': 2,
+  'harris': 2,
+  'baron': 2,
+  'bradkarp': 3,
+  'boyden': 3,
+  'randall': 1,
+  'christakis': 3,
+  'gelernter': 2,
+  'horner': 2,
+  'kosslyn': 2,
+  'wolfe': 3,
+  'hillis': 3,
+  'damasio': 3,
+  'richardson': 1,
+  'middleton': 3,
+  'aznar': 3,
+  'trivers': 3,
+  'rmax': 2,
+  'fekkai': 2,
+  'pinto': 1,
+  'drokova': 2,
+  'marcrowan': 3,
+  'staceyp': 3,
+  'davidblaine': 3,
+  'gordon': 2,
+  'elbegdorj': 3,
+  'tisch': 2,
+  'delson': 3,
+  'dejongh': 3,
+  'hanson': 3,
+  'ratner': 3,
+  'warsh': 3,
+  'melania': 3,
+  'bondi': 2,
+};
+
 const sim = d3.forceSimulation(PEOPLE)
   .force('link', d3.forceLink(links).id(d=>d.id).distance(d => {
-    const tgt = PEOPLE.find(p => p.id === (d.target.id||d.target));
-    return 80 + (tgt ? (20 - tgt.r) : 0);
-  }).strength(0.25))
-  .force('charge', d3.forceManyBody().strength(-220))
-  .force('collision', d3.forceCollide(d => d.r + 12))
+    const tid = d.target.id || d.target;
+    const t = TIER[tid] || 3;
+    return t === 1 ? 95 : t === 2 ? 185 : 290;
+  }).strength(d => {
+    const tid = d.target.id || d.target;
+    const t = TIER[tid] || 3;
+    return t === 1 ? 0.85 : t === 2 ? 0.45 : 0.2;
+  }))
+  .force('charge', d3.forceManyBody().strength(d => {
+    const t = TIER[d.id] || 3;
+    return t === 0 ? -900 : t === 1 ? -240 : t === 2 ? -140 : -90;
+  }))
+  .force('collision', d3.forceCollide(d => d.r + 10))
   .force('cluster', forceCluster())
   .force('bounds', () => {
     PEOPLE.forEach(p => {
@@ -2099,7 +2319,7 @@ const nodeEls = nG.selectAll('g').data(PEOPLE).join('g')
     .on('end',  (e,d)=>{ if(!e.active)sim.alphaTarget(0); if(d.id!=='ep'){d.fx=null;d.fy=null;} }));
 
 nodeEls.append('circle')
-  .attr('r', d => d.r)
+  .attr('r', d => { const t = TIER[d.id]||3; return t===0 ? d.r : t===1 ? d.r*1.5 : t===2 ? d.r*1.2 : d.r*0.95; })
   .attr('fill', d => STATUS_COLOR[d.status] || '#888')
   .attr('fill-opacity', d => d.id === 'ep' ? 0.9 : 0.12)
   .attr('stroke', d => STATUS_COLOR[d.status] || '#888')
@@ -2295,8 +2515,8 @@ document.getElementById('search-box').addEventListener('input', function() {
 <!-- PAGE: TIMELINE -->
 <div id="page-timeline" class="page-section">
 <header>
-  <div class="eyebrow">Public Record · Mar 2026</div>
-  <h1>The Resident Representatives &amp; Affiliates</h1>
+  <div class="eyebrow">Public Record · Updated Apr 2026</div>
+  <h1>Trump Timeline</h1>
   <p class="deck"><strong>The Three Tracks</strong></p>
   <ul class="deck-list">
     <li>The administration's official version of events.</li>
@@ -3283,6 +3503,14 @@ window.addEventListener('resize', function() {
     buildMobileList('');
   }
 });
+
+
+function openAbout() {
+  document.getElementById('about-overlay').classList.add('open');
+}
+function closeAbout() {
+  document.getElementById('about-overlay').classList.remove('open');
+}
 
 function showPage(name, btn) {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));

@@ -177,3 +177,65 @@ Previous "122" count was inflated by 7 duplicate/placeholder nodes. After cleanu
 
 ### Note on Ivanka / DOAC
 - Ivanka Trump appeared on Diary of a CEO Apr 9 — personal/family content only, no Epstein material. Not added to the ledger.
+
+---
+
+## 2026-04-23 — v1.3 · Proximity tiers, About modal, Epstein Exposed, travel data audit
+
+### Renamed: The Resident Representatives → Trump Timeline
+- Nav button, page H1, browser title, and GA tracking label all updated
+- Internal page ID (`page-timeline`) unchanged for stability
+- All future references use Trump Timeline
+
+### New: Proximity tier system
+The diagram now encodes relationship closeness through node distance and size — nodes physically closer to Epstein had more direct documented contact.
+
+**Three tiers based on editorial judgement:**
+- **Tier 1 — Innermost (28 nodes):** Direct operational role, enabler badge, or both plane AND island confirmed. Nodes render at 1.5× base size, pulled to ~95px from centre. Includes Maxwell, Wexner, Staley, Black, Pritzker, Barak, Brunel, Kellen, Groff, Dershowitz, Acosta, Ito, Krauss, Summers, Andersson, D'Agostino, Jarecki, Seckel, Weinstein and others.
+- **Tier 2 — Mid orbit (59 nodes):** Plane OR island confirmed, OR sustained post-conviction contact, OR postconv+financial relationship, OR direct legal involvement. Rendered at 1.2× base size, ~185px from centre. Includes Trump, Clinton, Bannon, Gates, Hoffman, Brin, Branson, Mandelson, Chopra, Attia, Siegal, Tisch, Mette-Marit, Sulayem and others.
+- **Tier 3 — Peripheral (36 nodes):** Social access, single events, correspondence only. Rendered at 0.95× base size, ~290px from centre. Includes Oz, Feinberg, Musk, Zuckerberg, Boehly, Lavrov, Previn, Dawkins, Briatore and others.
+
+**D3 physics updated:** Link distances and strengths weighted by tier. Charge repulsion also tier-scaled so inner nodes cluster more tightly.
+
+**Editorial overrides applied:** Several nodes moved from Tier 3 to Tier 2 after review — Chopra (dozen post-conviction meetings, publicly defended Epstein), Attia (1,700+ file references, "can't tell a soul" email), Siegal (post-conviction social rehabilitation node), Mette-Marit (close 2011–2014 friendship, Palm Beach stays), Tisch (400+ references), Gelernter, Kosslyn.
+
+### New: Proximity legend
+Collapsible "Proximity key ▾" toggle added to the toolbar. Shows three labelled circles explaining tier meaning. Closed by default, expands inline.
+
+### New: About modal
+"About" button added to nav bar (right-aligned). Opens a modal with the project's curatorial statement and a warm acknowledgment of Epstein Exposed. Click outside or × to close.
+
+> *"The Island Ledger is a curatorial project — not a research database. It exists to make 120+ documented connections legible at a glance: who was involved, what sector they operated in, and whether anyone faced consequences. Every entry is sourced to primary documents.*
+>
+> *If you want to go deeper into the raw record — 2.1 million searchable documents, 1,713 persons, full flight logs, and original EFTA filings — the best resource available is Epstein Exposed, a remarkable one-person public interest project that has done extraordinary work making the primary sources accessible. I use it. I recommend it without reservation.*
+>
+> *— Elena / Cyramatique"*
+
+### New: Epstein Exposed links in every dossier panel
+Every dossier now has two outbound research links:
+- **Search Epstein Exposed ↗** — links directly to the person's profile page on epsteinexposed.com
+- **Search in DOJ files ↗** — existing Pinpoint link (unchanged)
+
+### Travel data audit — 82 nodes updated
+Full cross-reference against confirmed reporting (CNN Mar 2026, Wikipedia Little Saint James, Bloomberg FCA filings, court records). Replaced 'unclear' with sourced values for 82 nodes.
+
+**Key corrections:**
+- Staley: island → `true` (FCA tribunal: stayed on island 2005/6 and 2009)
+- Summers: island → `true` (CNN: spent less than a day on island on honeymoon 2005)
+- Black: island → `true` (CNN: "picnic lunch" with family)
+- Branson: island → `true` (CNN: toured island 90 mins 2013 — his own boat)
+- Mandelson: island → `true` (CNN: spent 1–2 nights)
+- Brin: island → `true` (CNN: spent a day with fiancée Wojcicki)
+- Barak: island → `true` (Wikipedia: multiple visits 2014–2015)
+- Wexner: island → `true` (congressional deposition Feb 2026)
+- Pritzker: island → `true` (emails documented in CNBC Feb 2026)
+- Krauss: island → `true` (organised 2006 island physics conference)
+- 50+ peripheral figures: both set to `false` (confirmed correspondence/meetings only)
+
+**Editorial note:** Island = Little Saint James only. Zorro Ranch (New Mexico) visits for Horner, Boyden, Staley treated separately — only Little Saint James counts as island `true`.
+
+### CSV updated
+- New `proximity_tier` column added (column 7)
+- All travel data updated to reflect audit
+- 124 rows, 11 columns
+
