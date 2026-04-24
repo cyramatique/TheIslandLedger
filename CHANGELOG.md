@@ -239,3 +239,42 @@ Full cross-reference against confirmed reporting (CNN Mar 2026, Wikipedia Little
 - All travel data updated to reflect audit
 - 124 rows, 11 columns
 
+
+---
+
+## 2026-04-24 — v1.4 · An Illegal War + The Money + Trump Timeline restructure
+
+### Trump Timeline restructured
+- **The Epstein Files** tab renamed from "Timeline" — houses all existing Epstein accountability entries
+- **Legal Track** remains as a tab (moved to rightmost position)
+- Two new tabs added: **An Illegal War** and **The Money**
+
+### New tab: An Illegal War (14 documented entries)
+Chronological record of Trump's public statements about Operation Epic Fury cross-referenced against what actually happened and market movements triggered. Key entries:
+
+- **Feb 28 2026** — Operation Epic Fury begins. Khamenei assassinated. Strait of Hormuz closed. Oil +18% in 48hrs.
+- **Feb 24 2026** — State of the Union: Iran "restarted nuclear program." Contradicts Trump's own prior statements and US intelligence. NCTC director later resigned citing this.
+- **Mar 1** — "Four to five weeks." War entered week 8 with no resolution.
+- **Mar 5** — "Far ahead of schedule." No schedule had been publicly defined.
+- **Mar 7** — Victory declared on Truth Social. Iran attacking US bases same week.
+- **Mar 9** — "Very complete, pretty much." Oil futures bets on price falling surge 47 mins later (BBC confirmed).
+- **Mar 23 · 6:49am** — $580M in oil futures change hands in two minutes. 16 minutes before Trump's Truth Social post. Average for same window: 700 contracts.
+- **Mar 23 · 7:05am** — "Productive conversations" with Iran. Iran denied any contact.
+- **Mar 30** — "New and more reasonable regime." Posted 2hrs before markets open. S&P +$900B market cap.
+- **Apr 1** — Ceasefire requested by Iran (Iran denied). "Stone Ages" threat. Duration claim #4.
+- **Apr 7–8** — Ceasefire announced. 50+ first-time Polymarket accounts bet on exact outcome hours prior.
+- **Apr 20** — "Lots of bombs start going off" if ceasefire expires. Extended ceasefire instead.
+- **Apr 21** — CNBC: "I thought oil would be much higher." Goldman PCE +1pt, GDP -0.5pt.
+- **Apr 23** — Shoot-to-kill order on Iranian boats. Issued during active ceasefire.
+
+### New tab: The Money (6 documented connections)
+- **$580M futures spike** — CME data confirmed by FT and Bloomberg. Identity unknown. SEC enforcement chief resigned.
+- **Polymarket / Trump Jr.** — 50+ first-time accounts bet on Apr 7 ceasefire. Polymarket partly backed by Trump Jr. AP verified via blockchain/Dune.
+- **Eric & Don Jr. — drone companies** — invested in Pentagon drone contractors during drone-intensive war.
+- **Jared Kushner — Gulf fundraising** — Iran envoy simultaneously raising billions from Gulf governments entangled in the war.
+- **Dismantled enforcement** — DOJ Public Integrity 36 lawyers → 2. SEC enforcement chief resigned. 159 enforcement actions cancelled. No investigation opened into Mar 23 trades.
+- **Venezuela precedent** — identical Polymarket pattern preceded Iran. Pattern confirmed across two military actions.
+
+### Sources
+PBS PolitiFact · FT · Bloomberg · AP · Reuters · Axios · Salon · Futurism · New Republic · Common Dreams · Mirror US · BBC market analysis · The Kobeissi Letter · New Yorker · Wikipedia 2026 Iran war · Britannica
+

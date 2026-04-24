@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Island Ledger</title>
+<title>The Island Ledger & Trump Timeline — Cyramatique</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -507,6 +507,12 @@ body::before {
   /* ══════════════════════════════
      TAB PANELS
   ══════════════════════════════ */
+
+  .tab-btn.war-tab   .tab-pill { background: rgba(139,32,32,.1); color: #8B2020; }
+  .tab-btn.money-tab .tab-pill { background: rgba(27,58,107,.1); color: #1B3A6B; }
+  .tab-btn.active.war-tab   { border-bottom-color: #8B2020; }
+  .tab-btn.active.money-tab { border-bottom-color: #1B3A6B; }
+
   .tab-panel { display: none; padding-bottom: 100px; }
   .tab-panel.active { display: block; }
 
@@ -1035,9 +1041,9 @@ body::before {
 <div id="about-overlay" onclick="if(event.target===this)closeAbout()">
   <div id="about-modal">
     <button id="about-close" onclick="closeAbout()">×</button>
-    <p>The Island Ledger is a curatorial project - not a research database. It exists to make 120+ documented connections legible at a glance: who was involved, what sector they operated in, and whether anyone faced consequences. Every entry is sourced to primary documents.</p>
-    <p>If you want to go deeper into the raw record - 2.1 million searchable documents, 1,713 persons, full flight logs, and original EFTA filings - the best resource available is <a href="https://epsteinexposed.com" target="_blank" rel="noopener noreferrer">Epstein Exposed</a>, a remarkable one-person public interest project that has done extraordinary work making the primary sources accessible. I use it. I recommend it without reservation.</p>
-    <p class="about-sig">— Elina / Cyramatique</p>
+    <p>The Island Ledger is a curatorial project — not a research database. It exists to make 120+ documented connections legible at a glance: who was involved, what sector they operated in, and whether anyone faced consequences. Every entry is sourced to primary documents.</p>
+    <p>If you want to go deeper into the raw record — 2.1 million searchable documents, 1,713 persons, full flight logs, and original EFTA filings — the best resource available is <a href="https://epsteinexposed.com" target="_blank" rel="noopener noreferrer">Epstein Exposed</a>, a remarkable one-person public interest project that has done extraordinary work making the primary sources accessible. I use it. I recommend it without reservation.</p>
+    <p class="about-sig">— Elena / Cyramatique</p>
   </div>
 </div>
 
@@ -2526,9 +2532,11 @@ document.getElementById('search-box').addEventListener('input', function() {
 </header>
 
 <div class="tab-bar">
-  <button class="tab-btn active"        onclick="switchTab('timeline',this)">Timeline <span class="tab-pill">20 entries</span></button>
-  <button class="tab-btn legal-tab"     onclick="switchTab('legal',this)">Legal Track <span class="tab-pill">10 proceedings</span></button>
-  <button class="tab-btn docs-tab"      onclick="switchTab('docs',this)">Document Record <span class="tab-pill">8 claims</span></button>
+  <button class="tab-btn active"         onclick="switchTab('timeline',this)">The Epstein Files <span class="tab-pill">21 entries</span></button>
+  <button class="tab-btn war-tab"        onclick="switchTab('war',this)">An Illegal War <span class="tab-pill">24 statements</span></button>
+  <button class="tab-btn money-tab"      onclick="switchTab('money',this)">The Money <span class="tab-pill">6 connections</span></button>
+  <button class="tab-btn docs-tab"       onclick="switchTab('docs',this)">Document Record <span class="tab-pill">8 claims</span></button>
+  <button class="tab-btn legal-tab"      onclick="switchTab('legal',this)">Legal Track <span class="tab-pill">10 proceedings</span></button>
 </div>
 
 <!-- ══════════════════════
@@ -2813,6 +2821,413 @@ document.getElementById('search-box').addEventListener('input', function() {
 <!-- ══════════════════════
      TAB 2 — LEGAL TRACK
 ══════════════════════ -->
+<div id="tab-war" class="tab-panel">
+  <div class="docs-panel-wrap">
+    <p class="docs-intro">Operation Epic Fury began February 28 2026. What follows is a documented record of Trump's public statements about the war — cross-referenced against what actually happened. Each entry notes the market movement the statement triggered. Sources: PBS PolitiFact, FT, Bloomberg, AP, Reuters, Wikipedia.</p>
+
+    <div class="claim-block" id="war-1">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Feb 28 2026</div>
+        <div class="claim-who">Truth Social / White House · Operation Epic Fury begins</div>
+      </div>
+      <div class="claim-quote">"The United States, together with our great ally Israel, have launched a historic and necessary military campaign against the Iranian regime."</div>
+      <div class="ev-card" style="border-left:3px solid #8B2020">
+        <div class="ev-text"><strong>What happened:</strong> US and Israeli airstrikes hit Iran. Supreme Leader Khamenei assassinated in opening wave. Iran closed the Strait of Hormuz. Oil surged toward $120/barrel. S&P futures fell sharply on open.</div>
+        <div class="ev-verdict" style="color:#8B2020">Market: Oil ↑ ~18% within 48hrs · S&P ↓ 2.1% open Feb 28</div>
+        <div class="ev-ref">PBS · Wikipedia 2026 Iran war · Bloomberg Feb 28 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-2">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Mar 1 2026</div>
+        <div class="claim-who">Speech · Duration claim #1</div>
+      </div>
+      <div class="claim-quote">"Combat operations continue at this time in full force, and they will continue until all of our objectives are achieved." Asked how long: "We intended four to five weeks."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> War is still ongoing as of late April 2026 — approaching two months. Iran denied any negotiations were underway.</div>
+        <div class="ev-verdict" style="color:#8B2020">Contradiction: War entered week 8 with no resolution. Four-to-five week claim abandoned without acknowledgement.</div>
+        <div class="ev-ref">NYT Mar 1 2026 · PBS PolitiFact Apr 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-3">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Mar 5 2026</div>
+        <div class="claim-who">Inter Miami event · Progress claim</div>
+      </div>
+      <div class="claim-quote">"The United States military, together with the wonderful Israeli partners, continues to totally demolish the enemy far ahead of schedule and at levels that people have never seen before."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> The Strait of Hormuz remained closed. Iran continued missile and drone strikes. Oil continued rising. No schedule had been defined publicly.</div>
+        <div class="ev-verdict" style="color:#8B2020">Contradiction: No schedule existed to be "ahead of." Strait remained closed for weeks after this statement.</div>
+        <div class="ev-ref">PBS PolitiFact · Reuters Mar 5 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-4">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Mar 7 2026</div>
+        <div class="claim-who">Air Force One / Truth Social · Victory declared</div>
+      </div>
+      <div class="claim-quote">"We're winning the war by a lot. We've decimated their whole evil empire." On Truth Social: victory already occurred.</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Iran launched further retaliatory strikes the same week. No ceasefire. The war continued for another seven weeks minimum. Hezbollah resumed hostilities in Lebanon.</div>
+        <div class="ev-verdict" style="color:#8B2020">Contradiction: Iran was simultaneously attacking US bases and allies. Victory was not declared by any military authority.</div>
+        <div class="ev-ref">PBS PolitiFact · Britannica 2026 Iran war · Reuters Mar 7 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-5">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Mar 9 2026</div>
+        <div class="claim-who">CBS interview (reported) · "Very complete"</div>
+      </div>
+      <div class="claim-quote">"The Iran war is very complete, pretty much."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> A massive surge of bets on oil prices falling hit the market 47 minutes after a CBS reporter shared this quote on social media. Oil subsequently dropped.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Market event: Oil futures spike in bets on price falling — 47 mins after statement reported. BBC analysis confirmed pattern.</div>
+        <div class="ev-ref">Mirror US · BBC market analysis · Salon Mar 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-6">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Mar 23 2026 · 6:49am ET</div>
+        <div class="claim-who">Chicago Mercantile Exchange — 16 minutes before Truth Social post</div>
+      </div>
+      <div class="claim-quote">No public statement at 6:49am. <strong>$580 million in oil futures contracts change hands in two minutes.</strong> Average for same window over previous five trading days: 700 contracts. Actual: ~6,200 Brent and WTI contracts.</div>
+      <div class="ev-card" style="border-left:3px solid #8B2020">
+        <div class="ev-text"><strong>What happened:</strong> At 7:05am — 16 minutes later — Trump posted on Truth Social that the US and Iran had held "VERY GOOD AND PRODUCTIVE CONVERSATIONS." Iran denied any contact had taken place. Oil prices fell sharply. S&P futures surged approximately $900 billion in market cap. The traders who bought futures at 6:49am profited.</div>
+        <div class="ev-verdict" style="color:#8B2020">Sen. Chris Murphy: "Who was it? Trump? A family member? A White House staffer? This is corruption. Mind-blowing corruption."</div>
+        <div class="ev-ref">FT Mar 24 2026 · Bloomberg Mar 23 2026 · Common Dreams · CNBC · Salon</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-7">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Mar 23 2026 · 7:05am ET</div>
+        <div class="claim-who">Truth Social · Peace talks announced</div>
+      </div>
+      <div class="claim-quote">"I AM PLEASED TO REPORT THAT THE UNITED STATES OF AMERICA, AND THE COUNTRY OF IRAN, HAVE HAD, OVER THE LAST TWO DAYS, VERY GOOD AND PRODUCTIVE CONVERSATIONS REGARDING A COMPLETE AND TOTAL RESOLUTION OF OUR HOSTILITIES IN THE MIDDLE EAST."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> An Iranian official told Fars News Agency that Iran had "no direct contact with Trump, not even through intermediaries." Iran called Trump "deceitful." Oil fell. S&P surged. The five-day pause ended — no deal was reached.</div>
+        <div class="ev-verdict" style="color:#8B2020">Iran denied any talks. Market moved immediately. Pause expired with no agreement.</div>
+        <div class="ev-ref">New Republic Mar 23 2026 · Fars News Agency · Reuters</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-8">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Mar 30 2026 · 7:26am ET</div>
+        <div class="claim-who">Truth Social · New regime / market open</div>
+      </div>
+      <div class="claim-quote">"The United States of America is in serious discussions with A NEW, AND MORE REASONABLE, REGIME to end our Military Operations in Iran."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Posted two hours before markets opened. Iran's Parliament Speaker Ghalibaf had warned the previous day: "Pre-market so-called 'news' is often just a setup for profit-taking. Basically it's a reverse indicator. Do the opposite." S&P opened significantly higher. The Kobeissi Letter documented the S&P adding $900 billion in market cap following the post.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Market: S&P +$900B market cap · Oil fell · Iran denied new regime contact</div>
+        <div class="ev-ref">New Republic Mar 30 2026 · The Kobeissi Letter · Reuters</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-9">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Apr 1 2026</div>
+        <div class="claim-who">Truth Social + primetime White House address</div>
+      </div>
+      <div class="claim-quote">Truth Social: Iran asked for ceasefire. White House address: "We are on track to complete all of America's military objectives shortly, very shortly. We're going to hit them extremely hard over the next two to three weeks — we're going to bring them back to the Stone Ages, where they belong."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Iran denied requesting a ceasefire. The "two to three weeks" timeline was the fourth distinct duration estimate given in five weeks, each contradicting the last.</div>
+        <div class="ev-verdict" style="color:#8B2020">Contradiction: Duration claim #4. Iran denied ceasefire request same day.</div>
+        <div class="ev-ref">PBS PolitiFact · AP Apr 1 2026 · Britannica</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-10">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 7–8 2026</div>
+        <div class="claim-who">Truth Social · Ceasefire announced</div>
+      </div>
+      <div class="claim-quote">Trump announced a two-week ceasefire brokered by Pakistan. Prediction market accounts — including 50+ first-time Polymarket accounts — had placed heavy bets on an Apr 7 ceasefire hours before the announcement.</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Ceasefire confirmed by Iran. At least 50 Polymarket accounts placed first-ever bets on this exact outcome hours before announcement. One account: $72,000 in — $200,000 out. Another: $125,500 profit. Polymarket is partly backed by Trump's son Donald Jr. AP and blockchain analytics platform Dune confirmed the pattern.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Polymarket accounts with no trading history bet specifically on Apr 7 ceasefire hours before announcement. Polymarket partly backed by Trump Jr.</div>
+        <div class="ev-ref">Britannica · AP blockchain analysis · Mirror US Apr 2026 · Dune analytics</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-11">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 20 2026</div>
+        <div class="claim-who">PBS News interview</div>
+      </div>
+      <div class="claim-quote">Asked what happens if ceasefire expires Apr 21: "Then lots of bombs start going off." Hours later on Truth Social: "I am under no pressure whatsoever to make a deal, although, it will all happen, relatively quickly!"</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Ceasefire was extended indefinitely despite Iran attacking three ships in the Strait of Hormuz. No bombs went off on Apr 21.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Contradiction: Threatened bombs, extended ceasefire instead. Iran continued attacks regardless.</div>
+        <div class="ev-ref">PBS News Apr 20 2026 · Britannica · AP Apr 22 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-12">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 21 2026</div>
+        <div class="claim-who">CNBC Squawk Box</div>
+      </div>
+      <div class="claim-quote">"I was surprised. I thought it would be down much more, and I thought the oil would be much higher, and I'm very happy to say that it wasn't." On oil prices: "If you would have told me that oil is at 90 as opposed to 200 I would be frankly, surprised."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Goldman Sachs had simultaneously raised its December 2026 PCE inflation forecast by a full point to 3.1% and trimmed GDP growth to 2%. IMF revised global 2026 growth to 3.1%, naming the Iran conflict as primary driver. Citadel's head of commodities said oil and gas volatility had surged ~300% since the conflict began.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Market reality: Goldman PCE forecast +1pt · GDP -0.5pt · Oil volatility +300% · IMF revised global growth down</div>
+        <div class="ev-ref">Fortune Apr 21 2026 · Goldman Sachs note · IMF Apr 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-13">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Feb 24 2026 (pre-war)</div>
+        <div class="claim-who">State of the Union Address</div>
+      </div>
+      <div class="claim-quote">"Iran has restarted its nuclear program and is developing missiles capable of striking the US."</div>
+      <div class="ev-card" style="border-left:3px solid #8B2020">
+        <div class="ev-text"><strong>What happened:</strong> The claim contradicted Trump's own previous statements that Iran's nuclear program had been "obliterated." It also contradicted US intelligence assessments which stated Iran did not pose any imminent military threat to the US and would need until 2035 to develop capable missiles if it chose to. The director of the National Counterterrorism Center later resigned, stating he believed Iran did not pose an imminent threat and that Trump had been induced to act by Israel.</div>
+        <div class="ev-verdict" style="color:#8B2020">Contradicts: Trump's own prior statements + US intelligence assessments. NCTC director resigned citing this.</div>
+        <div class="ev-ref">Wikipedia 2026 Iran war · Wikipedia US-Iran negotiations 2025–2026 · PBS</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-14">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 23 2026</div>
+        <div class="claim-who">AP / Britannica confirmed</div>
+      </div>
+      <div class="claim-quote">Trump orders US military to "shoot and kill" Iranian small boats choking the Strait of Hormuz.</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Issued during an active ceasefire. Iran attacked three ships in the Strait the same day. AP and Britannica both confirmed the order on Apr 23. The ceasefire Trump had announced and extended remained officially in place.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Shoot-to-kill order issued during active ceasefire Trump himself extended 48hrs earlier.</div>
+        <div class="ev-ref">AP Apr 23 2026 · Britannica</div>
+      </div>
+    </div>
+
+  </div>
+
+    <div class="claim-block" id="war-15">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Apr 2 2026</div>
+        <div class="claim-who">Truth Social · Bridge attack ultimatum</div>
+      </div>
+      <div class="claim-quote">"IT IS TIME FOR IRAN TO MAKE A DEAL BEFORE IT IS TOO LATE, AND THERE IS NOTHING LEFT OF WHAT STILL COULD BECOME A GREAT COUNTRY!"</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Posted Thursday night after the US struck the B1 bridge in north-central Iran — the largest bridge in the country. A US defense official confirmed the target was a "planned military supply route for sustaining Iran's ballistic missile and attack drone force." Iran shot down two US jets the following day.</div>
+        <div class="ev-verdict" style="color:#8B2020">Bridge strike confirmed. Iran shot down F-15E Strike Eagle the following day — first US plane downed inside Iran since the war began.</div>
+        <div class="ev-ref">The Hill Apr 5 2026 · US defense official statement</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-16">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Apr 4 2026</div>
+        <div class="claim-who">Truth Social · 48-hour ultimatum</div>
+      </div>
+      <div class="claim-quote">"Remember when I gave Iran ten days to MAKE A DEAL or OPEN UP THE HORMUZ STRAIT. Time is running out – 48 hours before all Hell will reign down on them. Glory be to GOD!"</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Posted Saturday. Iran had shot down an F-15E Strike Eagle the day before — one crew member rescued, search ongoing for second. The 48-hour deadline was subsequently extended twice. The "ten day" deadline it references was never publicly specified when originally issued.</div>
+        <div class="ev-verdict" style="color:#8B2020">Deadline extended twice after this post. Iran downed a second aircraft (A-10 Warthog) during the same period.</div>
+        <div class="ev-ref">The Hill Apr 5 2026 · PBS PolitiFact · NPR</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-17">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Apr 5 2026 · Easter Sunday</div>
+        <div class="claim-who">Truth Social · Power Plant Day · profanity ultimatum</div>
+      </div>
+      <div class="claim-quote">"Tuesday will be Power Plant Day, and Bridge Day, all wrapped up in one, in Iran. There will be nothing like it!!! Open the Fuckin' Strait, you crazy bastards, or you'll be living in Hell – JUST WATCH! Praise be to Allah. President DONALD J. TRUMP"</div>
+      <div class="ev-card" style="border-left:3px solid #8B2020">
+        <div class="ev-text"><strong>What happened:</strong> Easter Sunday morning. Hours after US forces rescued the downed F-15E colonel from Iranian mountains. Threat to bomb civilian power plants and bridges drew immediate war crimes warnings. Sen. Murphy: "Trump is calling reporters today to tell them he is going to commit mass war crimes next week." MTG called for 25th Amendment. Pope Leo XIV called for ceasefire. The same day Trump also posted "Tuesday, 8:00 P.M. Eastern Time" — a cryptic standalone post with no explanation of what would happen at that time.</div>
+        <div class="ev-verdict" style="color:#8B2020">Targeting civilian infrastructure violates Additional Protocol I. Harvard Kennedy School Carr-Ryan Center developed war crimes analysis. Deadline was then extended — no power plants struck Tuesday.</div>
+        <div class="ev-ref">NPR Apr 5 2026 · The Hill · Axios · CNN legal analysis</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-18">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Apr 6 2026</div>
+        <div class="claim-who">White House press conference + WSJ interview · Total destruction</div>
+      </div>
+      <div class="claim-quote">"The entire country could be taken out in one night, and it might be tomorrow night. We have a plan where every bridge in Iran will be decimated by 12 o'clock tomorrow night. Where every power plant in Iran will be out of business, burning, exploding and never to be used again. I mean complete demolition by 12 o'clock, and it will happen over a period of four hours if we wanted to."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Said at press conference alongside military leadership. To WSJ simultaneously: "if they don't do something by Tuesday evening, they won't have any power plants and they won't have any bridges standing." Iran's central military command warned of "much more devastating" retaliation if civilian targets were struck. EC President Costa: "Escalation will not achieve a ceasefire. Only negotiations will." Pakistan, Egypt and Turkey all working to broker deal. No demolition occurred Tuesday.</div>
+        <div class="ev-verdict" style="color:#8B2020">Simultaneously told press negotiations were "going fine" with Iran "negotiating in good faith." Both cannot be true.</div>
+        <div class="ev-ref">Axios Apr 7 2026 · CBS News · WSJ Apr 6 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-19">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 8 2026 · 12:01am ET</div>
+        <div class="claim-who">Truth Social · Post-ceasefire optimism</div>
+      </div>
+      <div class="claim-quote">"A big day for World Peace! Iran wants it to happen, they've had enough! Likewise, so has everyone else! The United States of America will be helping with the traffic buildup in the Strait of Hormuz. There will be lots of positive action! Big money will be made."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Posted just after midnight following ceasefire announcement. "Big money will be made" framing noted by multiple analysts as market-oriented language. The Strait was not yet open. Iran attacked three ships in it during the ceasefire. By Apr 19 Trump was threatening to knock out all power plants and bridges again.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Strait remained contested. "Big money" language. Within 11 days: "NO MORE MR. NICE GUY."</div>
+        <div class="ev-ref">PBS PolitiFact · NBC News Apr 7 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-20">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 16 2026</div>
+        <div class="claim-who">Turning Point USA rally (Phoenix) · False strait claim</div>
+      </div>
+      <div class="claim-quote">"Iran has just announced that the Strait of Hormuz is fully open and ready for business and full passage." [Added immediately after:] Naval blockade would remain until "our transaction with Iran is 100% complete and fully signed."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Iran had NOT fully opened the strait. Trump contradicted his own claim within the same statement — announcing the strait was open while keeping the naval blockade in place until a deal was signed. The contradiction was contained within approximately 30 seconds of the same speech.</div>
+        <div class="ev-verdict" style="color:#9B5A10">Self-contradiction within same rally statement. Strait was not open. Naval blockade confirmed ongoing.</div>
+        <div class="ev-ref">PBS PolitiFact · AP Apr 16 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-21">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 18 2026</div>
+        <div class="claim-who">Truth Social + phone calls to reporters · False deal claims</div>
+      </div>
+      <div class="claim-quote">[Posted 900+ words on Truth Social claiming Iran had agreed to hand over enriched uranium and agreed to most contentious US demands. Declared imminent end to war. Told reporters Vance would not go to Pakistan for talks. Two senior officials simultaneously appeared on TV saying Vance would lead the delegation.]</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Iranian officials immediately rejected his claims. Sources familiar with talks said provisions he described had not been agreed. On Vance: Trump said he wouldn't go; UN Ambassador Waltz and Energy Secretary Wright appeared on TV saying he would; Vance went. White House explanation: "Things changed." Own officials were anonymously telling WSJ and CNN his Truth Social posts were sabotaging negotiations — "he's hampering efforts to make a deal."</div>
+        <div class="ev-verdict" style="color:#9B5A10">Iran rejected his claims within hours. Vance contradiction resolved by Vance going, not by Trump. Fortune: "Trump did exactly what his staffers said they wouldn't do."</div>
+        <div class="ev-ref">CNN Apr 20 2026 · Fortune Apr 21 2026 · WSJ</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-22">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#8B2020">Apr 19 2026</div>
+        <div class="claim-who">Truth Social · Ceasefire violation + new threat</div>
+      </div>
+      <div class="claim-quote">"Iran decided to fire bullets yesterday in the Strait of Hormuz — A Total Violation of our Ceasefire Agreement! We're offering a very fair and reasonable DEAL, and I hope they take it because, if they don't, the United States is going to knock out every single Power Plant, and every single Bridge, in Iran. NO MORE MR. NICE GUY!"</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> Same day US seized Iranian cargo ship TOUSKA. Trump: "Our Navy ship stopped them right in their tracks by blowing a hole in the engineroom." The power plant and bridge threat was identical to pre-ceasefire threats. "No more Mr. Nice Guy" came 11 days after declaring "Total and complete victory. 100%." US envoys were simultaneously travelling to Pakistan for a new round of talks.</div>
+        <div class="ev-verdict" style="color:#8B2020">"No more Mr. Nice Guy" — 11 days after "Total and complete victory." Power plant threat identical to pre-ceasefire language. Talks ongoing simultaneously.</div>
+        <div class="ev-ref">TIME Apr 19 2026 · PBS PolitiFact</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-23">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 20 2026</div>
+        <div class="claim-who">Truth Social · Revisionist duration claim</div>
+      </div>
+      <div class="claim-quote">"Democrats like to say that I promised 6 weeks to defeat Iran, and actually, from the Military standpoint, it was far faster than that, but I'm not going to let them rush the United States into making a Deal that is not as good as it could have been."</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> War was in its 7th week with no deal. Trump himself said "four to five weeks" on March 1 — not six, and not "far faster." Now retroactively denying the timeline while still not having achieved a deal. Simultaneously posted he was "under no pressure whatsoever."</div>
+        <div class="ev-verdict" style="color:#9B5A10">Trump said "four to five weeks" Mar 1. Now says "far faster." War in week 7+ with no deal. Duration claim count: 5.</div>
+        <div class="ev-ref">PBS PolitiFact · CNN Apr 20 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="war-24">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#9B5A10">Apr 21 2026</div>
+        <div class="claim-who">Press availability · Three answers to five identical questions</div>
+      </div>
+      <div class="claim-quote">[Asked five separate times whether he would extend the ceasefire, offered three different answers: "If there's no deal, fighting resumes." Told Bloomberg deadline ends "Wednesday evening Washington time" — a 24hr extension of the Tuesday deadline he had originally set. Then said it was "highly unlikely" he'd extend it further.]</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>What happened:</strong> The ceasefire had been announced at 6:32pm ET on April 7, making the two-week mark Tuesday evening. Trump told Bloomberg it was Wednesday — an extra 24 hours. Then said extension "highly unlikely." Ceasefire was subsequently extended indefinitely. Iran attacked three ships in the Strait during the extension. Own officials told Fortune his Truth Social posts were killing the peace talks: "Just 36% of Americans approve of US military strikes against Iran."</div>
+        <div class="ev-verdict" style="color:#9B5A10">Three contradictory answers. Original Tuesday deadline became Wednesday. Then extended indefinitely. Reuters/Ipsos: 36% approve of strikes. 26% consider Trump "even-tempered."</div>
+        <div class="ev-ref">CNN Apr 20 2026 · Fortune Apr 21 2026 · Reuters/Ipsos poll</div>
+      </div>
+    </div>
+
+
+</div><!-- /tab-war -->
+
+
+<div id="tab-money" class="tab-panel">
+  <div class="docs-panel-wrap">
+    <p class="docs-intro">Who benefits from the Iran war — financially. What follows is a documented record of known connections between Trump's inner circle and financial instruments that moved significantly during the conflict. Sources: Axios, Salon, New Yorker, BBC, FT, Bloomberg, AP, Mirror US.</p>
+
+    <div class="claim-block" id="money-1">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#1B3A6B">The $580 Million Futures Spike</div>
+        <div class="claim-who">Mar 23 2026 · 6:49am ET · Chicago Mercantile Exchange</div>
+      </div>
+      <div class="claim-quote">Roughly 6,200 Brent and WTI futures contracts — notional value $580 million — changed hands in two minutes. The five-day average for the same window: 700 contracts. Trump's Truth Social "productive conversations" post followed 16 minutes later.</div>
+      <div class="ev-card" style="border-left:3px solid #1B3A6B">
+        <div class="ev-text"><strong>Known facts:</strong> Bloomberg confirmed the trading anomaly via CME data. FT independently verified. The SEC's top enforcement official resigned the following week — reportedly after being blocked from pursuing cases with ties to Trump. Sen. Murphy: "Who was it? Trump? A family member? A White House staffer?" The White House sent a staff-wide email warning against insider trading — then stated no evidence existed of wrongdoing.</div>
+        <div class="ev-verdict" style="color:#1B3A6B">Identity of traders: unknown. SEC enforcement official: resigned. Investigation: none opened.</div>
+        <div class="ev-ref">FT Mar 24 2026 · Bloomberg · Yahoo Finance · Common Dreams · Salon</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="money-2">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#1B3A6B">Polymarket & Donald Trump Jr.</div>
+        <div class="claim-who">Apr 7 2026 ceasefire bets · ongoing</div>
+      </div>
+      <div class="claim-quote">At least 50 Polymarket accounts — all making their first-ever bets — placed heavy wagers on an April 7 US-Iran ceasefire hours before Trump announced one. One account: $72,000 in, $200,000 out. Another: $125,500 profit. Polymarket is partly backed by Donald Trump Jr.</div>
+      <div class="ev-card" style="border-left:3px solid #1B3A6B">
+        <div class="ev-text"><strong>Known facts:</strong> AP independently verified using blockchain data and Dune analytics. The accounts had no trading history before placing these specific bets. Polymarket announced new guidance to guard against insider behaviour but has not explained how it will be enforced. Kalshi issued similar guidance. Sen. Murphy and Rep. Casar introduced legislation to ban prediction market bets on "government actions, terrorism, war, assassination, and events where an individual knows or controls the outcome."</div>
+        <div class="ev-verdict" style="color:#1B3A6B">Polymarket: partly Trump Jr. backed. 50+ first-time accounts bet specifically on this ceasefire. Profits confirmed via blockchain.</div>
+        <div class="ev-ref">AP blockchain analysis · Mirror US · Dune analytics · Common Dreams</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="money-3">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#1B3A6B">Eric & Donald Trump Jr. — Drone Companies</div>
+        <div class="claim-who">Ongoing · Pentagon contracts</div>
+      </div>
+      <div class="claim-quote">Trump's sons Eric and Donald Jr. have invested in drone companies competing for Pentagon contracts. The Iran war has dramatically increased demand for military drone procurement.</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>Known facts:</strong> Reported by Axios Mar 25 2026. The Trump family has made an estimated $4 billion since Trump returned to office in January 2025, per a New Yorker investigation. The administration simultaneously cancelled 159 federal enforcement actions against 166 companies — more than 30 of which donated to Trump's inauguration or White House ballroom, per Public Citizen.</div>
+        <div class="ev-verdict" style="color:#1B3A6B">Pentagon drone contracts up during war Trump's sons invest in drone companies. No disclosure requirement applies to the president's family.</div>
+        <div class="ev-ref">Axios Mar 25 2026 · New Yorker 2026 · Public Citizen</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="money-4">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#1B3A6B">Jared Kushner — Persian Gulf Fundraising</div>
+        <div class="claim-who">Ongoing · Affinity Partners</div>
+      </div>
+      <div class="claim-quote">Jared Kushner — Trump's son-in-law and one of his Iran envoys — is seeking to raise billions for his private equity fund from Persian Gulf governments directly entangled in the war and its economic consequences.</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>Known facts:</strong> Confirmed by Axios Mar 25 2026. Kushner's fund Affinity Partners previously received $2 billion from Saudi Arabia's Public Investment Fund. The Gulf states are simultaneously being asked by Trump to help secure the Strait of Hormuz. Kushner is serving as an envoy in the same conflict from which Gulf governments stand to profit significantly via elevated oil prices.</div>
+        <div class="ev-verdict" style="color:#1B3A6B">Envoy to war zone simultaneously fundraising from governments in that war zone. No recusal.</div>
+        <div class="ev-ref">Axios Mar 25 2026 · Reuters · previously reported Saudi $2B investment</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="money-5">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#1B3A6B">The Dismantled Enforcement Machine</div>
+        <div class="claim-who">2025–2026 · systematic</div>
+      </div>
+      <div class="claim-quote">The Trump administration has systematically dismantled the machinery designed to catch insider trading and financial fraud during the period in which these trades occurred.</div>
+      <div class="ev-card" style="border-left:3px solid #8B2020">
+        <div class="ev-text"><strong>Known facts:</strong> The Justice Department's Public Integrity Section — created after Watergate — was reduced from 36 lawyers to two and stripped of authority to file new cases, per NOTUS. The administration cancelled 159 federal enforcement actions against companies, 30+ of which donated to Trump's inauguration. The SEC's top enforcement official resigned after being blocked from pursuing cases touching Trump's circle. Her replacement has not been named. Paul Krugman: "I'd very much like to know exactly who was making those trades yesterday morning. I'm sure we'll find out once Kash Patel's FBI carries out its careful, no-holds-barred investigation."</div>
+        <div class="ev-verdict" style="color:#8B2020">DOJ Public Integrity: 36 lawyers → 2. SEC enforcement chief: resigned. 159 federal actions cancelled. No investigation opened into Mar 23 trades.</div>
+        <div class="ev-ref">Axios · NOTUS · Public Citizen · Salon · Futurism Mar 2026</div>
+      </div>
+    </div>
+
+    <div class="claim-block" id="money-6">
+      <div class="claim-header">
+        <div class="claim-number" style="color:#1B3A6B">The Polymarket-Venezuela Pattern</div>
+        <div class="claim-who">Jan 2026 · pre-Iran precedent</div>
+      </div>
+      <div class="claim-quote">An identically structured pattern preceded the Iran war: a well-timed Polymarket bet came in minutes before Trump ordered the US military to attack Venezuela and capture Nicolás Maduro.</div>
+      <div class="ev-card">
+        <div class="ev-text"><strong>Known facts:</strong> Reported by Futurism and Salon. The Venezuela bet pattern was identified before the Iran war trades were discovered, establishing that Mar 23 was not an isolated anomaly but part of a repeated pattern across multiple military decisions. Sen. Murphy and Rep. Casar cited both Venezuela and Iran in their legislation to ban war-related prediction market trading.</div>
+        <div class="ev-verdict" style="color:#1B3A6B">Pattern confirmed across at least two military actions: Venezuela (Jan 2026) and Iran (Feb–Apr 2026). Legislation proposed. Not passed.</div>
+        <div class="ev-ref">Futurism · Salon · Common Dreams · Murphy-Casar legislation text</div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /tab-money -->
+
 <div id="tab-legal" class="tab-panel">
   <div class="legend">
     <div class="legend-item"><span class="leg-dot blue"></span>Civil litigation</div>
