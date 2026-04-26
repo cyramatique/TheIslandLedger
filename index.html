@@ -2630,6 +2630,18 @@ document.getElementById('search-box').addEventListener('input', function() {
   searchTerm = this.value.trim().toLowerCase();
   updateVis();
 });
+
+function openAbout() {
+  document.getElementById('about-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAbout() {
+  document.getElementById('about-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeAbout();
+});
 </script>
 
 <!-- MOBILE LIST VIEW (shown ≤768px instead of D3 diagram) -->

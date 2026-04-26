@@ -74,7 +74,7 @@ body {
 }
 .pnav-btn {
   font-family: 'Cormorant SC', Georgia, serif;
-  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+  font-size: 12.1px; letter-spacing: .16em; text-transform: uppercase;
   padding: 0 18px; height: 40px; border: none; background: none;
   color: #8B6B50; cursor: pointer; border-bottom: 2px solid transparent;
   text-decoration: none; display: inline-flex; align-items: center;
@@ -84,7 +84,7 @@ body {
 .pnav-btn.active { color: #1B3A2D; border-bottom-color: #B8963E; }
 .pnav-back {
   font-family: 'Cormorant SC', Georgia, serif;
-  font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+  font-size: 12.1px; letter-spacing: .16em; text-transform: uppercase;
   padding: 0 18px; height: 40px; border: none; background: none;
   color: #8B6B50; cursor: pointer; text-decoration: none;
   display: inline-flex; align-items: center; gap: 6px;
@@ -1305,10 +1305,10 @@ body::before {
 
 /* ── PAGE NAV ── */
 #page-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;background:#F5F0E8;border-bottom:1px solid rgba(184,150,62,.4);height:40px;padding:0 20px;box-shadow:0 2px 12px rgba(90,65,30,.08);}
-#page-nav::before{content:'✦';color:#B8963E;font-size:10px;margin-right:12px;}
-.pnav-back{font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:0 18px;height:40px;border:none;background:none;color:#8B6B50;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .15s;}
+#page-nav::before{content:'✦';color:#B8963E;font-size:11.5px;margin-right:12px;}
+.pnav-back{font-family:'Cormorant SC',Georgia,serif;font-size:12.1px;letter-spacing:.16em;text-transform:uppercase;padding:0 18px;height:40px;border:none;background:none;color:#8B6B50;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .15s;}
 .pnav-back:hover{color:#1B3A2D;}
-.pnav-label{font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#1B3A2D;padding:0 18px;border-bottom:2px solid #B8963E;height:40px;display:inline-flex;align-items:center;}
+.pnav-label{font-family:'Cormorant SC',Georgia,serif;font-size:12.1px;letter-spacing:.16em;text-transform:uppercase;color:#1B3A2D;padding:0 18px;border-bottom:2px solid #B8963E;height:40px;display:inline-flex;align-items:center;}
 
 /* ── TAB BAR ── sticky below nav ── */
 .tab-bar{display:flex;border-bottom:1px solid var(--border);background:#F5F0E8;position:sticky;top:40px;z-index:100;box-shadow:0 2px 8px rgba(90,65,30,.06);overflow-x:auto;white-space:nowrap;padding:0 48px;}
@@ -1349,34 +1349,20 @@ header{padding:48px 48px 32px;border-bottom:1px solid var(--border2);}
   .claim-header{flex-direction:column;gap:8px;}
 }
 
+/* ── PAGE NAV — canonical styles ── */
 #page-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;background:#F5F0E8;border-bottom:1px solid rgba(184,150,62,.4);height:40px;padding:0 20px;box-shadow:0 2px 12px rgba(90,65,30,.08);}
-#page-nav::before{content:'✦';color:#B8963E;font-size:10px;margin-right:12px;}
-.pnav-back{font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:0 18px;height:40px;border:none;background:none;color:#8B6B50;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .15s;}
+#page-nav::before{content:'✦';color:#B8963E;font-size:11.5px;margin-right:12px;}
+.pnav-back{font-family:'Cormorant SC',Georgia,serif;font-size:12.1px;letter-spacing:.16em;text-transform:uppercase;padding:0 18px;height:40px;border:none;background:none;color:#8B6B50;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .15s;}
 .pnav-back:hover{color:#1B3A2D;}
-.pnav-label{font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#1B3A2D;padding:0 18px;border-bottom:2px solid #B8963E;height:40px;display:inline-flex;align-items:center;}
-.tab-bar{display:flex;border-bottom:1px solid var(--border);background:#F5F0E8;position:sticky;top:40px;z-index:100;box-shadow:0 2px 8px rgba(90,65,30,.06);overflow-x:auto;white-space:nowrap;padding:0 48px;}
-.tab-panel{display:none !important;visibility:hidden !important;height:0 !important;overflow:hidden !important;padding:0 !important;margin:0 !important;position:absolute !important;pointer-events:none !important;}
-.tab-panel.active{display:block !important;visibility:visible !important;height:auto !important;overflow:visible !important;padding-bottom:80px !important;margin:0 !important;position:relative !important;pointer-events:auto !important;}
-.page-wrap{padding-top:40px;min-height:100vh;}
-header{padding:48px 48px 32px;border-bottom:1px solid var(--border2);}
-@media(max-width:768px){
-  header{padding:54px 16px 20px;}
-  .deck-list{display:none;}
-  .tab-bar{padding:0 8px;}
-  .tab-btn{padding:10px 12px;font-size:9px;}
-  .docs-panel-wrap{padding:20px 16px 60px;}
-  .evidence-grid{grid-template-columns:1fr !important;}
-  .claim-header{flex-direction:column;gap:8px;}
-}
+.pnav-label{font-family:'Cormorant SC',Georgia,serif;font-size:12.1px;letter-spacing:.16em;text-transform:uppercase;color:#1B3A2D;padding:0 18px;border-bottom:2px solid #B8963E;height:40px;display:inline-flex;align-items:center;}
 
-#page-nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;background:#F5F0E8;border-bottom:1px solid rgba(184,150,62,.4);height:40px;padding:0 20px;box-shadow:0 2px 12px rgba(90,65,30,.08);}
-#page-nav::before{content:'✦';color:#B8963E;font-size:10px;margin-right:12px;}
-.pnav-back{font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:0 18px;height:40px;border:none;background:none;color:#8B6B50;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .15s;}
-.pnav-back:hover{color:#1B3A2D;}
-.pnav-label{font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#1B3A2D;padding:0 18px;border-bottom:2px solid #B8963E;height:40px;display:inline-flex;align-items:center;}
+/* ── TAB BAR — sticky below nav ── */
 .tab-bar{display:flex;border-bottom:1px solid var(--border);background:#F5F0E8;position:sticky;top:40px;z-index:100;box-shadow:0 2px 8px rgba(90,65,30,.06);overflow-x:auto;white-space:nowrap;padding:0 48px;}
+
+/* ── TAB PANELS — watertight hiding ── */
 .tab-panel{display:none !important;visibility:hidden !important;height:0 !important;overflow:hidden !important;padding:0 !important;margin:0 !important;position:absolute !important;pointer-events:none !important;}
 .tab-panel.active{display:block !important;visibility:visible !important;height:auto !important;overflow:visible !important;padding-bottom:80px !important;margin:0 !important;position:relative !important;pointer-events:auto !important;}
+
 .page-wrap{padding-top:40px;min-height:100vh;}
 header{padding:48px 48px 32px;border-bottom:1px solid var(--border2);}
 @media(max-width:768px){
@@ -1421,7 +1407,7 @@ header{padding:48px 48px 32px;border-bottom:1px solid var(--border2);}
     <button class="tab-btn legal-tab" onclick="switchTab('legal',this)">Legal Track <span class="tab-pill">10 proceedings</span></button>
     <button class="tab-btn docs-tab"  onclick="switchTab('docs',this)">Document Record <span class="tab-pill">8 claims</span></button>
   </div>
-  <div id="legend-row" style="display:flex;align-items:center;gap:18px;padding:10px 48px;border-bottom:1px solid var(--border2);flex-wrap:wrap;">
+  <div id="legend-row" style="display:flex;align-items:center;gap:18px;padding:10px 48px;border-bottom:1px solid var(--border2);flex-wrap:wrap;position:sticky;top:82px;z-index:99;background:#F5F0E8;">
     <span style="font-family:'Cormorant SC',Georgia,serif;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);">Type</span>
     <span style="display:flex;align-items:center;gap:6px;font-family:'Cormorant SC',Georgia,serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);"><span style="width:8px;height:8px;border-radius:50%;background:#1B3A6B;display:inline-block;"></span>Administration comms</span>
     <span style="display:flex;align-items:center;gap:6px;font-family:'Cormorant SC',Georgia,serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);"><span style="width:8px;height:8px;border-radius:50%;background:#8B2020;display:inline-block;"></span>Reversal / contested claim</span>
