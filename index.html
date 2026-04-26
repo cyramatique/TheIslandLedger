@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- Island Ledger v1.7 | Built 2026-04-25 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -462,10 +463,11 @@ body::before {
   .tab-bar {
     display: flex;
     border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    background: #F5F0E8;
     position: sticky;
-    top: 0;
+    top: 40px;
     z-index: 100;
+    box-shadow: 0 2px 8px rgba(90,65,30,.06);
   }
   .tab-btn {
     padding: 14px 28px;
@@ -513,8 +515,9 @@ body::before {
   .tab-btn.active.war-tab   { border-bottom-color: #8B2020; }
   .tab-btn.active.money-tab { border-bottom-color: #1B3A6B; }
 
-  .tab-panel { display: none; padding-bottom: 100px; }
-  .tab-panel.active { display: block; }
+  .tab-panel { display: none; height: 0; overflow: hidden; padding-bottom: 0; }
+  .tab-panel.active { display: block !important; height: auto !important; overflow: visible !important; padding-bottom: 60px; }
+  .tab-panel:not(.active) { display: none !important; height: 0 !important; overflow: hidden !important; }
 
   /* ══════════════════════════════
      TIMELINE PANEL (tabs 1 & 2)
@@ -637,17 +640,22 @@ body::before {
   ══════════════════════════════ */
   .docs-panel-wrap { padding: 32px 48px 80px; }
 
+  /* ── DOCS / WAR / MONEY TABS — TYPOGRAPHY HIERARCHY ── */
+
   .docs-intro {
-    font-family: var(--serif); font-style: italic; font-size: 17.8px;
-    color: var(--text-dim); margin-bottom: 32px; max-width: 680px;
-    line-height: 1.7; font-weight: 300;
-    padding-left: 14px; border-left: 2px solid rgba(42,90,58,.3);
+    font-family: 'Georgia', var(--serif); font-style: italic; font-size: 15px;
+    color: var(--text-dim); margin-bottom: 40px; max-width: 680px;
+    line-height: 1.8; font-weight: 400;
+    padding-left: 16px; border-left: 2px solid rgba(42,90,58,.3);
   }
 
+  /* ── CLAIM BLOCK wrapper ── */
   .claim-block {
-    margin-bottom: 40px;
+    margin-bottom: 52px; padding-bottom: 52px;
+    border-bottom: 1px solid rgba(90,65,30,.1);
     animation: rowIn .35s ease both;
   }
+  .claim-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 32px; }
   .claim-block:nth-child(2) { animation-delay:.06s }
   .claim-block:nth-child(3) { animation-delay:.12s }
   .claim-block:nth-child(4) { animation-delay:.18s }
@@ -656,75 +664,158 @@ body::before {
   .claim-block:nth-child(7) { animation-delay:.36s }
   .claim-block:nth-child(8) { animation-delay:.42s }
 
+  /* ── LEVEL 1: Date + source — smallest, quietest ── */
   .claim-header {
-    display: flex; align-items: flex-start; gap: 14px;
-    margin-bottom: 14px;
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 12px;
   }
   .claim-number {
-    font-family: var(--mono); font-size: 10.3px; color: #2A5A3A;
-    letter-spacing: 0.12em; flex-shrink: 0; padding-top: 3px;
+    font-family: var(--mono); font-size: 9px; color: #8B6B50;
+    letter-spacing: 0.14em; flex-shrink: 0; padding-top: 2px;
+    text-transform: uppercase;
   }
-  .claim-stated {
-    flex: 1;
+  .claim-who {
+    font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B6B50;
+    line-height: 1.5;
   }
+
+  /* ── LEVEL 2: The quote — Truth Social card style ── */
+  .claim-stated { flex: 1; }
   .claim-stated .claim-label {
-    font-family: var(--mono); font-size: 9.2px; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--text-dim); margin-bottom: 5px;
+    font-family: var(--mono); font-size: 8px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;
     display: flex; align-items: center; gap: 6px;
   }
   .claim-stated .claim-label::before {
-    content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--red); flex-shrink: 0;
-  }
-  .claim-stated .claim-quote {
-    font-family: var(--serif); font-size: 18.4px; font-weight: 300; font-style: italic;
-    color: #2C1810; line-height: 1.6;
-    padding: 10px 14px; background: rgba(139,32,32,.04);
-    border-left: 2px solid rgba(184,64,64,.3);
-    border-radius: 0 2px 2px 0;
-  }
-  .claim-who {
-    font-family: var(--mono); font-size: 9.8px; letter-spacing: .1em;
-    text-transform: uppercase; color: #8B2020; opacity: 1;
-    margin-top: 5px;
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--red); flex-shrink: 0;
   }
 
+  /* Truth Social card wrapper */
+  .ts-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 12px;
+    padding: 16px 18px 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  }
+  .ts-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .ts-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: #fff;
+    font-family: 'Georgia', serif; letter-spacing: -.02em;
+  }
+  .ts-identity { flex: 1; min-width: 0; }
+  .ts-name {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px; font-weight: 700; color: #0f1419;
+    line-height: 1.2;
+  }
+  .ts-handle {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 12px; color: #536471; line-height: 1.2;
+  }
+  .ts-platform {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B2020;
+    background: rgba(139,32,32,.06); padding: 3px 7px; border-radius: 3px;
+  }
+  .claim-quote {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 16px; font-weight: 400; font-style: normal;
+    color: #0f1419; line-height: 1.6;
+    margin: 0;
+  }
+  .ts-footer {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,.06);
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 11px; color: #536471;
+    display: flex; gap: 12px; align-items: center;
+  }
+  .ts-footer-icon { opacity: .5; font-size: 13px; }
+
+  /* Market event — not a Trump quote — amber treatment */
+  .market-event-card {
+    background: rgba(155,90,16,.04);
+    border: 1px solid rgba(155,90,16,.2);
+    border-left: 3px solid #9B5A10;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px; margin-bottom: 20px;
+  }
+  .market-event-label {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .14em;
+    text-transform: uppercase; color: #9B5A10; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .market-event-label::before {
+    content: '⬥'; font-size: 8px; color: #9B5A10;
+  }
+  .market-event-text {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px; font-weight: 400; color: #2C1810; line-height: 1.6;
+  }
+  .market-event-text strong { font-weight: 600; }
+
+  /* ── LEVEL 3: Evidence card — sans-serif, clinical, readable ── */
   .evidence-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 12px;
-    margin-top: 4px;
+    gap: 12px; margin-top: 4px;
   }
-
   .ev-card {
     background: #FAF6EE;
-    border: 1px solid rgba(42,90,58,.2);
-    border-radius: 3px; padding: 14px;
+    border: 1px solid rgba(90,65,30,.12);
+    border-left: 3px solid rgba(42,90,58,.3);
+    border-radius: 0 3px 3px 0;
+    padding: 16px 18px;
     transition: border-color .2s, background .2s;
     position: relative;
   }
-  .ev-card:hover { border-color: rgba(74,140,92,.5); background: #F0EAD8; }
+  .ev-card:hover { background: #F0EAD8; }
 
+  /* ── LEVEL 3a: What happened — clean sans-serif body ── */
+  .ev-text {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 13.5px; line-height: 1.7;
+    color: #2C1810; font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .ev-text strong {
+    font-weight: 600; color: #1B3A2D;
+    font-style: normal;
+    display: block; margin-bottom: 4px;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    opacity: .7;
+  }
+  .ev-text em { font-style: italic; color: #2C1810; }
+
+  /* ── LEVEL 3b: Contradiction/verdict — clinical highlight ── */
+  .ev-verdict {
+    margin-top: 12px; padding: 10px 12px;
+    background: rgba(139,32,32,.05);
+    border-left: 3px solid #8B2020;
+    border-radius: 0 2px 2px 0;
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 12.5px; font-weight: 400;
+    color: #8B2020; line-height: 1.6;
+  }
+
+  /* ── LEVEL 4: Source references — smallest, muted ── */
   .ev-ref {
-    font-family: var(--mono); font-size: 9.8px; letter-spacing: .12em;
-    text-transform: uppercase; color: #2A5A3A; opacity: 1;
-    margin-bottom: 8px; line-height: 1.5;
+    font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B6B50; opacity: .7;
+    margin-top: 12px; line-height: 1.6;
   }
   .ev-date {
-    font-family: var(--mono); font-size: 9.2px; color: #8B6B50;
+    font-family: var(--mono); font-size: 8.5px; color: #8B6B50;
     letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
-  }
-  .ev-text {
-    font-family: var(--serif); font-size: 16.7px; line-height: 1.65;
-    color: #2C1810; font-weight: 300;
-  }
-  .ev-text strong { color: #1B3A2D; font-weight: 500; font-style: normal; }
-  .ev-text em { font-style: italic; color: #2E5C45; }
-
-  .ev-verdict {
-    margin-top: 10px; padding: 6px 9px;
-    background: rgba(139,32,32,.06); border-left: 2px solid rgba(139,32,32,.35);
-    font-family: var(--mono); font-size: 9.8px; letter-spacing: .09em;
-    text-transform: uppercase; color: #8B2020; line-height: 1.5;
   }
 
   .ev-card .dataset-badge {
@@ -1031,6 +1122,39 @@ body::before {
   padding-top: 16px; border-top: 1px solid rgba(184,150,62,.2);
 }
 
+
+  /* Reporter question / editorial context — sits between quotes */
+  .claim-context {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 12px; color: #536471; font-style: italic;
+    margin: 6px 0 6px 4px; line-height: 1.5;
+  }
+  /* Secondary ts-card (for second quote in same entry) */
+  .ts-card.ts-card-secondary {
+    margin-top: 12px; margin-bottom: 0;
+    border-color: rgba(0,0,0,.06);
+  }
+
+  .ev-ref a {
+    color: #8B6B50; text-decoration: none;
+    border-bottom: 1px solid rgba(139,107,80,.3);
+    transition: color .15s, border-color .15s;
+  }
+  .ev-ref a:hover {
+    color: #1B3A2D; border-bottom-color: #1B3A2D;
+  }
+
+  .efta-footer {
+    margin-top: 48px; padding-top: 32px;
+    border-top: 1px solid rgba(184,150,62,.2);
+  }
+  .efta-chips-wrap {
+    display: flex; flex-wrap: wrap; gap: 16px;
+  }
+  .efta-chips-wrap .efta-chip { margin: 0; }
+  .efta-chips-wrap .efta-chip-desc {
+    font-size: 10.5px; margin-top: 2px; max-width: 200px;
+  }
 </style>
 </head>
 <body>
@@ -1043,13 +1167,13 @@ body::before {
     <button id="about-close" onclick="closeAbout()">×</button>
     <p>The Island Ledger is a curatorial project — not a research database. It exists to make 120+ documented connections legible at a glance: who was involved, what sector they operated in, and whether anyone faced consequences. Every entry is sourced to primary documents.</p>
     <p>If you want to go deeper into the raw record — 2.1 million searchable documents, 1,713 persons, full flight logs, and original EFTA filings — the best resource available is <a href="https://epsteinexposed.com" target="_blank" rel="noopener noreferrer">Epstein Exposed</a>, a remarkable one-person public interest project that has done extraordinary work making the primary sources accessible. I use it. I recommend it without reservation.</p>
-    <p class="about-sig">— Elena / Cyramatique</p>
+    <p class="about-sig">— Elina / Cyramatique</p>
   </div>
 </div>
 
 <nav id="page-nav">
   <button class="pnav-btn active" onclick="showPage('network', this)">The Island Ledger</button>
-  <button class="pnav-btn"        onclick="showPage('timeline', this)">Trump Timeline</button>
+  <button class="pnav-btn"        onclick="window.location.href='timeline.html'" id="timeline-nav-btn">Trump Timeline</button>
   <button class="pnav-btn" onclick="openAbout()" style="margin-left:auto;">About</button>
 </nav>
 
@@ -2518,1426 +2642,9 @@ document.getElementById('search-box').addEventListener('input', function() {
 
 </div>
 
-<!-- PAGE: TIMELINE -->
-<div id="page-timeline" class="page-section">
-<header>
-  <div class="eyebrow">Public Record · Updated Apr 2026</div>
-  <h1>Trump Timeline</h1>
-  <p class="deck"><strong>The Three Tracks</strong></p>
-  <ul class="deck-list">
-    <li>The administration's official version of events.</li>
-    <li>The legal record.</li>
-    <li>What the documents themselves actually say — with file references.</li>
-  </ul>
-</header>
+</div><!-- /page-network -->
 
-<div class="tab-bar">
-  <button class="tab-btn active"         onclick="switchTab('timeline',this)">The Epstein Files <span class="tab-pill">21 entries</span></button>
-  <button class="tab-btn war-tab"        onclick="switchTab('war',this)">An Illegal War <span class="tab-pill">24 statements</span></button>
-  <button class="tab-btn money-tab"      onclick="switchTab('money',this)">The Money <span class="tab-pill">6 connections</span></button>
-  <button class="tab-btn docs-tab"       onclick="switchTab('docs',this)">Document Record <span class="tab-pill">8 claims</span></button>
-  <button class="tab-btn legal-tab"      onclick="switchTab('legal',this)">Legal Track <span class="tab-pill">10 proceedings</span></button>
-</div>
-
-<!-- ══════════════════════
-     TAB 1 — TIMELINE
-══════════════════════ -->
-<div id="tab-timeline" class="tab-panel active">
-  <div class="legend">
-    <div class="legend-item"><span class="leg-dot gold"></span>Administration comms</div>
-    <div class="legend-item"><span class="leg-dot red"></span>Reversal / contested claim</div>
-  </div>
-  <div class="col-headers">
-    <div></div><div class="col-label story">Administration &amp; files narrative</div>
-    
-  </div>
-  <div class="timeline-wrap">
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jun–Sep</span><span class="date-yr">2024</span></div>
-      <div class="story-cell"><div class="nd ms"></div>
-        <div class="card mc">
-          <div class="cm"><span class="cd g"></span><span class="ct">Campaign promise</span></div>
-          <div class="cb"><strong><span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span></strong> promises on Fox News and Lex Fridman's podcast to release the Epstein files if elected. The crowd goes wild. Filed under: commitments.</div>
-          <div class="src">src · Fox News Jun 2024 · Lex Fridman Podcast Sep 2024</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="sidebar-col">
-
-  <div>
-    <div class="sidebar-section-label">⚖ Proceedings status</div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--blue);">Trump v. Dow Jones · $20B</span>
-      <span class="status-chip-val pending">⏳ Pending — dismissal ruling</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--blue);">Wolff v. Melania Trump</span>
-      <span class="status-chip-val pending">⏳ Procedural — service dispute</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--purple);">Bondi subpoena</span>
-      <span class="status-chip-val alert">⚠ Outstanding — not complied</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--purple);">GAO investigation</span>
-      <span class="status-chip-val active-g">● Active — opened Mar 11 2026</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--purple);">Missing FBI 302s</span>
-      <span class="status-chip-val alert">⚠ Withheld — DOJ silent</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--amber);">Grand jury unsealing</span>
-      <span class="status-chip-val dismissed">✗ Denied — Jul 23 2025</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--amber);">MCC guards indictment</span>
-      <span class="status-chip-val dismissed">✗ Dismissed 2021 — not refiled</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--purple);">Jagland corruption charges</span>
-      <span class="status-chip-val alert">⚠ Charged — Feb 2026 · Norway</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--purple);">Rød-Larsen / Juul investigation</span>
-      <span class="status-chip-val alert">⚠ Criminal investigation — Norway</span>
-    </div>
-    <div class="status-chip">
-      <span class="status-chip-label" style="color:var(--purple);">Andrew / Mandelson arrests</span>
-      <span class="status-chip-val pending">⏳ Released on bail — under investigation</span>
-    </div>
-  </div>
-
-  <div>
-    <div class="sidebar-section-label">📄 Key EFTA documents</div>
-
-    <span class="efta-chip red">EFTA02857524</span>
-    <div class="efta-chip-desc">Operation Leap Year — 60-count indictment recommendation (2007). Abandoned in favour of NPA.</div>
-
-    <span class="efta-chip red">EFTA01656152</span>
-    <div class="efta-chip-desc">FBI Prominent Names briefing p.17 — Trump, Weinstein, Black, Dershowitz, Wexner listed with victim statements.</div>
-
-    <span class="efta-chip red">EFTA01648950</span>
-    <div class="efta-chip-desc">FBI "derog" emails Jul 24 2025 — Trump, Lutnick, Barr named. Same day DAG Blanche interviewed Maxwell.</div>
-
-    <span class="efta-chip red">EFTA00025553</span>
-    <div class="efta-chip-desc">Trump/Maxwell photo on Bannon's phone. AUSA: "no need to do anything with this one."</div>
-
-    <span class="efta-chip gold">EFTA01660651</span>
-    <div class="efta-chip-desc">NTOC tip — Victoria's Secret parties. Clinton and Trump named. FBI follow-up: none.</div>
-
-    <span class="efta-chip gold">EFTA00666117</span>
-    <div class="efta-chip-desc">Sultan bin Sulayem "torture video" email. 4,700+ Sulayem references in corpus.</div>
-
-    <span class="efta-chip">EFTA02857729</span>
-    <div class="efta-chip-desc">June 2008 immunity memo — Lesley Groff identified as most likely to cooperate.</div>
-
-    <span class="efta-chip">EFTA00090314</span>
-    <div class="efta-chip-desc">FBI CHS FD-1023 — Epstein "belonged to intelligence services," trained as spy under Barak.</div>
-  </div>
-
-
-
-<div id="mini-dos" style="display:none;">
-    <div class="sidebar-section-label" style="margin-top:4px;">⊞ Dossier</div>
-    <div id="mini-dos-name" style="font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:#1B3A2D;line-height:1.2;margin-bottom:3px;"></div>
-    <div id="mini-dos-title" style="font-family:'Cormorant SC',Georgia,serif;font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;color:#B8963E;margin-bottom:10px;"></div>
-    <div id="mini-dos-travel" style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;"></div>
-    <div id="mini-dos-conn" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;line-height:1.65;color:#2C1810;font-weight:300;"></div>
-    <div id="mini-dos-cons" style="margin-top:8px;font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;line-height:1.6;color:#2C1810;padding:7px 10px;border-radius:2px;border-left:2px solid #B8963E;background:rgba(184,150,62,.06);"></div>
-    <a id="mini-dos-pinpoint" href="#" target="_blank" rel="noopener noreferrer"
-       style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 10px;
-              font-family:'Cormorant SC',Georgia,serif;font-size:8px;letter-spacing:.1em;text-transform:uppercase;
-              color:#1B3A2D;text-decoration:none;border:1px solid rgba(27,58,45,.2);background:rgba(27,58,45,.06);border-radius:2px;">
-      ⊞ Search in DOJ files ↗
-    </a>
-    <button onclick="closeMiniDos()"
-       style="display:block;margin-top:8px;width:100%;padding:5px;font-family:'Cormorant SC',Georgia,serif;
-              font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;color:#8B6B50;
-              background:none;border:1px solid rgba(90,65,30,.15);border-radius:2px;cursor:pointer;">
-      ✕ close
-    </button>
-  </div>
-
-
-
-</div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Feb 21</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd"></div>
-        <div class="card">
-          <div class="cm"><span class="cd g"></span><span class="ct">DOJ statement</span></div>
-          <div class="cb"><strong>AG Pam Bondi</strong> tells Fox News the Epstein client list is <em>"sitting on my desk right now to review."</em> Viewers assume release is imminent. This assumption proves optimistic.</div>
-          <div class="src">src · Fox News w/ John Roberts, Feb 21 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Feb 27</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd"></div>
-        <div class="card">
-          <div class="cm"><span class="cd g"></span><span class="ct">First release</span></div>
-          <div class="cb">DOJ drops flight logs and a contact book that is <strong>mostly redacted</strong>. White House hands binders labelled <em>"Epstein Files: Phase 1 — Declassified"</em> to conservative influencers. Rep. Luna calls it <em>"old info."</em></div>
-          <div class="src">src · DOJ release · Rep. Luna statement, Feb 27 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Apr 25</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">Death of key witness</span></div>
-          <div class="cb"><strong><span class="tl-name-link" onclick="openNodeFromTimeline('giuffre')" title="Open dossier">Giuffre</span></strong>, Epstein's most prominent survivor-accuser, dies by suicide in Australia. Her FBI 302 interview records are among those still not released as of Mar 2026.</div>
-          <div class="src">src · AP · BBC · family statement, Apr 25 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 7</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">"Nothing to see" memo</span></div>
-          <div class="cb">DOJ declares the <strong>client list does not exist</strong>, no blackmail evidence found, death was suicide. Same day: DOJ fires <strong>Maurene Comey</strong> — the prosecutor who actually prosecuted Epstein. Her father is James Comey. The timing is described as coincidental.</div>
-          <div class="src">src · DOJ memo Jul 7 2025 · Wikipedia / Epstein files</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-1')">↗ Document record contradicts this</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 11–16</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">The hoax pivot</span></div>
-          <div class="cb">FBI Deputy Director <strong>Bongino</strong> confronts Bondi; considers resigning. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> responds: Epstein is <em>"somebody nobody cares about"</em> (Jul 12) and the files are <em>"a big hoax"</em> (Jul 16). <strong>Joe Rogan</strong> calls it gaslighting.</div>
-          <div class="src">src · Truth Social Jul 12 &amp; 16 2025 · Wikipedia / EFTA</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-2')">↗ Document record contradicts this</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 17–18</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd"></div>
-        <div class="card">
-          <div class="cm"><span class="cd g"></span><span class="ct">Birthday book</span></div>
-          <div class="cb"><strong>WSJ</strong> reports Epstein's 2003 birthday book contains a letter in <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s name — text framed by a hand-drawn naked woman, signed <em>"Donald"</em> where pubic hair would be, ending: <em>"may every day be another wonderful secret."</em> <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> calls it fake. He sues the next day.</div>
-          <div class="src">src · WSJ Jul 17 2025 (Safdar &amp; Palazzolo)</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-3')">↗ Document record on the birthday book</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 23</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">Name in the files — denied</span></div>
-          <div class="cb"><strong>WSJ</strong> reports Bondi told <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> in May his name is <em>"among many"</em> in the files. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> denies it. A federal judge also denies grand jury release the same day, in what becomes a pattern.</div>
-          <div class="src">src · Wall Street Journal Jul 23 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Aug–Sep</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">Congress vs administration</span></div>
-          <div class="cb"><span class="tl-name-link" onclick="openNodeFromTimeline('maxwell')" title="Open dossier">Maxwell</span> interview released — she says <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> and Epstein were <em>"friendly in social settings."</em> Rep. <strong>Massie</strong> files discharge petition. Administration calls signing it <em>"a very hostile act."</em> Sep 2: Oversight releases 33,000+ pages including cell block video with a <strong>one-minute gap</strong>.</div>
-          <div class="src">src · DOJ Maxwell release · Wikipedia / EFTA · CBS Sep 2 2025</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-4')">↗ Document record on the prison death</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Nov 12–19</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd ms"></div>
-        <div class="card mc">
-          <div class="cm"><span class="cd g"></span><span class="ct">Law signed — 30-day clock</span></div>
-          <div class="cb">Petition hits <strong>218 signatures</strong>. Epstein Files Transparency Act passes <strong>427–1</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> signs it, then posts calling it <em>"a Hoax"</em> on Truth Social. He has signed a law to release files he says are fake. Sole no vote: Rep. Clay Higgins.</div>
-          <div class="src">src · Wikipedia / EFTA · Truth Social Nov 19 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Dec 19</span><span class="date-yr">2025</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">Deadline missed — partial release</span></div>
-          <div class="cb">DOJ releases partial batch — <strong>500+ pages entirely blacked out</strong>. Sixteen files vanish from the webpage within 24 hrs. Faulty PDF redactions allow public to <strong>copy-paste blacked-out text</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> absent from all photos. DOJ: <em>"fully complying."</em></div>
-          <div class="src">src · DOJ release · PBS NewsHour · Wikipedia / Epstein files Dec 19 2025</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-5')">↗ Document record on the redaction failures</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jan 30</span><span class="date-yr">2026</span></div>
-      <div class="story-cell"><div class="nd ms"></div>
-        <div class="card mc">
-          <div class="cm"><span class="cd g"></span><span class="ct">Mass release — "final"</span></div>
-          <div class="cb">DOJ releases <strong>3M+ pages</strong>, 2,000 videos, 180,000 images. Declares it final. Site requires 18+ confirmation because the release contains <strong>pornography</strong> seized from Epstein's properties. Critics note up to 6M pages may qualify. File EFTA01660679 removed and silently restored.</div>
-          <div class="src">src · DOJ release · CNN (Paula Reid) · Wikipedia Jan 30 2026</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-6')">↗ Key revelations from the Jan 30 release</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Feb–Mar</span><span class="date-yr">2026</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card fc">
-          <div class="cm"><span class="cd r"></span><span class="ct">Files removed — NPR investigation</span></div>
-          <div class="cb">NPR finds DOJ <strong>removed FBI records</strong> related to <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> accusations. A 6th release on <strong>Mar 5</strong> backfills prosecution memos initially withheld as <em>"privileged"</em> — 35 days after the declared final release.</div>
-          <div class="src">src · NPR investigation Feb 24 2026 · Wikipedia / EFTA</div>
-          <span class="doc-chip" onclick="switchTab('docs',null,'claim-7')">↗ Document record on the withheld files</span>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-  </div><!-- /timeline-wrap -->
-</div>
-
-<!-- ══════════════════════
-     TAB 2 — LEGAL TRACK
-══════════════════════ -->
-<div id="tab-war" class="tab-panel">
-  <div class="docs-panel-wrap">
-    <p class="docs-intro">Operation Epic Fury began February 28 2026. What follows is a documented record of Trump's public statements about the war — cross-referenced against what actually happened. Each entry notes the market movement the statement triggered. Sources: PBS PolitiFact, FT, Bloomberg, AP, Reuters, Wikipedia.</p>
-
-    <div class="claim-block" id="war-1">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Feb 28 2026</div>
-        <div class="claim-who">Truth Social / White House · Operation Epic Fury begins</div>
-      </div>
-      <div class="claim-quote">"The United States, together with our great ally Israel, have launched a historic and necessary military campaign against the Iranian regime."</div>
-      <div class="ev-card" style="border-left:3px solid #8B2020">
-        <div class="ev-text"><strong>What happened:</strong> US and Israeli airstrikes hit Iran. Supreme Leader Khamenei assassinated in opening wave. Iran closed the Strait of Hormuz. Oil surged toward $120/barrel. S&P futures fell sharply on open.</div>
-        <div class="ev-verdict" style="color:#8B2020">Market: Oil ↑ ~18% within 48hrs · S&P ↓ 2.1% open Feb 28</div>
-        <div class="ev-ref">PBS · Wikipedia 2026 Iran war · Bloomberg Feb 28 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-2">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Mar 1 2026</div>
-        <div class="claim-who">Speech · Duration claim #1</div>
-      </div>
-      <div class="claim-quote">"Combat operations continue at this time in full force, and they will continue until all of our objectives are achieved." Asked how long: "We intended four to five weeks."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> War is still ongoing as of late April 2026 — approaching two months. Iran denied any negotiations were underway.</div>
-        <div class="ev-verdict" style="color:#8B2020">Contradiction: War entered week 8 with no resolution. Four-to-five week claim abandoned without acknowledgement.</div>
-        <div class="ev-ref">NYT Mar 1 2026 · PBS PolitiFact Apr 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-3">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Mar 5 2026</div>
-        <div class="claim-who">Inter Miami event · Progress claim</div>
-      </div>
-      <div class="claim-quote">"The United States military, together with the wonderful Israeli partners, continues to totally demolish the enemy far ahead of schedule and at levels that people have never seen before."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> The Strait of Hormuz remained closed. Iran continued missile and drone strikes. Oil continued rising. No schedule had been defined publicly.</div>
-        <div class="ev-verdict" style="color:#8B2020">Contradiction: No schedule existed to be "ahead of." Strait remained closed for weeks after this statement.</div>
-        <div class="ev-ref">PBS PolitiFact · Reuters Mar 5 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-4">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Mar 7 2026</div>
-        <div class="claim-who">Air Force One / Truth Social · Victory declared</div>
-      </div>
-      <div class="claim-quote">"We're winning the war by a lot. We've decimated their whole evil empire." On Truth Social: victory already occurred.</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Iran launched further retaliatory strikes the same week. No ceasefire. The war continued for another seven weeks minimum. Hezbollah resumed hostilities in Lebanon.</div>
-        <div class="ev-verdict" style="color:#8B2020">Contradiction: Iran was simultaneously attacking US bases and allies. Victory was not declared by any military authority.</div>
-        <div class="ev-ref">PBS PolitiFact · Britannica 2026 Iran war · Reuters Mar 7 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-5">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Mar 9 2026</div>
-        <div class="claim-who">CBS interview (reported) · "Very complete"</div>
-      </div>
-      <div class="claim-quote">"The Iran war is very complete, pretty much."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> A massive surge of bets on oil prices falling hit the market 47 minutes after a CBS reporter shared this quote on social media. Oil subsequently dropped.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Market event: Oil futures spike in bets on price falling — 47 mins after statement reported. BBC analysis confirmed pattern.</div>
-        <div class="ev-ref">Mirror US · BBC market analysis · Salon Mar 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-6">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Mar 23 2026 · 6:49am ET</div>
-        <div class="claim-who">Chicago Mercantile Exchange — 16 minutes before Truth Social post</div>
-      </div>
-      <div class="claim-quote">No public statement at 6:49am. <strong>$580 million in oil futures contracts change hands in two minutes.</strong> Average for same window over previous five trading days: 700 contracts. Actual: ~6,200 Brent and WTI contracts.</div>
-      <div class="ev-card" style="border-left:3px solid #8B2020">
-        <div class="ev-text"><strong>What happened:</strong> At 7:05am — 16 minutes later — Trump posted on Truth Social that the US and Iran had held "VERY GOOD AND PRODUCTIVE CONVERSATIONS." Iran denied any contact had taken place. Oil prices fell sharply. S&P futures surged approximately $900 billion in market cap. The traders who bought futures at 6:49am profited.</div>
-        <div class="ev-verdict" style="color:#8B2020">Sen. Chris Murphy: "Who was it? Trump? A family member? A White House staffer? This is corruption. Mind-blowing corruption."</div>
-        <div class="ev-ref">FT Mar 24 2026 · Bloomberg Mar 23 2026 · Common Dreams · CNBC · Salon</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-7">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Mar 23 2026 · 7:05am ET</div>
-        <div class="claim-who">Truth Social · Peace talks announced</div>
-      </div>
-      <div class="claim-quote">"I AM PLEASED TO REPORT THAT THE UNITED STATES OF AMERICA, AND THE COUNTRY OF IRAN, HAVE HAD, OVER THE LAST TWO DAYS, VERY GOOD AND PRODUCTIVE CONVERSATIONS REGARDING A COMPLETE AND TOTAL RESOLUTION OF OUR HOSTILITIES IN THE MIDDLE EAST."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> An Iranian official told Fars News Agency that Iran had "no direct contact with Trump, not even through intermediaries." Iran called Trump "deceitful." Oil fell. S&P surged. The five-day pause ended — no deal was reached.</div>
-        <div class="ev-verdict" style="color:#8B2020">Iran denied any talks. Market moved immediately. Pause expired with no agreement.</div>
-        <div class="ev-ref">New Republic Mar 23 2026 · Fars News Agency · Reuters</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-8">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Mar 30 2026 · 7:26am ET</div>
-        <div class="claim-who">Truth Social · New regime / market open</div>
-      </div>
-      <div class="claim-quote">"The United States of America is in serious discussions with A NEW, AND MORE REASONABLE, REGIME to end our Military Operations in Iran."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Posted two hours before markets opened. Iran's Parliament Speaker Ghalibaf had warned the previous day: "Pre-market so-called 'news' is often just a setup for profit-taking. Basically it's a reverse indicator. Do the opposite." S&P opened significantly higher. The Kobeissi Letter documented the S&P adding $900 billion in market cap following the post.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Market: S&P +$900B market cap · Oil fell · Iran denied new regime contact</div>
-        <div class="ev-ref">New Republic Mar 30 2026 · The Kobeissi Letter · Reuters</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-9">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Apr 1 2026</div>
-        <div class="claim-who">Truth Social + primetime White House address</div>
-      </div>
-      <div class="claim-quote">Truth Social: Iran asked for ceasefire. White House address: "We are on track to complete all of America's military objectives shortly, very shortly. We're going to hit them extremely hard over the next two to three weeks — we're going to bring them back to the Stone Ages, where they belong."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Iran denied requesting a ceasefire. The "two to three weeks" timeline was the fourth distinct duration estimate given in five weeks, each contradicting the last.</div>
-        <div class="ev-verdict" style="color:#8B2020">Contradiction: Duration claim #4. Iran denied ceasefire request same day.</div>
-        <div class="ev-ref">PBS PolitiFact · AP Apr 1 2026 · Britannica</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-10">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 7–8 2026</div>
-        <div class="claim-who">Truth Social · Ceasefire announced</div>
-      </div>
-      <div class="claim-quote">Trump announced a two-week ceasefire brokered by Pakistan. Prediction market accounts — including 50+ first-time Polymarket accounts — had placed heavy bets on an Apr 7 ceasefire hours before the announcement.</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Ceasefire confirmed by Iran. At least 50 Polymarket accounts placed first-ever bets on this exact outcome hours before announcement. One account: $72,000 in — $200,000 out. Another: $125,500 profit. Polymarket is partly backed by Trump's son Donald Jr. AP and blockchain analytics platform Dune confirmed the pattern.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Polymarket accounts with no trading history bet specifically on Apr 7 ceasefire hours before announcement. Polymarket partly backed by Trump Jr.</div>
-        <div class="ev-ref">Britannica · AP blockchain analysis · Mirror US Apr 2026 · Dune analytics</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-11">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 20 2026</div>
-        <div class="claim-who">PBS News interview</div>
-      </div>
-      <div class="claim-quote">Asked what happens if ceasefire expires Apr 21: "Then lots of bombs start going off." Hours later on Truth Social: "I am under no pressure whatsoever to make a deal, although, it will all happen, relatively quickly!"</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Ceasefire was extended indefinitely despite Iran attacking three ships in the Strait of Hormuz. No bombs went off on Apr 21.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Contradiction: Threatened bombs, extended ceasefire instead. Iran continued attacks regardless.</div>
-        <div class="ev-ref">PBS News Apr 20 2026 · Britannica · AP Apr 22 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-12">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 21 2026</div>
-        <div class="claim-who">CNBC Squawk Box</div>
-      </div>
-      <div class="claim-quote">"I was surprised. I thought it would be down much more, and I thought the oil would be much higher, and I'm very happy to say that it wasn't." On oil prices: "If you would have told me that oil is at 90 as opposed to 200 I would be frankly, surprised."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Goldman Sachs had simultaneously raised its December 2026 PCE inflation forecast by a full point to 3.1% and trimmed GDP growth to 2%. IMF revised global 2026 growth to 3.1%, naming the Iran conflict as primary driver. Citadel's head of commodities said oil and gas volatility had surged ~300% since the conflict began.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Market reality: Goldman PCE forecast +1pt · GDP -0.5pt · Oil volatility +300% · IMF revised global growth down</div>
-        <div class="ev-ref">Fortune Apr 21 2026 · Goldman Sachs note · IMF Apr 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-13">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Feb 24 2026 (pre-war)</div>
-        <div class="claim-who">State of the Union Address</div>
-      </div>
-      <div class="claim-quote">"Iran has restarted its nuclear program and is developing missiles capable of striking the US."</div>
-      <div class="ev-card" style="border-left:3px solid #8B2020">
-        <div class="ev-text"><strong>What happened:</strong> The claim contradicted Trump's own previous statements that Iran's nuclear program had been "obliterated." It also contradicted US intelligence assessments which stated Iran did not pose any imminent military threat to the US and would need until 2035 to develop capable missiles if it chose to. The director of the National Counterterrorism Center later resigned, stating he believed Iran did not pose an imminent threat and that Trump had been induced to act by Israel.</div>
-        <div class="ev-verdict" style="color:#8B2020">Contradicts: Trump's own prior statements + US intelligence assessments. NCTC director resigned citing this.</div>
-        <div class="ev-ref">Wikipedia 2026 Iran war · Wikipedia US-Iran negotiations 2025–2026 · PBS</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-14">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 23 2026</div>
-        <div class="claim-who">AP / Britannica confirmed</div>
-      </div>
-      <div class="claim-quote">Trump orders US military to "shoot and kill" Iranian small boats choking the Strait of Hormuz.</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Issued during an active ceasefire. Iran attacked three ships in the Strait the same day. AP and Britannica both confirmed the order on Apr 23. The ceasefire Trump had announced and extended remained officially in place.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Shoot-to-kill order issued during active ceasefire Trump himself extended 48hrs earlier.</div>
-        <div class="ev-ref">AP Apr 23 2026 · Britannica</div>
-      </div>
-    </div>
-
-  </div>
-
-    <div class="claim-block" id="war-15">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Apr 2 2026</div>
-        <div class="claim-who">Truth Social · Bridge attack ultimatum</div>
-      </div>
-      <div class="claim-quote">"IT IS TIME FOR IRAN TO MAKE A DEAL BEFORE IT IS TOO LATE, AND THERE IS NOTHING LEFT OF WHAT STILL COULD BECOME A GREAT COUNTRY!"</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Posted Thursday night after the US struck the B1 bridge in north-central Iran — the largest bridge in the country. A US defense official confirmed the target was a "planned military supply route for sustaining Iran's ballistic missile and attack drone force." Iran shot down two US jets the following day.</div>
-        <div class="ev-verdict" style="color:#8B2020">Bridge strike confirmed. Iran shot down F-15E Strike Eagle the following day — first US plane downed inside Iran since the war began.</div>
-        <div class="ev-ref">The Hill Apr 5 2026 · US defense official statement</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-16">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Apr 4 2026</div>
-        <div class="claim-who">Truth Social · 48-hour ultimatum</div>
-      </div>
-      <div class="claim-quote">"Remember when I gave Iran ten days to MAKE A DEAL or OPEN UP THE HORMUZ STRAIT. Time is running out – 48 hours before all Hell will reign down on them. Glory be to GOD!"</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Posted Saturday. Iran had shot down an F-15E Strike Eagle the day before — one crew member rescued, search ongoing for second. The 48-hour deadline was subsequently extended twice. The "ten day" deadline it references was never publicly specified when originally issued.</div>
-        <div class="ev-verdict" style="color:#8B2020">Deadline extended twice after this post. Iran downed a second aircraft (A-10 Warthog) during the same period.</div>
-        <div class="ev-ref">The Hill Apr 5 2026 · PBS PolitiFact · NPR</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-17">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Apr 5 2026 · Easter Sunday</div>
-        <div class="claim-who">Truth Social · Power Plant Day · profanity ultimatum</div>
-      </div>
-      <div class="claim-quote">"Tuesday will be Power Plant Day, and Bridge Day, all wrapped up in one, in Iran. There will be nothing like it!!! Open the Fuckin' Strait, you crazy bastards, or you'll be living in Hell – JUST WATCH! Praise be to Allah. President DONALD J. TRUMP"</div>
-      <div class="ev-card" style="border-left:3px solid #8B2020">
-        <div class="ev-text"><strong>What happened:</strong> Easter Sunday morning. Hours after US forces rescued the downed F-15E colonel from Iranian mountains. Threat to bomb civilian power plants and bridges drew immediate war crimes warnings. Sen. Murphy: "Trump is calling reporters today to tell them he is going to commit mass war crimes next week." MTG called for 25th Amendment. Pope Leo XIV called for ceasefire. The same day Trump also posted "Tuesday, 8:00 P.M. Eastern Time" — a cryptic standalone post with no explanation of what would happen at that time.</div>
-        <div class="ev-verdict" style="color:#8B2020">Targeting civilian infrastructure violates Additional Protocol I. Harvard Kennedy School Carr-Ryan Center developed war crimes analysis. Deadline was then extended — no power plants struck Tuesday.</div>
-        <div class="ev-ref">NPR Apr 5 2026 · The Hill · Axios · CNN legal analysis</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-18">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Apr 6 2026</div>
-        <div class="claim-who">White House press conference + WSJ interview · Total destruction</div>
-      </div>
-      <div class="claim-quote">"The entire country could be taken out in one night, and it might be tomorrow night. We have a plan where every bridge in Iran will be decimated by 12 o'clock tomorrow night. Where every power plant in Iran will be out of business, burning, exploding and never to be used again. I mean complete demolition by 12 o'clock, and it will happen over a period of four hours if we wanted to."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Said at press conference alongside military leadership. To WSJ simultaneously: "if they don't do something by Tuesday evening, they won't have any power plants and they won't have any bridges standing." Iran's central military command warned of "much more devastating" retaliation if civilian targets were struck. EC President Costa: "Escalation will not achieve a ceasefire. Only negotiations will." Pakistan, Egypt and Turkey all working to broker deal. No demolition occurred Tuesday.</div>
-        <div class="ev-verdict" style="color:#8B2020">Simultaneously told press negotiations were "going fine" with Iran "negotiating in good faith." Both cannot be true.</div>
-        <div class="ev-ref">Axios Apr 7 2026 · CBS News · WSJ Apr 6 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-19">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 8 2026 · 12:01am ET</div>
-        <div class="claim-who">Truth Social · Post-ceasefire optimism</div>
-      </div>
-      <div class="claim-quote">"A big day for World Peace! Iran wants it to happen, they've had enough! Likewise, so has everyone else! The United States of America will be helping with the traffic buildup in the Strait of Hormuz. There will be lots of positive action! Big money will be made."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Posted just after midnight following ceasefire announcement. "Big money will be made" framing noted by multiple analysts as market-oriented language. The Strait was not yet open. Iran attacked three ships in it during the ceasefire. By Apr 19 Trump was threatening to knock out all power plants and bridges again.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Strait remained contested. "Big money" language. Within 11 days: "NO MORE MR. NICE GUY."</div>
-        <div class="ev-ref">PBS PolitiFact · NBC News Apr 7 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-20">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 16 2026</div>
-        <div class="claim-who">Turning Point USA rally (Phoenix) · False strait claim</div>
-      </div>
-      <div class="claim-quote">"Iran has just announced that the Strait of Hormuz is fully open and ready for business and full passage." [Added immediately after:] Naval blockade would remain until "our transaction with Iran is 100% complete and fully signed."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Iran had NOT fully opened the strait. Trump contradicted his own claim within the same statement — announcing the strait was open while keeping the naval blockade in place until a deal was signed. The contradiction was contained within approximately 30 seconds of the same speech.</div>
-        <div class="ev-verdict" style="color:#9B5A10">Self-contradiction within same rally statement. Strait was not open. Naval blockade confirmed ongoing.</div>
-        <div class="ev-ref">PBS PolitiFact · AP Apr 16 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-21">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 18 2026</div>
-        <div class="claim-who">Truth Social + phone calls to reporters · False deal claims</div>
-      </div>
-      <div class="claim-quote">[Posted 900+ words on Truth Social claiming Iran had agreed to hand over enriched uranium and agreed to most contentious US demands. Declared imminent end to war. Told reporters Vance would not go to Pakistan for talks. Two senior officials simultaneously appeared on TV saying Vance would lead the delegation.]</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Iranian officials immediately rejected his claims. Sources familiar with talks said provisions he described had not been agreed. On Vance: Trump said he wouldn't go; UN Ambassador Waltz and Energy Secretary Wright appeared on TV saying he would; Vance went. White House explanation: "Things changed." Own officials were anonymously telling WSJ and CNN his Truth Social posts were sabotaging negotiations — "he's hampering efforts to make a deal."</div>
-        <div class="ev-verdict" style="color:#9B5A10">Iran rejected his claims within hours. Vance contradiction resolved by Vance going, not by Trump. Fortune: "Trump did exactly what his staffers said they wouldn't do."</div>
-        <div class="ev-ref">CNN Apr 20 2026 · Fortune Apr 21 2026 · WSJ</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-22">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#8B2020">Apr 19 2026</div>
-        <div class="claim-who">Truth Social · Ceasefire violation + new threat</div>
-      </div>
-      <div class="claim-quote">"Iran decided to fire bullets yesterday in the Strait of Hormuz — A Total Violation of our Ceasefire Agreement! We're offering a very fair and reasonable DEAL, and I hope they take it because, if they don't, the United States is going to knock out every single Power Plant, and every single Bridge, in Iran. NO MORE MR. NICE GUY!"</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> Same day US seized Iranian cargo ship TOUSKA. Trump: "Our Navy ship stopped them right in their tracks by blowing a hole in the engineroom." The power plant and bridge threat was identical to pre-ceasefire threats. "No more Mr. Nice Guy" came 11 days after declaring "Total and complete victory. 100%." US envoys were simultaneously travelling to Pakistan for a new round of talks.</div>
-        <div class="ev-verdict" style="color:#8B2020">"No more Mr. Nice Guy" — 11 days after "Total and complete victory." Power plant threat identical to pre-ceasefire language. Talks ongoing simultaneously.</div>
-        <div class="ev-ref">TIME Apr 19 2026 · PBS PolitiFact</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-23">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 20 2026</div>
-        <div class="claim-who">Truth Social · Revisionist duration claim</div>
-      </div>
-      <div class="claim-quote">"Democrats like to say that I promised 6 weeks to defeat Iran, and actually, from the Military standpoint, it was far faster than that, but I'm not going to let them rush the United States into making a Deal that is not as good as it could have been."</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> War was in its 7th week with no deal. Trump himself said "four to five weeks" on March 1 — not six, and not "far faster." Now retroactively denying the timeline while still not having achieved a deal. Simultaneously posted he was "under no pressure whatsoever."</div>
-        <div class="ev-verdict" style="color:#9B5A10">Trump said "four to five weeks" Mar 1. Now says "far faster." War in week 7+ with no deal. Duration claim count: 5.</div>
-        <div class="ev-ref">PBS PolitiFact · CNN Apr 20 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="war-24">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#9B5A10">Apr 21 2026</div>
-        <div class="claim-who">Press availability · Three answers to five identical questions</div>
-      </div>
-      <div class="claim-quote">[Asked five separate times whether he would extend the ceasefire, offered three different answers: "If there's no deal, fighting resumes." Told Bloomberg deadline ends "Wednesday evening Washington time" — a 24hr extension of the Tuesday deadline he had originally set. Then said it was "highly unlikely" he'd extend it further.]</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>What happened:</strong> The ceasefire had been announced at 6:32pm ET on April 7, making the two-week mark Tuesday evening. Trump told Bloomberg it was Wednesday — an extra 24 hours. Then said extension "highly unlikely." Ceasefire was subsequently extended indefinitely. Iran attacked three ships in the Strait during the extension. Own officials told Fortune his Truth Social posts were killing the peace talks: "Just 36% of Americans approve of US military strikes against Iran."</div>
-        <div class="ev-verdict" style="color:#9B5A10">Three contradictory answers. Original Tuesday deadline became Wednesday. Then extended indefinitely. Reuters/Ipsos: 36% approve of strikes. 26% consider Trump "even-tempered."</div>
-        <div class="ev-ref">CNN Apr 20 2026 · Fortune Apr 21 2026 · Reuters/Ipsos poll</div>
-      </div>
-    </div>
-
-
-</div><!-- /tab-war -->
-
-
-<div id="tab-money" class="tab-panel">
-  <div class="docs-panel-wrap">
-    <p class="docs-intro">Who benefits from the Iran war — financially. What follows is a documented record of known connections between Trump's inner circle and financial instruments that moved significantly during the conflict. Sources: Axios, Salon, New Yorker, BBC, FT, Bloomberg, AP, Mirror US.</p>
-
-    <div class="claim-block" id="money-1">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#1B3A6B">The $580 Million Futures Spike</div>
-        <div class="claim-who">Mar 23 2026 · 6:49am ET · Chicago Mercantile Exchange</div>
-      </div>
-      <div class="claim-quote">Roughly 6,200 Brent and WTI futures contracts — notional value $580 million — changed hands in two minutes. The five-day average for the same window: 700 contracts. Trump's Truth Social "productive conversations" post followed 16 minutes later.</div>
-      <div class="ev-card" style="border-left:3px solid #1B3A6B">
-        <div class="ev-text"><strong>Known facts:</strong> Bloomberg confirmed the trading anomaly via CME data. FT independently verified. The SEC's top enforcement official resigned the following week — reportedly after being blocked from pursuing cases with ties to Trump. Sen. Murphy: "Who was it? Trump? A family member? A White House staffer?" The White House sent a staff-wide email warning against insider trading — then stated no evidence existed of wrongdoing.</div>
-        <div class="ev-verdict" style="color:#1B3A6B">Identity of traders: unknown. SEC enforcement official: resigned. Investigation: none opened.</div>
-        <div class="ev-ref">FT Mar 24 2026 · Bloomberg · Yahoo Finance · Common Dreams · Salon</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="money-2">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#1B3A6B">Polymarket & Donald Trump Jr.</div>
-        <div class="claim-who">Apr 7 2026 ceasefire bets · ongoing</div>
-      </div>
-      <div class="claim-quote">At least 50 Polymarket accounts — all making their first-ever bets — placed heavy wagers on an April 7 US-Iran ceasefire hours before Trump announced one. One account: $72,000 in, $200,000 out. Another: $125,500 profit. Polymarket is partly backed by Donald Trump Jr.</div>
-      <div class="ev-card" style="border-left:3px solid #1B3A6B">
-        <div class="ev-text"><strong>Known facts:</strong> AP independently verified using blockchain data and Dune analytics. The accounts had no trading history before placing these specific bets. Polymarket announced new guidance to guard against insider behaviour but has not explained how it will be enforced. Kalshi issued similar guidance. Sen. Murphy and Rep. Casar introduced legislation to ban prediction market bets on "government actions, terrorism, war, assassination, and events where an individual knows or controls the outcome."</div>
-        <div class="ev-verdict" style="color:#1B3A6B">Polymarket: partly Trump Jr. backed. 50+ first-time accounts bet specifically on this ceasefire. Profits confirmed via blockchain.</div>
-        <div class="ev-ref">AP blockchain analysis · Mirror US · Dune analytics · Common Dreams</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="money-3">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#1B3A6B">Eric & Donald Trump Jr. — Drone Companies</div>
-        <div class="claim-who">Ongoing · Pentagon contracts</div>
-      </div>
-      <div class="claim-quote">Trump's sons Eric and Donald Jr. have invested in drone companies competing for Pentagon contracts. The Iran war has dramatically increased demand for military drone procurement.</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>Known facts:</strong> Reported by Axios Mar 25 2026. The Trump family has made an estimated $4 billion since Trump returned to office in January 2025, per a New Yorker investigation. The administration simultaneously cancelled 159 federal enforcement actions against 166 companies — more than 30 of which donated to Trump's inauguration or White House ballroom, per Public Citizen.</div>
-        <div class="ev-verdict" style="color:#1B3A6B">Pentagon drone contracts up during war Trump's sons invest in drone companies. No disclosure requirement applies to the president's family.</div>
-        <div class="ev-ref">Axios Mar 25 2026 · New Yorker 2026 · Public Citizen</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="money-4">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#1B3A6B">Jared Kushner — Persian Gulf Fundraising</div>
-        <div class="claim-who">Ongoing · Affinity Partners</div>
-      </div>
-      <div class="claim-quote">Jared Kushner — Trump's son-in-law and one of his Iran envoys — is seeking to raise billions for his private equity fund from Persian Gulf governments directly entangled in the war and its economic consequences.</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>Known facts:</strong> Confirmed by Axios Mar 25 2026. Kushner's fund Affinity Partners previously received $2 billion from Saudi Arabia's Public Investment Fund. The Gulf states are simultaneously being asked by Trump to help secure the Strait of Hormuz. Kushner is serving as an envoy in the same conflict from which Gulf governments stand to profit significantly via elevated oil prices.</div>
-        <div class="ev-verdict" style="color:#1B3A6B">Envoy to war zone simultaneously fundraising from governments in that war zone. No recusal.</div>
-        <div class="ev-ref">Axios Mar 25 2026 · Reuters · previously reported Saudi $2B investment</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="money-5">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#1B3A6B">The Dismantled Enforcement Machine</div>
-        <div class="claim-who">2025–2026 · systematic</div>
-      </div>
-      <div class="claim-quote">The Trump administration has systematically dismantled the machinery designed to catch insider trading and financial fraud during the period in which these trades occurred.</div>
-      <div class="ev-card" style="border-left:3px solid #8B2020">
-        <div class="ev-text"><strong>Known facts:</strong> The Justice Department's Public Integrity Section — created after Watergate — was reduced from 36 lawyers to two and stripped of authority to file new cases, per NOTUS. The administration cancelled 159 federal enforcement actions against companies, 30+ of which donated to Trump's inauguration. The SEC's top enforcement official resigned after being blocked from pursuing cases touching Trump's circle. Her replacement has not been named. Paul Krugman: "I'd very much like to know exactly who was making those trades yesterday morning. I'm sure we'll find out once Kash Patel's FBI carries out its careful, no-holds-barred investigation."</div>
-        <div class="ev-verdict" style="color:#8B2020">DOJ Public Integrity: 36 lawyers → 2. SEC enforcement chief: resigned. 159 federal actions cancelled. No investigation opened into Mar 23 trades.</div>
-        <div class="ev-ref">Axios · NOTUS · Public Citizen · Salon · Futurism Mar 2026</div>
-      </div>
-    </div>
-
-    <div class="claim-block" id="money-6">
-      <div class="claim-header">
-        <div class="claim-number" style="color:#1B3A6B">The Polymarket-Venezuela Pattern</div>
-        <div class="claim-who">Jan 2026 · pre-Iran precedent</div>
-      </div>
-      <div class="claim-quote">An identically structured pattern preceded the Iran war: a well-timed Polymarket bet came in minutes before Trump ordered the US military to attack Venezuela and capture Nicolás Maduro.</div>
-      <div class="ev-card">
-        <div class="ev-text"><strong>Known facts:</strong> Reported by Futurism and Salon. The Venezuela bet pattern was identified before the Iran war trades were discovered, establishing that Mar 23 was not an isolated anomaly but part of a repeated pattern across multiple military decisions. Sen. Murphy and Rep. Casar cited both Venezuela and Iran in their legislation to ban war-related prediction market trading.</div>
-        <div class="ev-verdict" style="color:#1B3A6B">Pattern confirmed across at least two military actions: Venezuela (Jan 2026) and Iran (Feb–Apr 2026). Legislation proposed. Not passed.</div>
-        <div class="ev-ref">Futurism · Salon · Common Dreams · Murphy-Casar legislation text</div>
-      </div>
-    </div>
-
-  </div>
-</div><!-- /tab-money -->
-
-<div id="tab-legal" class="tab-panel">
-  <div class="legend">
-    <div class="legend-item"><span class="leg-dot blue"></span>Civil litigation</div>
-    <div class="legend-item"><span class="leg-dot" style="background:var(--purple);"></span>Congressional &amp; oversight</div>
-    <div class="legend-item"><span class="leg-dot" style="background:var(--amber);"></span>Criminal / judicial</div>
-    <div class="legend-item"><span class="leg-dot gold"></span>Legislation</div>
-  </div>
-
-  <!-- STATUS STRIP -->
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);border-bottom:1px solid var(--border);">
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Trump v. Dow Jones</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--gold);">⏳ Pending — dismissal ruling</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Wolff v. Melania Trump</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--gold);">⏳ Procedural — service dispute</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:4px;">Trump v. Wolff (threatened)</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-dim);">◌ Not filed as of Mar 13 2026</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">Bondi subpoena</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--red);">⚠ Outstanding — not complied</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">GAO investigation</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--gold);">⏳ Active — Mar 11 2026</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">Missing FBI 302s</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--red);">⚠ Unresolved — DOJ silent</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">Grand jury unsealing</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-dim);">✗ Denied — Jul 23 2025</div>
-    </div>
-    <div style="background:#FAF6EE;padding:12px 20px;">
-      <div style="font-family:var(--mono);font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;">MCC guards indictment</div>
-      <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-dim);">✗ Dismissed 2021 — not refiled</div>
-    </div>
-  </div>
-
-  <!-- SECTION DIVIDER -->
-  <div style="padding:18px 48px 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);border-bottom:1px solid var(--border2);">I. Civil litigation — Trump v. press</div>
-
-  <div class="timeline-wrap">
-
-    <!-- WSJ SUIT -->
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 18</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">Trump v. Dow Jones · $20B defamation · S.D. Florida · No. 1:25-cv-23232</span></div>
-          <div class="cb">Filed the day after the WSJ birthday book story. Defendants: Dow Jones, News Corp, Rupert Murdoch personally, CEO Robert Thomson, and reporters Safdar and Palazzolo. Two counts at <strong>$10B each</strong>. Assigned to Judge <strong>Darrin Gayles</strong> (Obama appointee, first openly gay Black federal judge). <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> had hoped to land Judge Aileen Cannon — he did not. Murdoch told Trump he would "take care of it." He did not do that either.</div>
-          <div class="src">src · CourtListener 1:25-cv-23232 · CBS · CNBC · Newsweek · The Advocate</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 28</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">Murdoch deposition — expedited motion filed, then deferred</span></div>
-          <div class="cb"><span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s lawyers file motion seeking an <em>expedited</em> deposition of Murdoch on grounds of his age (94) and reported health deterioration, including a February collapse. Gayles grants a joint stipulation: deposition deferred until after dismissal ruling. Murdoch and Thomson waive personal jurisdiction objections. The stipulation includes provisions requiring regular health updates on Murdoch, which are now a matter of federal court record. All discovery is suspended pending the dismissal ruling.</div>
-          <div class="src">src · Newsweek · CourtListener joint stipulation · CNBC Aug 4 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Sep 8</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">Birthday book produced to Congress — enters lawsuit record</span></div>
-          <div class="cb">The Epstein estate produces the birthday book to a congressional subpoena. WSJ's attorneys file to have it taken into judicial notice. Defendants argue: "the very document <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> called 'nonexistent' has now been produced by Epstein's own estate and matches our reporting in every detail." White House press secretary Leavitt announces this <em>"PROVES the story is false."</em> <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s own lawyers do not appear to share this analysis.</div>
-          <div class="src">src · House Oversight · ABC · Newsweek Nov 5 2025 (judicial notice motion)</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Sep 22</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">WSJ motion to dismiss — "The article is true"</span></div>
-          <div class="cb">Opening line of WSJ's motion: <strong>"The article is true."</strong> The motion argues the story cannot defame <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> because it is consistent with his own self-documented history — citing the Access Hollywood tape, the NY magazine 2002 "many of them on the younger side" quote about Epstein, and other Trump statements. Seeks dismissal with prejudice, attorneys' fees, and costs. Calls the suit <em>"an affront to the First Amendment."</em> Filed the same week a federal judge tossed <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s separate $15B NYT suit as "tedious and burdensome."</div>
-          <div class="src">src · Variety Sep 22 2025 · Deadline · ABC</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Oct 20</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">Trump opposes dismissal · Gayles yet to rule</span></div>
-          <div class="cb"><span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>'s opposition filing calls the Journal a <em>"deliberate smear campaign"</em> with "reckless disregard for the truth." Argues that publishing a denial while implying it was false constitutes actual malice under <em>New York Times v. Sullivan</em>. <strong>Status as of Mar 13 2026: Judge Gayles has not ruled.</strong> Discovery remains suspended. Murdoch has not been deposed. Precedent note: <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> dropped his $500M suit against Cohen the moment Gayles scheduled a deposition requiring Trump's own testimony under oath.</div>
-          <div class="src">src · ABC · Newsweek Oct 20–21 2025 · CourtListener docket · CNBC (Cohen precedent)</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <!-- WOLFF SUIT -->
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Oct 22</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">Wolff v. Melania Trump · anti-SLAPP · NY Supreme Court, Manhattan</span></div>
-          <div class="cb">Author <strong><span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span></strong> — who conducted years of recorded interviews with Epstein — sues Melania <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> in NY Supreme Court under New York's anti-SLAPP statute after her lawyer sent a letter demanding retraction of Epstein-related reporting under threat of a <strong>$1B defamation suit</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> says the suit gives him subpoena power to depose both Trumps about their Epstein relationship. He raised $800K via GoFundMe to fund it. As of Feb 2026: Melania has moved to dismiss for improper service and seeks transfer to S.D. Florida. Service and residency are disputed — Wolff claims he located where Melania actually lives and served her there. <strong>Status: procedural only, no merits ruling.</strong> Apr 9 2026: Melania issued a public White House statement denying Epstein ties and acknowledging the Maxwell email — creating an on-record denial Wolff's lawyers have indicated they will use in proceedings.</div>
-          <div class="src">src · NBC News · Courthouse News · Axios · Newsweek Jan 6 2026 · factually.co Feb 2026 · The Hill Feb 3 2026</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jan 31</span><span class="date-yr">2026</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--blue);box-shadow:0 0 6px rgba(74,127,165,0.5);"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd b"></span><span class="ct">Trump threatens Wolff suit · Epstein estate · not yet filed</span></div>
-          <div class="cb">Responding to journalists aboard Air Force One the day after the 3M-page release, <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> says he will <em>"probably sue"</em> <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> for <em>"conspiring with Epstein to hurt me politically."</em> Also threatens to sue the Epstein estate. <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span> responds via Instagram: <em>"Bring it on."</em> As of Mar 13 2026: <strong>no lawsuit has been filed by <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> against <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span></strong>. This is at minimum the third occasion <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> has threatened to sue <span class="tl-name-link" onclick="openNodeFromTimeline('wolff')" title="Open dossier">Wolff</span>. He has not done so.</div>
-          <div class="src">src · Fox News Feb 1 2026 · The Hill Feb 3 2026 · Michael Wolff Substack Feb 1 2026</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-  </div><!-- /section 1 -->
-
-  <!-- SECTION DIVIDER -->
-  <div style="padding:22px 48px 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--purple);border-bottom:1px solid var(--border2);">II. Congressional &amp; oversight proceedings</div>
-
-  <div class="timeline-wrap">
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Nov 19</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--gold);box-shadow:0 0 8px rgba(200,168,75,0.5);"></div>
-        <div class="card mc">
-          <div class="cm"><span class="cd g"></span><span class="ct">Epstein Files Transparency Act · Pub. L. 119–38 · H.R.4405</span></div>
-          <div class="cb">Passes <strong>427–1</strong> (sole no: Rep. Clay Higgins, Louisiana). Mandates full release by Dec 19 with no redactions for embarrassment, political sensitivity, or reputational harm. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> signs it the same day, then posts to Truth Social calling the files <em>"a Hoax."</em> The law he signed to release the hoax files carries no enforcement mechanism — Republicans blocked a penalty clause. DOJ subsequently applies politically sensitive redactions, declares itself in full compliance, and is investigated.</div>
-          <div class="src">src · Congress.gov H.R.4405 · Truth Social Nov 19 2025 · The Hill (Merkley on enforcement)</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Feb 9</span><span class="date-yr">2026</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--purple);box-shadow:0 0 6px rgba(138,95,165,0.5);"></div>
-        <div class="card" style="border-color:rgba(138,95,165,.2);background:rgba(40,20,60,.2);">
-          <div class="cm"><span class="cd" style="background:var(--purple);"></span><span class="ct">Maxwell testimony — Fifth Amendment · House Oversight · Feb 9 2026</span></div>
-          <div class="cb"><strong><span class="tl-name-link" onclick="openNodeFromTimeline('maxwell')" title="Open dossier">Maxwell</span></strong> appears before House Oversight Committee and invokes the Fifth Amendment on every question. Her lawyer simultaneously states she will speak fully and honestly if <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> grants her <strong>clemency</strong>. <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> does not respond. The committee then votes to subpoena <strong>AG Pam Bondi</strong> as part of its Epstein probe. Bondi's subpoena is outstanding as of Mar 13 2026. Massie and Khanna attend the session and report FBI victim interview memos naming abusers remain missing even from the unredacted congressional review set.</div>
-          <div class="src">src · CSMonitor Feb 12 2026 · CNN (Maxwell/Fifth Amendment) · The Hill (Massie/Khanna)</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Mar 11</span><span class="date-yr">2026</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--purple);box-shadow:0 0 6px rgba(138,95,165,0.5);"></div>
-        <div class="card" style="border-color:rgba(138,95,165,.2);background:rgba(40,20,60,.2);">
-          <div class="cm"><span class="cd" style="background:var(--purple);"></span><span class="ct">GAO investigation requested · bipartisan · Mar 11 2026 — two days ago</span></div>
-          <div class="cb">Senators <strong>Merkley (D-OR), Murkowski (R-AK), Luján (D-NM), and Durbin (D-IL)</strong> write to Acting Comptroller General Orice Williams Brown requesting a GAO audit of DOJ's redaction and release process. The letter asks specifically whether political appointees approved redactions of "politically exposed persons," whether directives were given to shield powerful figures, and whether the release served to <em>"cover up child sexual abuse."</em> GAO confirms receipt and is reviewing the request. Senator Merkley has separately introduced legislation to create penalties for EFTA non-compliance — Republican leadership blocked it. Ron Wyden identifies <strong>$1.5B in suspicious activity reports</strong> at Treasury linked to Epstein associates.</div>
-          <div class="src">src · CNBC Mar 11 2026 · WaPo Mar 11 2026 · Merkley.senate.gov · The Hill · KTVZ</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Ongoing</span><span class="date-yr">2026</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--purple);box-shadow:0 0 6px rgba(138,95,165,0.5);"></div>
-        <div class="card" style="border-color:rgba(138,95,165,.2);background:rgba(40,20,60,.2);">
-          <div class="cm"><span class="cd" style="background:var(--purple);"></span><span class="ct">Congressional unredacted access — outstanding demands · NBC/NPR investigation live</span></div>
-          <div class="cb">Massie and Khanna have formally requested unredacted review access to FBI 302 interview memos. Rep. Robert Garcia (D-CA, House Oversight ranking member) went to DOJ in person to view unredacted files and could not locate the missing FBI interview records there either — he states this is <em>"evidence of a cover-up."</em> The missing files relate to a South Carolina woman who made sexual abuse allegations against both Epstein and <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span>, interviewed by the FBI four times. Only one of the four transcripts has been publicly released. The others are absent from the congressional unredacted set as well as the public database. <strong>DOJ has not explained the absence.</strong></div>
-          <div class="src">src · NBC News Feb 25 2026 · NPR Feb 24 2026 · CNN Mar 5 2026</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-  </div><!-- /section 2 -->
-
-  <!-- SECTION DIVIDER -->
-  <div style="padding:22px 48px 4px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--border2);">III. Criminal &amp; judicial proceedings</div>
-
-  <div class="timeline-wrap">
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Jul 23</span><span class="date-yr">2025</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--amber);box-shadow:0 0 6px rgba(200,124,48,0.4);"></div>
-        <div class="card" style="border-color:rgba(200,124,48,.18);background:rgba(40,25,10,.2);">
-          <div class="cm"><span class="cd" style="background:var(--amber);"></span><span class="ct">Grand jury unsealing — denied · Judge Rosenberg · S.D. Florida</span></div>
-          <div class="cb">Federal judge <strong>Robin Rosenberg</strong> denies the administration's motion to unseal Epstein grand jury transcripts from the original Palm Beach investigation — three days after <span class="tl-name-link" onclick="openNodeFromTimeline('trump')" title="Open dossier">Trump</span> publicly called for their release. A separate request to unseal <span class="tl-name-link" onclick="openNodeFromTimeline('maxwell')" title="Open dossier">Maxwell</span> deposition transcripts is granted. The Palm Beach grand jury testimony — which includes Det. Joe Recarey's account of the first victim complaint (14-year-old girl, 2005) and subsequent testimony from dozens of girls — remains sealed.</div>
-          <div class="src">src · NPR timeline · CBS Jul 23 2025</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Unresolved</span><span class="date-yr">2019–</span></div>
-      <div class="story-cell" style="border-left-color:var(--border2);">
-        <div class="nd" style="background:var(--amber);box-shadow:0 0 6px rgba(200,124,48,0.4);"></div>
-        <div class="card" style="border-color:rgba(200,124,48,.18);background:rgba(40,25,10,.2);">
-          <div class="cm"><span class="cd" style="background:var(--amber);"></span><span class="ct">MCC corrections officers indictment · S.D.N.Y. · falsified records</span></div>
-          <div class="cb">Two Metropolitan Correctional Center guards — <strong>Tova Noel and Michael Thomas</strong> — were indicted by S.D.N.Y. for falsifying prison records on the night of Epstein's death (Aug 10 2019). Both pleaded not guilty. The DOJ under Biden moved to dismiss the case in 2021 citing inability to bring it to trial during COVID. The case was not refiled. DAG Blanche's Jan 30 2026 letter to Congress acknowledges DOJ is still attempting to obtain grand jury materials from this case. The related MCC cell block footage — released Sep 2 2025 — contains a one-minute gap. No one has been convicted in connection with Epstein's death.</div>
-          <div class="src">src · DAG Blanche letter to Congress Jan 30 2026 · CBS Sep 2 2025 (cell block footage)</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    <div class="t-row">
-      <div class="date-cell"><span class="date-val">Apr 2</span><span class="date-yr">2026</span></div>
-      <div class="story-cell"><div class="nd flag"></div>
-        <div class="card lc">
-          <div class="cm"><span class="cd" style="background:var(--red);"></span><span class="ct">AG fired — Epstein files cited as cause · Apr 2 2026</span></div>
-          <div class="cb"><strong>AG Pam Bondi</strong> fired by Trump. Multiple sources confirm her handling of the Epstein files played a central role in her removal. She had told Fox News in Feb 2025 that an Epstein client list was <em>"sitting on my desk right now to review"</em> — the DOJ later said no such list existed. The reversal triggered the congressional push for the EFTA and a House Oversight subpoena she had not complied with. White House chief of staff Susie Wiles had previously acknowledged Bondi had <em>"completely whiffed"</em> on the Epstein files. Deputy AG <strong>Todd Blanche</strong> — Trump's former personal criminal defense attorney — named acting AG. Lee Zeldin (EPA) reported as frontrunner to replace her permanently. House Oversight's Rep. Garcia: <em>"Bondi and Trump may think her firing gets her out of testifying. They are wrong."</em></div>
-          <div class="src">src · CNN Apr 2 2026 · NBC News Apr 2 2026 · NPR Apr 2 2026 · CBS News Apr 2 2026 · CNBC Apr 2 2026</div>
-        </div>
-      </div>
-      <div class="gutter-cell"></div><div class="legal-empty"></div>
-    </div>
-
-    </div>
-
-  </div><!-- /section 3 -->
-</div>
-
-<!-- ══════════════════════
-     TAB 3 — DOCUMENT RECORD
-══════════════════════ -->
-<div id="tab-docs" class="tab-panel">
-  <div class="docs-panel-wrap">
-
-    <p class="docs-intro">What follows is the documentary record — specific files, case references, and document IDs from the released Epstein files — cross-referenced against specific public claims made by the administration. Each entry lists the document, what it says, and what official statement it contradicts. The green cards are the files talking back.</p>
-
-    <!-- CLAIM 1 -->
-    <div class="claim-block" id="claim-1">
-      <div class="claim-header">
-        <div class="claim-number">01 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Official claim — Jul 7 2025</div>
-          <div class="claim-quote">"There is no credible evidence that Epstein blackmailed prominent individuals… No 'client list' exists… We conducted an exhaustive review."</div>
-          <div class="claim-who">— DOJ memo, Jul 7 2025 · signed off under AG Pam Bondi</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">Dataset 12</span>
-          <div class="ev-ref">EFTA02857524 · 205 pages · dated May 1, 2007<br>"Operation Leap Year" — prosecution memo</div>
-          <div class="ev-date">Event: 2007 · Released: Mar 5 2026 (35 days after "final" release)</div>
-          <div class="ev-text">A federal prosecutor formally asked US Attorney <strong><span class="tl-name-link" onclick="openNodeFromTimeline('acosta')" title="Open dossier">Alexander Acosta</span></strong> for permission to indict Epstein on <strong>60 counts</strong>. The memo documents <strong>27 named victims aged 14–23</strong>, recruited from local schools. The indictment was abandoned in favour of the NPA. This document was <em>initially withheld</em> from the Jan 30 release, labelled as duplicative.</div>
-          <div class="ev-verdict">↯ "exhaustive review" missed a 205-page prosecution memo recommending 60-count indictment</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">Dataset 12</span>
-          <div class="ev-ref">EFTA02857729 · Jun 2008 immunity memo</div>
-          <div class="ev-date">Event: Jun 2008 · Released: Mar 5 2026</div>
-          <div class="ev-text">Written while the NPA was being finalised, prosecutors were still seeking immunity orders to <strong>flip Lesley Groff</strong>, Epstein's personal assistant — calling her <em>"the most likely to flip if we have sufficient evidence to charge her."</em> No charges were brought. Groff continued working for Epstein.</div>
-          <div class="ev-verdict">↯ NPA granted immunity not just to Epstein but to "any potential co-conspirators" — the review found this unremarkable</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">DOJ OPR</span>
-          <div class="ev-ref">DOJ Office of Professional Responsibility Report · Nov 2020 · USAO S.D. Florida</div>
-          <div class="ev-date">Event: 2006–2008 · Report published: Nov 2020</div>
-          <div class="ev-text">DOJ's own OPR found Acosta used <strong>"poor judgment"</strong> in the plea deal and that victims were kept in the dark in potential violation of the Crime Victims' Rights Act, 18 U.S.C. § 3771. The NPA granted immunity to Epstein, four named co-conspirators, and <em>"any potential co-conspirators."</em></div>
-          <div class="ev-verdict">↯ the DOJ reviewed its own prior misconduct in 2020 and then declared its 2025 review "exhaustive"</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 2 -->
-    <div class="claim-block" id="claim-2">
-      <div class="claim-header">
-        <div class="claim-number">02 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Official claim — Jul 12–16 2025</div>
-          <div class="claim-quote">Epstein is "somebody that nobody cares about." The files are "a big hoax." This is "all over a guy who never dies, Jeffrey Epstein."</div>
-          <div class="claim-who">— Trump / Truth Social, Jul 12 &amp; 16 2025</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">FBI 302</span>
-          <div class="ev-ref">FBI 302 — interview with former Palm Beach Police Chief Michael Reiter · Oct 2019 · Released Jan 30 2026</div>
-          <div class="ev-date">Event: Jul 2006 · Interview: Oct 2019 · Released: Jan 30 2026</div>
-          <div class="ev-text">Reiter told the FBI that in <strong>July 2006</strong> Trump called him to say: <em>"thank goodness you're stopping him, everyone has known he's been doing this."</em> Trump told Reiter that <em>"people in New York knew Epstein was disgusting"</em> and called Maxwell <em>"evil — focus on her."</em> Trump also said he had been around Epstein once when teenagers were present and <strong>"got the hell out of there."</strong></div>
-          <div class="ev-verdict">↯ Trump knew enough about Epstein in 2006 to call the police chief — he is not somebody nobody cares about</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">SDNY email</span>
-          <div class="ev-ref">SDNY prosecutor email · 2020 · Released Jan 30 2026</div>
-          <div class="ev-date">Event: 2020 internal DOJ correspondence</div>
-          <div class="ev-text">A prosecutor's internal email notes that <strong>"Donald Trump traveled on Epstein's private jet many more times than previously reported (or that we were aware)."</strong> This was written by the administration that, five years later, would call all Epstein files a hoax.</div>
-          <div class="ev-verdict">↯ DOJ's own prosecutors documented Trump's jet travel in 2020; the administration called the files a hoax in 2025</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">FBI internal</span>
-          <div class="ev-ref">FBI internal note · Jul 22 2025 · Released Jan 30 2026 (and briefly removed)</div>
-          <div class="ev-date">Event: Jul 22 2025 — written six days after "big hoax" statement</div>
-          <div class="ev-text">An FBI agent wrote — six days after Trump called the files a hoax — that Trump's name was present in the Epstein case files and that <strong>"one identified victim claimed abuse by Trump but ultimately refused to cooperate."</strong> This document was among those briefly removed from the DOJ website on Jan 30 before being restored.</div>
-          <div class="ev-verdict">↯ FBI was documenting Trump's name in the case files the same week Trump was calling the files a Democrat fabrication</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 3 -->
-    <div class="claim-block" id="claim-3">
-      <div class="claim-header">
-        <div class="claim-number">03 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Official claim — Jul 17–18 2025</div>
-          <div class="claim-quote">"This is not me. This is a fake thing… no authentic letter or drawing exists… I never drew a picture in my life."</div>
-          <div class="claim-who">— Trump to WSJ, Jul 15 2025 · White House press secretary Leavitt, Sep 8 2025</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">House Oversight</span>
-          <div class="ev-ref">Epstein 50th birthday book · 238 pages · produced by Epstein estate under congressional subpoena · Sep 2025</div>
-          <div class="ev-date">Event: 2003 · Produced to Congress: Sep 8 2025</div>
-          <div class="ev-text">The birthday book, assembled by Maxwell as "Family, Friends, Business" categories, contains a letter <strong>identical in every detail</strong> to the WSJ's description: typewritten text in the outline of a hand-drawn nude figure, with "Donald" signed below the hips. The letter ends: <em>"may every day be another wonderful secret."</em> Trump is listed as a <em>"friend."</em> Maxwell says in her introduction she cannot recall if he responded. She then appeared before Congress and invoked the Fifth Amendment.</div>
-          <div class="ev-verdict">↯ the letter the lawsuit calls "nonexistent" was produced by Epstein's own estate to Congress</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">Historical record</span>
-          <div class="ev-ref">Trump hand-drawn auction items · documented public record · NYT, 2016</div>
-          <div class="ev-date">Note: prior to the birthday book claim</div>
-          <div class="ev-text">NYT reported in 2016 that Trump had <strong>auctioned hand-drawn sketches</strong> — including a drawing of the George Washington Bridge — with signatures closely matching the one on the Epstein birthday letter. The claim "I never drew a picture in my life" appears to be contradicted by Trump's own prior commercial activity.</div>
-          <div class="ev-verdict">↯ "I never drew a picture in my life" — NYT documented auction of Trump hand-drawn sketches in 2016</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 4 -->
-    <div class="claim-block" id="claim-4">
-      <div class="claim-header">
-        <div class="claim-number">04 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Official claim — DOJ memo, Jul 7 2025</div>
-          <div class="claim-quote">"Epstein's death was a suicide. The investigation is complete. No evidence supports any other conclusion."</div>
-          <div class="claim-who">— DOJ memo, Jul 7 2025</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">Datasets 1–8</span>
-          <div class="ev-ref">MCC New York cell block video · released Sep 2 2025 · House Oversight Committee</div>
-          <div class="ev-date">Event: Aug 10 2019 · Released: Sep 2 2025</div>
-          <div class="ev-text">The cell block video released by the House Oversight Committee shows Epstein's corridor at the Metropolitan Correctional Center on the night of his death — <strong>with a one-minute gap in the footage</strong>. The DOJ had declared its review exhaustive. The existence of the gap had not been previously disclosed in official statements.</div>
-          <div class="ev-verdict">↯ "complete" investigation — the released footage has a gap not previously disclosed</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">SDNY</span>
-          <div class="ev-ref">Grand jury indictment — corrections officers · S.D.N.Y. · referenced in DAG Blanche's Jan 30 letter to Congress</div>
-          <div class="ev-date">Event: 2019 · Referenced: Jan 30 2026</div>
-          <div class="ev-text">Deputy AG Blanche's letter to Congress on Jan 30 2026 acknowledges the DOJ is still seeking to obtain <strong>grand jury materials from an S.D.N.Y. case charging corrections officers</strong> with falsifying records related to Epstein's death. A "complete" investigation has, as of Mar 2026, not secured those records.</div>
-          <div class="ev-verdict">↯ the DOJ declared the death investigation complete while still trying to obtain records from it</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 5 -->
-    <div class="claim-block" id="claim-5">
-      <div class="claim-header">
-        <div class="claim-number">05 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Official claim — DOJ, Dec 19 2025</div>
-          <div class="claim-quote">"The Department is not redacting the names of any politicians. We are fully complying with the Act."</div>
-          <div class="claim-who">— DOJ statement following Dec 19 2025 release</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">Dec 19 release</span>
-          <div class="ev-ref">Redaction failure · Dec 19 2025 · traced to 2021 USVI AG civil racketeering filing incorporated into DOJ release</div>
-          <div class="ev-date">Discovered: Dec 19–20 2025</div>
-          <div class="ev-text">Social media users discovered blacked-out text in several documents could be <strong>revealed by copy-pasting into any text application</strong>. The flaw originated in a 2021 Virgin Islands attorney general civil racketeering filing the DOJ had incorporated verbatim. The accidentally-visible content included details about <strong>trafficking network members and operational methods</strong> — not victim names. These were what officials had specifically chosen to conceal.</div>
-          <div class="ev-verdict">↯ redactions were protecting network operational details, not just victim identities as stated</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">Dec 19 release</span>
-          <div class="ev-ref">Photo releases — Trump image alterations · identified by comparing DOJ and House Oversight versions · Dec 2025</div>
-          <div class="ev-date">Identified: Dec 19–22 2025</div>
-          <div class="ev-text">Multiple outlets identified that DOJ-released versions of photographs <strong>did not include Trump</strong> in images where House Oversight Committee versions — obtained separately from Epstein's estate — showed him present. On Dec 22, Trump acknowledged he was in the photos and denied wrongdoing. The DOJ said it was not redacting politicians.</div>
-          <div class="ev-verdict">↯ DOJ said it was not redacting politicians; Trump was absent from DOJ photo releases where House Oversight had him present</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 6 -->
-    <div class="claim-block" id="claim-6">
-      <div class="claim-header">
-        <div class="claim-number">06 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Key revelations — Jan 30 2026 release</div>
-          <div class="claim-quote">"The White House had no oversight of this process. This is the final release. The Department has met its legal obligations."</div>
-          <div class="claim-who">— DAG Todd Blanche press conference, Jan 30 2026</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">Dataset 9</span>
-          <div class="ev-ref">Howard Lutnick email correspondence · 2011–2012 · Dataset 9 · Released Jan 30 2026</div>
-          <div class="ev-date">Event: 2011–2012</div>
-          <div class="ev-text">Commerce Secretary <strong><span class="tl-name-link" onclick="openNodeFromTimeline('lutnick')" title="Open dossier">Howard Lutnick</span></strong> — who had said publicly he'd vowed never to be in the same room as Epstein after his crimes came to light — is shown in emails from <strong>2011 and 2012</strong> returning Epstein's calls and scheduling meetings, including <em>drinks</em> and a <em>lunch on Epstein's Caribbean island</em>. This is 3–4 years after Epstein's 2008 guilty plea to soliciting a minor.</div>
-          <div class="ev-verdict">↯ Lutnick's stated distance from Epstein is contradicted by email records in files his own department helped release</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">SDNY draft</span>
-          <div class="ev-ref">Draft indictment · S.D. Florida · circa 2001–2005 · Released Jan 30 2026 · CNN</div>
-          <div class="ev-date">Event: 2001–2005 · Document: c. 2007</div>
-          <div class="ev-text">An uncharged draft indictment names Epstein and <strong>three unnamed co-defendants</strong> (names redacted) in a conspiracy to "procure females under the age of 18." These are described as <em>employees</em>, not clients. The question of who they are remains unanswered. This is not the "client list" — it is potentially more directly incriminating.</div>
-          <div class="ev-verdict">↯ DOJ claimed nothing in the files required prosecution of co-conspirators; uncharged draft names three of them</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">FBI / SDNY</span>
-          <div class="ev-ref">FBI Child Exploitation &amp; Human Trafficking Task Force · SDNY · internal document dated Aug 2025 · Released Jan 30 2026</div>
-          <div class="ev-date">Document created: Aug 2025 — while administration was calling files a hoax</div>
-          <div class="ev-text">The FBI compiled an internal list of <strong>sexual assault allegations related to Donald Trump</strong> in August 2025. It contains more than a dozen entries. An annotating note reads: <em>"Yellow highlighting is for the salacious piece."</em> Two versions of the document were briefly removed from the DOJ website on Jan 30 before being silently restored.</div>
-          <div class="ev-verdict">↯ compiled by FBI while administration was calling files a hoax; briefly removed from public release on day of publication</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 7 -->
-    <div class="claim-block" id="claim-7">
-      <div class="claim-header">
-        <div class="claim-number">07 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Official claim — DOJ, Jan 30 2026</div>
-          <div class="claim-quote">"January 30 is the final release. The Department has fulfilled its obligations under the Epstein Files Transparency Act."</div>
-          <div class="claim-who">— DAG Todd Blanche, Jan 30 2026</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">Dataset 12</span>
-          <div class="ev-ref">Dataset 12 backfill · 16 documents · 900+ pages · Published Mar 5 2026 — 35 days after "final" release</div>
-          <div class="ev-date">Withheld: Jan 30 2026 · Released: Mar 5 2026</div>
-          <div class="ev-text">Sixteen documents totalling 900+ pages were backfilled into Dataset 12 on March 5 — including <strong>four prosecution memos (313 pages)</strong>, the immunity memo targeting Lesley Groff, and the <strong>582-page FBI file that restarted the 2018 investigation</strong>. They had been labelled <em>"incorrectly coded as duplicative"</em> (15 documents) and <em>"privileged"</em> (5 prosecution memos). These are the government's own record of its worst failures in the Epstein case.</div>
-          <div class="ev-verdict">↯ the "final" release was followed 35 days later by another release; the withheld documents were the most consequential in the entire case</div>
-        </div>
-        <div class="ev-card">
-          <span class="dataset-badge">NPR investigation</span>
-          <div class="ev-ref">NPR investigation · Feb 24 2026 · serial number gap analysis in DOJ release database</div>
-          <div class="ev-date">Investigation published: Feb 24 2026</div>
-          <div class="ev-text">NPR identified <strong>dozens of pages catalogued but not released</strong> by examining sequential serial numbers in the DOJ's release database — pages present in the catalogue that had no corresponding public document. The missing pages include <strong>FBI 302 interviews with a woman who accused Trump of abuse as a minor</strong> and notes from conversations with her mother. The DOJ declined to answer questions about specific files.</div>
-          <div class="ev-verdict">↯ "final release" — NPR found catalogued-but-absent documents including victim interview records about Trump</div>
-        </div>
-      </div>
-    </div>
-    <hr class="claim-divider">
-
-    <!-- CLAIM 8 -->
-    <div class="claim-block" id="claim-8">
-      <div class="claim-header">
-        <div class="claim-number">08 /</div>
-        <div class="claim-stated">
-          <div class="claim-label">Public Law 119-38 — the law itself, Nov 19 2025</div>
-          <div class="claim-quote">"No record shall be withheld, delayed, or redacted on the basis of embarrassment, reputational harm, or political sensitivity, including to any government official, public figure, or foreign dignitary."</div>
-          <div class="claim-who">— Epstein Files Transparency Act, Pub. L. 119–38, § 2(b)(2) · signed by Trump Nov 19 2025</div>
-        </div>
-      </div>
-      <div class="evidence-grid">
-        <div class="ev-card">
-          <span class="dataset-badge">Pattern</span>
-          <div class="ev-ref">Collective record · Dec 2025 – Mar 2026</div>
-          <div class="ev-date">Across all releases</div>
-          <div class="ev-text">The administration: missed the Dec 19 statutory deadline; released 500+ entirely blacked-out pages; briefly removed 16 files without explanation; released photographs with Trump cropped out; withheld 16 prosecution documents initially coded as duplicative; declined to release FBI 302 victim interview memos naming abusers; compiled a list of victim names that were <em>unredacted</em> while perpetrator names were redacted — the reverse of what the Act required; and declared the release complete while 2.5 million catalogued pages remained unreleased.</div>
-          <div class="ev-verdict">↯ the law Trump signed prohibits redaction for political sensitivity · the pattern of releases suggests systematic application of exactly that standard</div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /docs-panel-wrap -->
-</div><!-- /tab-docs -->
-
-<footer>
-  three-track investigation · compiled from public record · mar 2026 ·
-  document refs: EFTA02857524, EFTA02857729, EFTA01660679, FBI 302 (Reiter interview), FBI CEHTTF internal document, Dataset 9 email evidence, Dataset 12 backfill ·
-  sources: NPR, WSJ, CNN, CBS, ABC, PBS, CNBC, Reuters, Newsweek, Time, Deadline, Variety, Al Jazeera, Wikipedia / Epstein Files &amp; EFTA ·
-  legislation: H.R.4405 / Pub. L. 119–38 (119th Congress) · DOJ OPR Report Nov 2020 · US District Court S.D. Florida (Trump v. Dow Jones et al.)
-</footer>
-
-<script>
-  function switchTab(id, btn, scrollTo) {
-    // hide all panels
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    // show target
-    document.getElementById('tab-' + id).classList.add('active');
-    // activate btn
-    if (btn) btn.classList.add('active');
-    else {
-      const btns = document.querySelectorAll('.tab-btn');
-      if (id === 'timeline') btns[0].classList.add('active');
-      if (id === 'legal')    btns[1].classList.add('active');
-      if (id === 'docs')     btns[2].classList.add('active');
-    }
-    // scroll to anchor if provided
-    if (scrollTo) {
-      setTimeout(() => {
-        const el = document.getElementById(scrollTo);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 50);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
-</script>
-</div>
-
-<script>
-
-// ── Timeline name → dossier links ──
-function openNodeFromTimeline(nodeId) {
-  const node = typeof PEOPLE !== 'undefined' && PEOPLE.find(p => p.id === nodeId);
-  if (!node) return;
-
-  const PINPOINT = 'https://journaliststudio.google.com/pinpoint/search?collection=c109fa8e7dcf42c1&q=';
-  const STATUS_LABEL = {
-    removed:'Resigned / removed', stripped:'Stripped / sanctioned',
-    active:'Active — no formal action', deceased:'Deceased',
-    pending:'Pending / under investigation', incarcerated:'Incarcerated',
-    center:'Central figure'
-  };
-  const STATUS_CLR = {
-    removed:'#8B2020', stripped:'#9B5A10', active:'#1B3A6B',
-    deceased:'#2A5A3A', pending:'#5A2A8B', incarcerated:'#111111', center:'#B8963E'
-  };
-
-  const cleanName = node.name.split('\n')[0];
-
-  const elName = document.getElementById('mini-dos-name'); if(elName) elName.textContent = cleanName;
-  const elTitle = document.getElementById('mini-dos-title'); if(elTitle) elTitle.textContent = node.title || '';
-
-  // Travel tags
-  const travel = node.travel || {};
-  let th = '';
-  if (travel.plane === true)  th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(139,32,32,.25);background:rgba(139,32,32,.05);color:#8B2020;margin-right:4px;">✈ Flew on plane</span>';
-  if (travel.plane === false) th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(27,58,107,.25);background:rgba(27,58,107,.05);color:#1B3A6B;margin-right:4px;">✈ Denied flights</span>';
-  if (travel.plane === 'unclear') th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(184,150,62,.3);background:rgba(184,150,62,.06);color:#7A5A10;margin-right:4px;">✈ Unclear</span>';
-  if (travel.island === true)  th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(139,32,32,.25);background:rgba(139,32,32,.05);color:#8B2020;">⛵ Visited island</span>';
-  if (travel.island === false) th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(27,58,107,.25);background:rgba(27,58,107,.05);color:#1B3A6B;">⛵ Denied island</span>';
-  if (travel.island === 'claimed_never') th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(27,58,107,.25);background:rgba(27,58,107,.05);color:#1B3A6B;">⛵ Claims never went</span>';
-  if (travel.island === 'unclear') th += '<span style="font-family:var(--mono);font-size:8px;padding:2px 6px;border-radius:2px;border:1px solid rgba(184,150,62,.3);background:rgba(184,150,62,.06);color:#7A5A10;">⛵ Unclear</span>';
-  const elTravel = document.getElementById('mini-dos-travel'); if(elTravel) elTravel.innerHTML = th;
-
-  // Connection — first 400 chars, strip HTML tags
-  const connRaw = (node.conn || '').replace(/<[^>]+>/g, '').replace(/\\n/g,' ').substring(0, 400);
-  const elConn = document.getElementById('mini-dos-conn'); if(elConn) elConn.textContent = connRaw + (node.conn && node.conn.length > 400 ? '…' : '');
-
-  // Consequence
-  const consText = (node.cons?.text || '').replace(/\\n/g,' ');
-  const consEl = document.getElementById('mini-dos-cons'); if(!consEl) return;
-  consEl.textContent = consText;
-  const clr = STATUS_CLR[node.cons?.cls || node.status] || '#8B6B50';
-  consEl.style.borderLeftColor = clr;
-  consEl.style.color = clr;
-
-  // Pinpoint
-  const elPin = document.getElementById('mini-dos-pinpoint'); if(elPin) elPin.href = PINPOINT + encodeURIComponent(cleanName);
-
-  // Show panel, scroll sidebar to top
-  // Ensure timeline page is visible
-  if (!document.getElementById('page-timeline').classList.contains('active')) {
-    const tlBtn = document.querySelectorAll('.pnav-btn')[1];
-    showPage('timeline', tlBtn);
-  }
-  const panel = document.getElementById('mini-dos');
-  if (!panel) return;
-  panel.style.display = 'block';
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  // Highlight the clicked name briefly
-  document.querySelectorAll('.tl-name-link').forEach(el => el.style.fontWeight = '');
-  event.target.style.fontWeight = '700';
-}
-
-function closeMiniDos() {
-  const closePanel = document.getElementById('mini-dos'); if(closePanel) closePanel.style.display = 'none';
-  document.querySelectorAll('.tl-name-link').forEach(el => el.style.fontWeight = '');
-}
-
-
-// ── Mobile list view ──────────────────────────────────
-const PINPOINT_BASE = 'https://journaliststudio.google.com/pinpoint/search?collection=c109fa8e7dcf42c1&q=';
-const STATUS_COLOURS = {
-  removed:'#8B2020', stripped:'#9B5A10', active:'#1B3A6B',
-  deceased:'#2A5A3A', pending:'#5A2A8B', incarcerated:'#111111', center:'#C9A84C'
-};
-
-function buildMobileList(filter) {
-  const container = document.getElementById('mob-items');
-  if (!container) return;
-  const term = (filter || '').toLowerCase();
-  const people = PEOPLE.filter(p => p.id !== 'ep' && p.r > 0);
-  const filtered = term
-    ? people.filter(p => p.name.toLowerCase().includes(term) || (p.title||'').toLowerCase().includes(term))
-    : people;
-
-  container.innerHTML = filtered.map(p => {
-    const name = p.name.split('\n')[0];
-    const dot = `<span class="mob-dot" style="background:${STATUS_COLOURS[p.status]||'#8B6B50'}"></span>`;
-    const sector = p.sector.charAt(0).toUpperCase() + p.sector.slice(1);
-
-    // Travel tags
-    const t = p.travel || {};
-    let travel = '';
-    if (t.plane === true)  travel += '<span style="color:#8B2020;border-color:rgba(139,32,32,.3);background:rgba(139,32,32,.05)">✈ Flew on plane</span>';
-    if (t.plane === false) travel += '<span style="color:#1B3A6B;border-color:rgba(27,58,107,.3);background:rgba(27,58,107,.05)">✈ Denied flights</span>';
-    if (t.plane === 'unclear') travel += '<span style="color:#7A5A10;border-color:rgba(184,150,62,.3);background:rgba(184,150,62,.06)">✈ Unclear</span>';
-    if (t.island === true)  travel += '<span style="color:#8B2020;border-color:rgba(139,32,32,.3);background:rgba(139,32,32,.05)">⛵ Visited island</span>';
-    if (t.island === false) travel += '<span style="color:#1B3A6B;border-color:rgba(27,58,107,.3);background:rgba(27,58,107,.05)">⛵ Denied island</span>';
-    if (t.island === 'claimed_never') travel += '<span style="color:#1B3A6B;border-color:rgba(27,58,107,.3);background:rgba(27,58,107,.05)">⛵ Claims never</span>';
-    if (t.island === 'unclear') travel += '<span style="color:#7A5A10;border-color:rgba(184,150,62,.3);background:rgba(184,150,62,.06)">⛵ Unclear</span>';
-
-    const conn = (p.conn || '').replace(/<[^>]+>/g,'').replace(/\\n/g,' ').substring(0,350);
-    const cons = (p.cons?.text || '').replace(/\\n/g,' ');
-    const clr = STATUS_COLOURS[p.cons?.cls || p.status] || '#8B6B50';
-
-    return `<div class="mob-item" onclick="toggleMobItem(this)">
-      <div class="mob-item-header">
-        ${dot}
-        <span class="mob-name">${name}</span>
-        <span class="mob-sector">${sector}</span>
-        <span class="mob-chevron">›</span>
-      </div>
-      <div class="mob-body">
-        <div class="mob-title">${p.title||''}</div>
-        <div class="mob-travel">${travel}</div>
-        <div class="mob-conn">${conn}${p.conn && p.conn.length > 350 ? '…' : ''}</div>
-        <div class="mob-cons" style="border-left-color:${clr};color:${clr}">${cons}</div>
-        <a class="mob-pinpoint" href="${PINPOINT_BASE}${encodeURIComponent(name)}" target="_blank" rel="noopener">⊞ Search in DOJ files ↗</a>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function toggleMobItem(el) {
-  el.classList.toggle('open');
-}
-
-// Wire search box to filter list on mobile
-const searchBox = document.getElementById('search-box');
-if (searchBox) {
-  searchBox.addEventListener('input', function() {
-    if (window.innerWidth <= 768) buildMobileList(this.value);
-  });
-}
-
-// Build on load if mobile
-function initMobileIfNeeded() {
-  if (window.innerWidth <= 768) {
-    buildMobileList('');
-  }
-}
-window.addEventListener('resize', function() {
-  if (window.innerWidth <= 768 && document.getElementById('mob-items').innerHTML === '') {
-    buildMobileList('');
-  }
-});
-
-
-function openAbout() {
-  document.getElementById('about-overlay').classList.add('open');
-}
-function closeAbout() {
-  document.getElementById('about-overlay').classList.remove('open');
-}
-
-function showPage(name, btn) {
-  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.pnav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
-  btn.classList.add('active');
-  // D3 simulation needs a kick when canvas becomes visible
-  if (name === 'network' && typeof sim !== 'undefined') {
-    setTimeout(() => sim.alpha(0.1).restart(), 50);
-  }
-}
-</script>
+</div><!-- /about-overlay -->
 
 </body>
-</html
+</html>
