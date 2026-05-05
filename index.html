@@ -2160,6 +2160,13 @@ const people = [
     cons:{ cls:'removed', text:'Fired as Attorney General Apr 2 2026.\nEpstein files handling cited as primary cause by multiple White House sources.\nHouse Oversight subpoena unresolved at time of firing. Rep. Garcia: "Bondi and Trump may think her firing gets her out of testifying. They are wrong."\nNo criminal charges.' },
     ref:'CNN Apr 2 2026 · NBC News Apr 2 2026 · NPR Apr 2 2026 · CBS News Apr 2 2026 · Wikipedia Pam Bondi' },
 
+  { id:'naomi', name:'Naomi Campbell', title:'Supermodel', sector:'social', status:'named', r:11,
+    travel:{plane:true, island:'unclear'},
+    badges:['social','named'],
+    conn:'British supermodel. Appears in Epstein\'s contact book, released as part of the EFTA corpus.\nFlight logs place her aboard Epstein\'s aircraft. Listed in the FBI Prominent Names briefing released Jan 30 2026.\nCampbell has publicly stated she met Epstein through mutual social contacts in the 1990s and attended events at which he was present. She has not been accused of wrongdoing.\nGhislaine Maxwell is documented as a mutual social connection. Campbell attended Maxwell\'s public events in New York during the same period Maxwell was managing Epstein\'s social calendar.',
+    cons:{ cls:'named', text:'Named in released EFTA documents. Not accused of wrongdoing. No charges filed.' },
+    ref:'EFTA corpus · FBI Prominent Names briefing Jan 30 2026 · Flight logs via Epstein Flight Explorer · The Guardian · BBC' },
+
 ];
 
 // filter out the placeholder duplicate
@@ -2629,18 +2636,6 @@ document.querySelectorAll('.chip[data-s]').forEach(btn => {
 document.getElementById('search-box').addEventListener('input', function() {
   searchTerm = this.value.trim().toLowerCase();
   updateVis();
-});
-
-function openAbout() {
-  document.getElementById('about-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeAbout() {
-  document.getElementById('about-overlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeAbout();
 });
 </script>
 
