@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<!-- Island Ledger v1.8 | Built 2026-05-05 -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peter's Dialog — Cyramatique</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ── SHARED BASE ── */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: #F5F0E8;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Linen texture */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+
+/* ── PAGE NAV ── */
+#page-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; gap: 0;
+  background: #F5F0E8;
+  border-bottom: 1px solid rgba(184,150,62,.4);
+  height: 40px;
+  padding: 0 20px;
+  box-shadow: 0 2px 12px rgba(90,65,30,.08);
+}
+#page-nav::before {
+  content: '✦';
+  color: #B8963E; font-size: 11.5px; margin-right: 12px;
+}
+.pnav-btn {
+  font-family: 'Cormorant SC', Georgia, serif;
+  font-size: 12.1px; letter-spacing: .16em; text-transform: uppercase;
+  padding: 0 18px; height: 40px; border: none; background: none;
+  color: #8B6B50; cursor: pointer; border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.pnav-btn:hover { color: #1B3A2D; }
+.pnav-btn.active { color: #1B3A2D; border-bottom-color: #B8963E; }
+
+/* page sections */
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* timeline page needs scroll, network page needs overflow:hidden */
+#page-timeline { min-height: 100vh; overflow-y: auto; }
+body { overflow-y: auto; }
+#page-network  { height: calc(100vh); overflow: hidden; padding-top: 40px; }
+#page-network #wrap { overflow: hidden; }
+
+/* push timeline content below fixed nav */
+#page-timeline header { padding-top: 56px; }
+
+
+/* ── NETWORK PAGE ── */
+
+:root {
+  /* ── Mar-a-Lago palette ── */
+  --bg:          #F5F0E8;   /* parchment */
+  --bg2:         #EDE7D9;   /* deeper parchment */
+  --surface:     #FAF6EE;   /* ivory card */
+  --surface2:    #F0EAD8;   /* warm cream */
+  --border:      rgba(90,65,30,.15);
+  --border2:     rgba(90,65,30,.08);
+  --border-gold: rgba(184,150,62,.4);
+
+  --green:       #1B3A2D;   /* hunter green */
+  --green-mid:   #2E5C45;
+  --green-light: rgba(27,58,45,.08);
+  --gold:        #B8963E;   /* aged gold */
+  --gold-light:  #D4AE5A;
+  --gold-pale:   rgba(184,150,62,.1);
+  --gold-rule:   rgba(184,150,62,.35);
+
+  --text:        #2C1810;   /* dark mahogany */
+  --text-mid:    #5A4030;
+  --text-dim:    #8B6B50;
+  --text-faint:  #B09070;
+
+  --display:  'Playfair Display', 'Georgia', serif;
+  --body:     'Cormorant Garamond', 'Georgia', serif;
+  --caps:     'Cormorant SC', 'Georgia', serif;
+
+  /* status — kept rich but readable on cream */
+  --c-removed:  #8B2020;
+  --c-stripped: #9B5A10;
+  --c-active:   #1B3A6B;
+  --c-deceased: #2A5A3A;
+  --c-pending:  #5A2A8B;
+  --c-incarc:   #111111;   /* deep crimson — incarcerated */
+  --c-center:   #B8963E;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+/* network scroll lock handled by page-section */ 
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--body);
+}
+
+/* subtle linen texture via SVG data URI */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  opacity: 1;
+}
+
+#wrap { display: flex; height: 100vh; position: relative; }
+
+/* ── CANVAS ── */
+#canvas-wrap { flex: 1; position: relative; overflow: hidden; }
+#canvas-wrap svg { width: 100%; height: 100%; }
+
+/* ── TOOLBAR ── */
+#toolbar {
+  position: absolute; top: 0; left: 0; right: 0;
+  display: flex; align-items: center; gap: 8px;
+  padding: 12px 18px 14px;
+  background: linear-gradient(to bottom, var(--bg) 65%, transparent);
+  z-index: 30; flex-wrap: wrap;
+}
+
+/* gold rule under toolbar area */
+#toolbar::after {
+  content: '';
+  position: absolute; bottom: 0; left: 18px; right: 18px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-rule) 30%, var(--gold-rule) 70%, transparent);
+}
+
+/* title lockup */
+#toolbar-title {
+  font-family: var(--display); font-size: 20.7px; font-weight: 600;
+  color: var(--green); letter-spacing: .04em;
+  margin-right: 6px; white-space: nowrap;
+  display: flex; align-items: center; gap: 8px;
+}
+#toolbar-title::before {
+  content: '✦';
+  color: var(--gold); font-size: 12.4px;
+}
+
+#search-box {
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 2px;
+  padding: 5px 12px;
+  font-family: var(--caps); font-size: 13.1px; color: var(--text);
+  width: 170px; letter-spacing: .06em;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(90,65,30,.06);
+}
+#search-box::placeholder { color: #8B6B50; }
+#search-box:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(184,150,62,.12); }
+
+.chip {
+  font-family: var(--caps); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+  cursor: pointer; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text-dim);
+  transition: all .15s; white-space: nowrap;
+  display: flex; align-items: center; gap: 5px;
+}
+.chip:hover { border-color: var(--gold-rule); color: var(--text-mid); background: var(--gold-pale); }
+.chip.on { color: var(--green); border-color: var(--gold-rule); background: var(--gold-pale); }
+.chip .cd { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+#count-label {
+  font-family: var(--caps); font-size: 11px; color: #8B6B50;
+  letter-spacing: .15em; margin-left: auto; white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* section label in toolbar */
+.tb-label {
+  font-family: var(--caps); font-size: 12.6px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold); margin-right: 2px;
+  white-space: nowrap;
+}
+
+/* ── LEGEND ── */
+
+/* ── NODE LABELS ── */
+.node-label {
+  pointer-events: none;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12.4px; fill: #5A4030;
+}
+.node-label.ep {
+  font-size: 17.9px; fill: #1B3A2D;
+  font-weight: 600; font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ── DOSSIER ── */
+#dossier {
+  width: 0; min-width: 0;
+  background: var(--surface);
+  border-left: 1px solid var(--border-gold);
+  transition: width .25s cubic-bezier(.4,0,.2,1), min-width .25s cubic-bezier(.4,0,.2,1);
+  overflow: hidden;
+  position: relative; z-index: 40;
+  display: flex; flex-direction: column;
+  box-shadow: -4px 0 24px rgba(90,65,30,.08);
+}
+#dossier.open { width: 330px; min-width: 330px; }
+
+/* gold top bar on dossier */
+#dossier::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+  flex-shrink: 0;
+}
+
+#dos-header {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--border-gold);
+  flex-shrink: 0;
+  display: flex; justify-content: space-between; align-items: flex-start;
+  background: var(--surface2);
+}
+#dos-close {
+  cursor: pointer; font-size: 27.6px; color: #8B6B50;
+  line-height: 1; padding: 0 0 0 10px; flex-shrink: 0;
+  font-family: var(--display);
+}
+#dos-close:hover { color: var(--green); }
+
+#dos-name {
+  font-family: var(--display); font-size: 26.2px; font-weight: 600;
+  color: var(--green); line-height: 1.15; margin-bottom: 5px;
+  letter-spacing: .01em;
+}
+#dos-title {
+  font-family: var(--caps); font-size: 13.5px; letter-spacing: .14em;
+  color: var(--gold); line-height: 1.5; text-transform: uppercase;
+}
+
+#dos-body { padding: 16px 18px 28px; overflow-y: auto; flex: 1;
+  scrollbar-width: thin; scrollbar-color: var(--border-gold) transparent; }
+
+.dos-badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
+.badge {
+  font-family: var(--caps); font-size: 12.1px; letter-spacing: .12em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 2px; border: 1px solid;
+}
+.badge.financial { color: #1B3A6B; border-color: rgba(27,58,107,.3); background: rgba(27,58,107,.05); }
+.badge.social    { color: #2A5A3A; border-color: rgba(42,90,58,.3);  background: rgba(42,90,58,.05); }
+.badge.legal     { color: #9B5A10; border-color: rgba(155,90,16,.3); background: rgba(155,90,16,.05); }
+.badge.alleged   { color: #8B2020; border-color: rgba(139,32,32,.3); background: rgba(139,32,32,.05); }
+.badge.access    { color: #7A5A10; border-color: rgba(184,150,62,.4); background: var(--gold-pale); }
+.badge.postconv  { color: #7A3060; border-color: rgba(122,48,96,.3); background: rgba(122,48,96,.05); }
+.badge.enabler   { color: #5A2A8B; border-color: rgba(90,42,139,.3); background: rgba(90,42,139,.05); }
+
+.dos-section-label {
+  font-family: var(--caps); font-size: 11px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 7px; margin-top: 16px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-gold);
+}
+
+.dos-text {
+  font-family: var(--body); font-size: 20.7px; line-height: 1.75;
+  color: var(--text); font-weight: 300;
+}
+.dos-text em { font-style: italic; color: var(--text-mid); }
+.dos-text strong { font-weight: 500; color: var(--green); }
+
+.dos-consequence {
+  margin-top: 10px; padding: 10px 14px; border-radius: 2px;
+  font-size: 19.5px; line-height: 1.7;
+  font-family: var(--body); font-weight: 300;
+  border-left: 3px solid;
+}
+.dos-consequence.removed  { border-color: var(--c-removed);  background: rgba(139,32,32,.05);  color: #6A1A1A; }
+.dos-consequence.stripped { border-color: var(--c-stripped); background: rgba(155,90,16,.05);  color: #7A4A10; }
+.dos-consequence.active   { border-color: var(--c-active);   background: rgba(27,58,107,.05);  color: #1B3A6B; }
+.dos-consequence.deceased { border-color: var(--c-deceased); background: rgba(42,90,58,.05);   color: #2A5A3A; }
+.dos-consequence.pending  { border-color: var(--c-pending);  background: rgba(90,42,139,.05);  color: #5A2A8B; }
+.dos-consequence.incarcerated { border-color: var(--c-incarc);   background: rgba(139,26,26,.06);  color: #6A1010; }
+
+.dos-ref {
+  margin-top: 14px; font-family: var(--caps); font-size: 11px;
+  color: #8B6B50; letter-spacing: .08em;
+  line-height: 1.9; font-size: 14.4px; border-top: 1px solid var(--border-gold);
+  padding-top: 10px; text-transform: uppercase;
+}
+
+.pinpoint-btn {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 16px; padding: 9px 14px;
+  background: var(--green-light);
+  border: 1px solid rgba(27,58,45,.2);
+  border-radius: 2px;
+  font-family: var(--caps); font-size: 12.4px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--green);
+  text-decoration: none;
+  transition: background .15s, border-color .15s;
+}
+.pinpoint-btn:hover {
+  background: rgba(27,58,45,.14);
+  border-color: rgba(27,58,45,.4);
+}
+.pp-icon { font-size: 16.6px; opacity: .7; }
+.pp-note {
+  font-family: var(--caps); font-size: 12.1px; letter-spacing: .08em;
+  color: #8B6B50; text-transform: uppercase;
+  margin-top: 6px; padding: 0 2px;
+}
+
+/* gold ornament divider */
+.dos-ornament {
+  text-align: center; color: var(--gold); font-size: 17.2px;
+  margin: 4px 0; letter-spacing: .4em; opacity: .7;
+}
+
+/* sector label on canvas */
+.sector-label {
+  font-family: 'Cormorant SC', Georgia, serif;
+  font-size: 17.2px; letter-spacing: .22em;
+  text-transform: uppercase; opacity: .7; pointer-events: none;
+  font-weight: 500;
+}
+
+
+/* ── SIGNATURE ── */
+#signature {
+  position: fixed; bottom: 14px; left: 18px;
+  font-family: var(--display); font-size: 14.9px;
+  letter-spacing: .04em; z-index: 200;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+#signature a { pointer-events: all; }
+#signature a {
+  color: rgba(0,97,161,1); text-decoration: none;
+  border-bottom: 1px solid rgba(0,97,161,0.3);
+  transition: color .15s, border-color .15s;
+  font-weight: 600;
+}
+#signature a:hover { color: var(--gold); border-color: var(--gold); }
+
+/* hint */
+#hint {
+  position: fixed; bottom: 14px; right: 18px;
+  font-family: var(--caps); font-size: 10.3px;
+  color: #8B6B50; letter-spacing: .1em;
+  text-transform: uppercase; z-index: 200;
+  pointer-events: none;
+}
+
+/* dossier bullet points */
+.dos-bullets { list-style: none; padding: 0; margin: 0; }
+.dos-bullets li {
+  font-family: var(--body); font-size: 17.2px; line-height: 1.75;
+  color: var(--text); font-weight: 300;
+  padding-left: 1.4em; position: relative; margin-bottom: 5px;
+}
+.dos-bullets li::before {
+  content: '✦'; position: absolute; left: 0;
+  font-size: 8px; color: var(--gold); top: 7px;
+}
+.dos-bullets li em { font-style: italic; color: var(--text-mid); }
+.dos-bullets li strong { font-weight: 500; color: var(--green); }
+
+/* travel status strip */
+.dos-travel {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+.dos-travel-tag {
+  font-family: var(--caps); font-size: 10.9px; letter-spacing: .1em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 2px;
+  border: 1px solid;
+}
+.dos-travel-tag.yes     { color: #8B2020; border-color: rgba(139,32,32,.3); background: rgba(139,32,32,.05); }
+.dos-travel-tag.no      { color: #1B3A6B; border-color: rgba(27,58,107,.3); background: rgba(27,58,107,.05); }
+.dos-travel-tag.unclear { color: #7A5A10; border-color: rgba(184,150,62,.35); background: var(--gold-pale); }
+
+
+/* ── TIMELINE PAGE ── */
+
+  :root {
+    --bg:          #F5F0E8;
+    --surface:     #FAF6EE;
+    --surface2:    #F0EAD8;
+    --border:      rgba(90,65,30,.15);
+    --border2:     rgba(90,65,30,.08);
+    --gold:        #B8963E;
+    --gold-dim:    rgba(184,150,62,.25);
+    --red:         #8B2020;
+    --green:       #2A5A3A;
+    --green-dim:   rgba(42,90,58,.12);
+    --green-bright:#3A7A50;
+    --blue:        #1B3A6B;
+    --blue-dim:    rgba(27,58,107,.1);
+    --purple:      #5A2A8B;
+    --purple-dim:  rgba(90,42,139,.1);
+    --amber:       #9B5A10;
+    --amber-dim:   rgba(155,90,16,.1);
+    --text:        #2C1810;
+    --text-dim:    #5A4030;
+    --text-faint:  #8B6B50;
+    --mono:        'Cormorant SC', 'Georgia', serif;
+    --serif:       'Cormorant Garamond', 'Georgia', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--serif);
+    min-height: 100vh;
+  }
+
+  /* ══════════════════════════════
+     HEADER
+  ══════════════════════════════ */
+  header {
+    padding: 40px 48px 30px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim) 30%, var(--gold-dim) 70%, transparent);
+  }
+  .eyebrow {
+    font-family: 'Cormorant SC', Georgia, serif; font-size: 10.3px; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 14px; display: none;
+  }
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif; font-size: clamp(22.4px, 3.68vw, 36.8px);
+    font-weight: 600; line-height: 1.2; color: #1B3A2D; max-width: 820px;
+  }
+  h1 em { font-style: italic; color: var(--gold); font-family: 'Cormorant Garamond', Georgia, serif; }
+  .deck {
+    font-family: var(--serif); font-style: italic; font-size: 14.9px;
+    color: var(--text-dim); margin-top: 12px; max-width: 580px; line-height: 1.6; font-weight: 300;
+  }
+
+  /* ══════════════════════════════
+     TAB BAR
+  ══════════════════════════════ */
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: #F5F0E8;
+    position: sticky;
+    top: 40px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(90,65,30,.06);
+  }
+  .tab-btn {
+    padding: 14px 28px;
+    font-family: var(--mono); font-size: 10.3px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--text-dim);
+    background: none; border: none; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--text); border-bottom-color: var(--gold); }
+  .tab-btn.active.legal-tab { border-bottom-color: var(--blue); }
+  .tab-btn.active.docs-tab  { border-bottom-color: var(--green); }
+
+  .tab-pill {
+    display: inline-block; margin-left: 7px;
+    padding: 1px 6px; border-radius: 10px; font-size: 9.2px;
+    background: rgba(200,168,75,0.12); color: var(--gold-dim);
+  }
+  .legal-tab .tab-pill { background: rgba(74,127,165,0.12); color: var(--blue-dim); }
+  .docs-tab  .tab-pill { background: rgba(74,140,92,0.12); color: #2A5A3A; }
+
+  /* ══════════════════════════════
+     LEGEND STRIP
+  ══════════════════════════════ */
+  .legend {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    padding: 14px 48px; background: var(--surface);
+    border-bottom: 1px solid var(--border2);
+  }
+  .legend-item { display: flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+  .leg-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .leg-dot.gold  { background: var(--gold); }
+  .leg-dot.red   { background: var(--red); box-shadow: 0 0 4px rgba(184,64,64,0.5); }
+  .leg-dot.blue  { background: var(--blue); }
+  .leg-dot.green { background: var(--green); box-shadow: 0 0 4px rgba(74,140,92,0.5); }
+
+  /* ══════════════════════════════
+     TAB PANELS
+  ══════════════════════════════ */
+
+  .tab-btn.war-tab   .tab-pill { background: rgba(139,32,32,.1); color: #8B2020; }
+  .tab-btn.money-tab .tab-pill { background: rgba(27,58,107,.1); color: #1B3A6B; }
+  .tab-btn.active.war-tab   { border-bottom-color: #8B2020; }
+  .tab-btn.active.money-tab { border-bottom-color: #1B3A6B; }
+
+  .tab-panel { display: none; height: 0; overflow: hidden; padding-bottom: 0; }
+  .tab-panel.active { display: block !important; height: auto !important; overflow: visible !important; padding-bottom: 60px; }
+  .tab-panel:not(.active) { display: none !important; height: 0 !important; overflow: hidden !important; }
+
+  /* ══════════════════════════════
+     TIMELINE PANEL (tabs 1 & 2)
+  ══════════════════════════════ */
+  .col-headers {
+    display: grid;
+    grid-template-columns: 100px 1fr 6px 320px;
+    padding: 0 48px; margin: 28px 0 4px;
+  }
+  .col-label {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.18em;
+    text-transform: uppercase; padding-bottom: 7px;
+    border-bottom: 1px solid var(--border);
+  }
+  .col-label.story { color: var(--gold); padding-left: 22px; }
+  .col-label.legal { color: var(--blue); padding-left: 18px; }
+  .col-label.gap   { border-bottom: none; }
+
+  .timeline-wrap { padding: 0 48px; position: relative; }
+
+  .t-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 6px 320px;
+    position: relative;
+    animation: rowIn 0.35s ease both;
+  }
+  @keyframes rowIn { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+  .t-row:nth-child(1)  { animation-delay:.04s }
+  .t-row:nth-child(2)  { animation-delay:.08s }
+  .t-row:nth-child(3)  { animation-delay:.12s }
+  .t-row:nth-child(4)  { animation-delay:.16s }
+  .t-row:nth-child(5)  { animation-delay:.20s }
+  .t-row:nth-child(6)  { animation-delay:.24s }
+  .t-row:nth-child(7)  { animation-delay:.28s }
+  .t-row:nth-child(8)  { animation-delay:.32s }
+  .t-row:nth-child(9)  { animation-delay:.36s }
+  .t-row:nth-child(10) { animation-delay:.40s }
+  .t-row:nth-child(11) { animation-delay:.44s }
+  .t-row:nth-child(12) { animation-delay:.48s }
+  .t-row:nth-child(13) { animation-delay:.52s }
+  .t-row:nth-child(14) { animation-delay:.56s }
+  .t-row:nth-child(15) { animation-delay:.60s }
+  .t-row:nth-child(16) { animation-delay:.64s }
+  .t-row:nth-child(17) { animation-delay:.68s }
+  .t-row:nth-child(18) { animation-delay:.72s }
+  .t-row:nth-child(19) { animation-delay:.76s }
+  .t-row:nth-child(20) { animation-delay:.80s }
+
+  .date-cell {
+    padding: 16px 10px 16px 0; text-align: right; position: relative;
+  }
+  .date-val { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--gold); display: block; line-height: 1.3; }
+  .date-yr  { font-family: var(--mono); font-size: 10.3px; color: var(--gold-dim); display: block; }
+
+  .story-cell {
+    padding: 11px 12px 11px 22px;
+    border-left: 1px solid var(--border); position: relative;
+  }
+  .story-cell .nd {
+    position: absolute; left:-5px; top:18px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--gold); border:2px solid var(--bg); z-index:3;
+  }
+  .story-cell .nd.flag { background:var(--red); width:11px; height:11px; left:-6px; top:16px; box-shadow:0 0 7px rgba(184,64,64,0.5); }
+  .story-cell .nd.ms   { background:var(--gold); width:13px; height:13px; left:-7px; top:14px; box-shadow:0 0 9px rgba(200,168,75,0.5); }
+
+  .gutter-cell { position: relative; }
+  .gutter-cell::before {
+    content:''; position:absolute; left:50%; top:0; bottom:0;
+    width:1px; background:var(--border2); transform:translateX(-50%);
+  }
+
+  .legal-cell {
+    padding: 11px 0 11px 16px;
+    border-left: 1px solid var(--border2); position: relative;
+  }
+  .legal-cell .nd {
+    position:absolute; left:-5px; top:18px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--blue); border:2px solid var(--bg); z-index:3;
+    box-shadow:0 0 5px rgba(74,127,165,0.4);
+  }
+  .legal-empty { padding: 0; }
+
+  /* cards */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px; padding: 11px 14px;
+    transition: border-color .2s, background .2s;
+  }
+  .card:hover { border-color: var(--gold-dim); background: var(--surface2); }
+  .card.fc  { border-color: rgba(184,64,64,.2); background: rgba(74,30,30,.1); }
+  .card.fc:hover { border-color: var(--red); }
+  .card.mc  { border-color: rgba(200,168,75,.17); }
+  .card.lc  { background: rgba(30,53,69,.3); border-color: rgba(74,127,165,.17); }
+  .card.lc:hover { border-color: var(--blue); }
+
+  .cm { display:flex; align-items:center; gap:6px; margin-bottom:5px; }
+  .cd { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+  .cd.g { background:var(--gold); } .cd.r { background:var(--red); } .cd.b { background:var(--blue); }
+  .ct { font-family:var(--mono); font-size: 9.8px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim); }
+  .cb { font-family:var(--serif); font-size: 16.1px; line-height:1.65; color:var(--text); font-weight:300; }
+  .cb strong { font-weight:400; color:var(--gold); }
+  .cb em     { font-style:italic; color:#5A4030; }
+  .src { margin-top:7px; font-family:var(--mono); font-size: 9.2px; letter-spacing:.1em; color:var(--text-dim); opacity:.5; text-transform:uppercase; }
+
+  /* doc ref chips in timeline */
+  .doc-chip {
+    display:inline-flex; align-items:center; gap:4px;
+    margin-top:8px; padding:3px 8px;
+    background:rgba(74,140,92,.07); border:1px solid rgba(74,140,92,.2);
+    border-radius:2px; font-family:var(--mono); font-size: 8px;
+    letter-spacing:.1em; text-transform:uppercase; color:var(--green);
+    cursor:pointer; transition:all .2s; user-select:none;
+  }
+  .doc-chip:hover { background:rgba(74,140,92,.15); border-color:var(--green); }
+
+  /* ══════════════════════════════
+     DOCUMENT EVIDENCE TAB
+  ══════════════════════════════ */
+  .docs-panel-wrap { padding: 32px 48px 80px; }
+
+  /* ── DOCS / WAR / MONEY TABS — TYPOGRAPHY HIERARCHY ── */
+
+  .docs-intro {
+    font-family: 'Georgia', var(--serif); font-style: italic; font-size: 15px;
+    color: var(--text-dim); margin-bottom: 40px; max-width: 680px;
+    line-height: 1.8; font-weight: 400;
+    padding-left: 16px; border-left: 2px solid rgba(42,90,58,.3);
+  }
+
+  /* ── CLAIM BLOCK wrapper ── */
+  .claim-block {
+    margin-bottom: 52px; padding-bottom: 52px;
+    border-bottom: 1px solid rgba(90,65,30,.1);
+    animation: rowIn .35s ease both;
+  }
+  .claim-block:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 32px; }
+  .claim-block:nth-child(2) { animation-delay:.06s }
+  .claim-block:nth-child(3) { animation-delay:.12s }
+  .claim-block:nth-child(4) { animation-delay:.18s }
+  .claim-block:nth-child(5) { animation-delay:.24s }
+  .claim-block:nth-child(6) { animation-delay:.30s }
+  .claim-block:nth-child(7) { animation-delay:.36s }
+  .claim-block:nth-child(8) { animation-delay:.42s }
+
+  /* ── LEVEL 1: Date + source — smallest, quietest ── */
+  .claim-header {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .claim-number {
+    font-family: var(--mono); font-size: 9px; color: #8B6B50;
+    letter-spacing: 0.14em; flex-shrink: 0; padding-top: 2px;
+    text-transform: uppercase;
+  }
+  .claim-who {
+    font-family: var(--mono); font-size: 9px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B6B50;
+    line-height: 1.5;
+  }
+
+  /* ── LEVEL 2: The quote — Truth Social card style ── */
+  .claim-stated { flex: 1; }
+  .claim-stated .claim-label {
+    font-family: var(--mono); font-size: 8px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .claim-stated .claim-label::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--red); flex-shrink: 0;
+  }
+
+  /* Truth Social card wrapper */
+  .ts-card {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 12px;
+    padding: 16px 18px 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  }
+  .ts-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .ts-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: #fff;
+    font-family: 'Georgia', serif; letter-spacing: -.02em;
+  }
+  .ts-identity { flex: 1; min-width: 0; }
+  .ts-name {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px; font-weight: 700; color: #0f1419;
+    line-height: 1.2;
+  }
+  .ts-handle {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 12px; color: #536471; line-height: 1.2;
+  }
+  .ts-platform {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B2020;
+    background: rgba(139,32,32,.06); padding: 3px 7px; border-radius: 3px;
+  }
+  .claim-quote {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 16px; font-weight: 400; font-style: normal;
+    color: #0f1419; line-height: 1.6;
+    margin: 0;
+  }
+  .ts-footer {
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid rgba(0,0,0,.06);
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 11px; color: #536471;
+    display: flex; gap: 12px; align-items: center;
+  }
+  .ts-footer-icon { opacity: .5; font-size: 13px; }
+
+  /* Market event — not a Trump quote — amber treatment */
+  .market-event-card {
+    background: rgba(155,90,16,.04);
+    border: 1px solid rgba(155,90,16,.2);
+    border-left: 3px solid #9B5A10;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px; margin-bottom: 20px;
+  }
+  .market-event-label {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .14em;
+    text-transform: uppercase; color: #9B5A10; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .market-event-label::before {
+    content: '⬥'; font-size: 8px; color: #9B5A10;
+  }
+  .market-event-text {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px; font-weight: 400; color: #2C1810; line-height: 1.6;
+  }
+  .market-event-text strong { font-weight: 600; }
+
+  /* ── LEVEL 3: Evidence card — sans-serif, clinical, readable ── */
+  .evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px; margin-top: 4px;
+  }
+  .ev-card {
+    background: #FAF6EE;
+    border: 1px solid rgba(90,65,30,.12);
+    border-left: 3px solid rgba(42,90,58,.3);
+    border-radius: 0 3px 3px 0;
+    padding: 16px 18px;
+    transition: border-color .2s, background .2s;
+    position: relative;
+  }
+  .ev-card:hover { background: #F0EAD8; }
+
+  /* ── LEVEL 3a: What happened — clean sans-serif body ── */
+  .ev-text {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 13.5px; line-height: 1.7;
+    color: #2C1810; font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .ev-text strong {
+    font-weight: 600; color: #1B3A2D;
+    font-style: normal;
+    display: block; margin-bottom: 4px;
+    font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+    opacity: .7;
+  }
+  .ev-text em { font-style: italic; color: #2C1810; }
+
+  /* ── LEVEL 3b: Contradiction/verdict — clinical highlight ── */
+  .ev-verdict {
+    margin-top: 12px; padding: 10px 12px;
+    background: rgba(139,32,32,.05);
+    border-left: 3px solid #8B2020;
+    border-radius: 0 2px 2px 0;
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 12.5px; font-weight: 400;
+    color: #8B2020; line-height: 1.6;
+  }
+
+  /* ── LEVEL 4: Source references — smallest, muted ── */
+  .ev-ref {
+    font-family: var(--mono); font-size: 8.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: #8B6B50; opacity: .7;
+    margin-top: 12px; line-height: 1.6;
+  }
+  .ev-date {
+    font-family: var(--mono); font-size: 8.5px; color: #8B6B50;
+    letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px;
+  }
+
+  .ev-card .dataset-badge {
+    position: absolute; top: 10px; right: 10px;
+    font-family: var(--mono); font-size: 7.5px; letter-spacing: .1em;
+    text-transform: uppercase; color: #2A5A3A; opacity: .8;
+    background: rgba(42,90,58,.07); padding: 2px 6px; border-radius: 2px;
+  }
+
+
+  .deck-list {
+    list-style: none; padding: 0; margin-top: 10px; max-width: 560px;
+  }
+  .deck-list li {
+    font-family: var(--serif); font-style: italic; font-size: 17.2px;
+    color: var(--text-dim); line-height: 1.6; font-weight: 300;
+    padding-left: 1.2em; position: relative; margin-bottom: 3px;
+  }
+  .deck-list li::before {
+    content: '✦'; position: absolute; left: 0;
+    font-size: 8px; color: var(--gold); top: 5px; font-style: normal;
+  }
+
+
+  /* ── RIGHT SIDEBAR ── */
+  .sidebar-col {
+    position: sticky; top: 56px; max-height: calc(100vh - 80px); overflow-y: auto;
+    padding: 16px 0 16px 20px;
+    border-left: 1px solid var(--border2);
+    display: flex; flex-direction: column; gap: 20px;
+  }
+
+  .sidebar-section-label {
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(184,150,62,.2);
+  }
+
+  .status-chip {
+    display: flex; flex-direction: column; gap: 2px;
+    margin-bottom: 7px;
+  }
+  .status-chip-label {
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .status-chip-val {
+    font-family: var(--mono); font-size: 9.8px; letter-spacing: .06em;
+  }
+  .status-chip-val.pending  { color: var(--gold); }
+  .status-chip-val.alert    { color: var(--red); }
+  .status-chip-val.dismissed{ color: var(--text-dim); }
+  .status-chip-val.active-g { color: var(--green); }
+
+  .efta-chip {
+    display: inline-block;
+    font-family: var(--mono); font-size: 9.2px; letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 7px; border-radius: 2px; margin: 2px 2px 2px 0;
+    background: rgba(42,90,58,.07);
+    border: 1px solid rgba(42,90,58,.2);
+    color: #2A5A3A;
+    cursor: default;
+    line-height: 1.4;
+  }
+  .efta-chip.red {
+    background: rgba(139,32,32,.06);
+    border-color: rgba(139,32,32,.2);
+    color: #8B2020;
+  }
+  .efta-chip.gold {
+    background: rgba(184,150,62,.07);
+    border-color: rgba(184,150,62,.25);
+    color: #7A5A10;
+  }
+  .efta-chip-desc {
+    font-family: var(--serif); font-size: 15px; line-height: 1.5;
+    color: var(--text-dim); margin-top: 3px; font-weight: 300; font-style: italic;
+  }
+
+
+  /* clickable names in timeline */
+  .tl-name-link {
+    cursor: pointer;
+    border-bottom: 1px solid rgba(184,150,62,.4);
+    transition: color .1s, border-color .1s;
+  }
+  .tl-name-link:hover {
+    color: #1B3A2D;
+    border-bottom-color: #1B3A2D;
+  }
+
+  /* divider between claim blocks */
+  .claim-divider {
+    border: none; border-top: 1px solid var(--border2);
+    margin: 0 0 40px; opacity: .5;
+  }
+
+  footer {
+    margin: 0 48px;
+    padding: 18px 0;
+    border-top: 1px solid var(--border2);
+    font-family: var(--mono); font-size: 8.6px; color: var(--text-dim);
+    letter-spacing: .08em; opacity: .45; line-height: 1.7;
+  }
+
+  @media (max-width:800px) {
+    header,.legend,.timeline-wrap,.docs-panel-wrap,footer { padding-left:16px; padding-right:16px; }
+    .col-headers { display:none; }
+    .t-row { grid-template-columns:68px 1fr; }
+    /* gutter/legal cells already hidden globally */
+    .tab-btn { padding:12px 14px; font-size: 9.2px; }
+    .evidence-grid { grid-template-columns:1fr; }
+  }
+
+
+/* ══════════════════════════════════════════════════════
+   MOBILE — ≤768px
+══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── NAV ── */
+  #page-nav { padding: 0 12px; gap: 0; }
+  #page-nav::before { display: none; }
+  .pnav-btn {
+    font-size: 8px; padding: 0 10px; letter-spacing: .1em;
+    flex: 1; text-align: center;
+  }
+
+  /* ── NETWORK PAGE: hide diagram, show list ── */
+  #canvas-wrap { display: none; }
+  #dossier { display: none !important; }
+  #hint, #signature { display: none; }
+  #toolbar {
+    position: relative !important;
+    top: auto !important;
+    padding: 8px 12px 6px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #toolbar-title { font-size: 14px; }
+  #search-box { width: 100%; font-size: 13px; padding: 7px 10px; }
+  #wrap { flex-direction: column; height: auto; padding-top: 40px; }
+  #page-network { height: auto; overflow: visible; padding-top: 0; }
+
+  /* mobile list view */
+  #mobile-list {
+    display: block !important;
+    padding: 8px 0 60px;
+  }
+  .mob-item {
+    border-bottom: 1px solid rgba(90,65,30,.12);
+    cursor: pointer;
+  }
+  .mob-item-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+  }
+  .mob-dot {
+    width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+  }
+  .mob-name {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 16px; font-weight: 500; color: #1B3A2D; flex: 1;
+  }
+  .mob-sector {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 8px; letter-spacing: .1em; text-transform: uppercase;
+    color: #8B6B50;
+  }
+  .mob-chevron {
+    font-size: 10px; color: #B8963E; transition: transform .2s;
+  }
+  .mob-item.open .mob-chevron { transform: rotate(90deg); }
+  .mob-body {
+    display: none; padding: 0 16px 14px 35px;
+    border-top: 1px solid rgba(90,65,30,.07);
+    background: rgba(184,150,62,.03);
+  }
+  .mob-item.open .mob-body { display: block; }
+  .mob-title {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    color: #B8963E; margin-bottom: 8px; margin-top: 10px;
+  }
+  .mob-travel { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 8px; }
+  .mob-travel span {
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 8px; padding: 2px 7px; border-radius: 2px; border: 1px solid;
+  }
+  .mob-conn {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 14px; line-height: 1.65; color: #2C1810;
+    font-weight: 300; margin-bottom: 8px;
+  }
+  .mob-cons {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 13px; line-height: 1.6; padding: 7px 10px;
+    border-radius: 2px; border-left: 2px solid #B8963E;
+    background: rgba(184,150,62,.06); margin-bottom: 8px;
+  }
+  .mob-pinpoint {
+    display: inline-block; margin-top: 4px;
+    font-family: 'Cormorant SC', Georgia, serif;
+    font-size: 9px; letter-spacing: .1em; text-transform: uppercase;
+    color: #1B3A2D; text-decoration: none;
+    padding: 5px 10px; border: 1px solid rgba(27,58,45,.2);
+    background: rgba(27,58,45,.06); border-radius: 2px;
+  }
+
+  /* ── TIMELINE PAGE ── */
+  #page-timeline header { padding: 54px 16px 20px; }
+  #page-timeline h1 { font-size: 22px; }
+  .deck-list { display: none; } /* collapse on mobile */
+
+  .tab-bar { padding: 0 8px; overflow-x: auto; white-space: nowrap; }
+  .tab-btn { padding: 10px 12px; font-size: 9px; }
+
+  /* collapse sidebar on mobile */
+  .t-row { grid-template-columns: 60px 1fr !important; }
+  .gutter-cell, .sidebar-col { display: none !important; }
+  .col-headers { display: none; }
+
+  .legend { padding: 10px 16px; flex-wrap: wrap; gap: 8px; }
+  .timeline-wrap { padding: 0 16px; }
+  .date-cell { min-width: 60px; }
+  .card { padding: 10px 12px; }
+  .cb { font-size: 13px; }
+
+  /* docs tab */
+  .docs-panel-wrap { padding: 20px 16px 60px; }
+  .evidence-grid { grid-template-columns: 1fr !important; }
+  .claim-header { flex-direction: column; gap: 8px; }
+}
+
+
+/* ── PROXIMITY LEGEND ── */
+#prox-legend {
+  display: flex; align-items: center; gap: 14px;
+  flex-wrap: wrap; padding: 5px 0 2px;
+}
+#prox-toggle {
+  font-family: var(--caps); font-size: 8px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold); background: none;
+  border: none; cursor: pointer; padding: 0; display: flex;
+  align-items: center; gap: 4px; white-space: nowrap;
+}
+#prox-toggle:hover { color: var(--green); }
+#prox-key {
+  display: none; gap: 12px; align-items: center; flex-wrap: wrap;
+}
+#prox-key.open { display: flex; }
+.prox-item {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--caps); font-size: 7.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: #5A4030;
+}
+.prox-circle {
+  border-radius: 50%; border: 1.5px solid currentColor; flex-shrink: 0;
+}
+.prox-circle.t1 { width: 14px; height: 14px; color: #8B2020; background: rgba(139,32,32,.12); }
+.prox-circle.t2 { width: 10px; height: 10px; color: #9B5A10; background: rgba(155,90,16,.1); }
+.prox-circle.t3 { width: 7px;  height: 7px;  color: #1B3A6B; background: rgba(27,58,107,.08); }
+
+
+/* ── ABOUT MODAL ── */
+#about-overlay {
+  display: none; position: fixed; inset: 0; z-index: 2000;
+  background: rgba(44,24,16,.5); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+#about-overlay.open { display: flex; }
+#about-modal {
+  background: #FAF6EE; border: 1px solid rgba(184,150,62,.4);
+  border-radius: 2px; max-width: 540px; width: 90%;
+  padding: 40px 44px 36px; position: relative;
+  box-shadow: 0 12px 50px rgba(44,24,16,.2);
+}
+#about-modal::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, #B8963E 30%, #B8963E 70%, transparent);
+}
+#about-close {
+  position: absolute; top: 16px; right: 20px;
+  font-size: 20px; color: #8B6B50; cursor: pointer;
+  background: none; border: none; line-height: 1;
+}
+#about-close:hover { color: #1B3A2D; }
+#about-modal p {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px; line-height: 1.75; color: #2C1810;
+  font-weight: 300; margin-bottom: 16px;
+}
+#about-modal p:last-child { margin-bottom: 0; }
+#about-modal a { color: #1B3A2D; font-weight: 500; }
+#about-modal a:hover { color: #B8963E; }
+.about-sig {
+  font-family: 'Cormorant SC', Georgia, serif !important;
+  font-size: 11px !important; letter-spacing: .12em;
+  text-transform: uppercase; color: #8B6B50 !important;
+  margin-top: 20px !important;
+  padding-top: 16px; border-top: 1px solid rgba(184,150,62,.2);
+}
+
+
+  /* Reporter question / editorial context — sits between quotes */
+  .claim-context {
+    font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 12px; color: #536471; font-style: italic;
+    margin: 6px 0 6px 4px; line-height: 1.5;
+  }
+  /* Secondary ts-card (for second quote in same entry) */
+  .ts-card.ts-card-secondary {
+    margin-top: 12px; margin-bottom: 0;
+    border-color: rgba(0,0,0,.06);
+  }
+
+  .ev-ref a {
+    color: #8B6B50; text-decoration: none;
+    border-bottom: 1px solid rgba(139,107,80,.3);
+    transition: color .15s, border-color .15s;
+  }
+  .ev-ref a:hover {
+    color: #1B3A2D; border-bottom-color: #1B3A2D;
+  }
+
+  .efta-footer {
+    margin-top: 48px; padding-top: 32px;
+    border-top: 1px solid rgba(184,150,62,.2);
+  }
+  .efta-chips-wrap {
+    display: flex; flex-wrap: wrap; gap: 16px;
+  }
+  .efta-chips-wrap .efta-chip { margin: 0; }
+  .efta-chips-wrap .efta-chip-desc {
+    font-size: 10.5px; margin-top: 2px; max-width: 200px;
+  }
+.badge.ledger { color:#7A5A10; border-color:rgba(184,150,62,.55); background:rgba(184,150,62,.14); }
+.badge.retreat { color:#1B3A2D; border-color:rgba(27,58,45,.3); background:rgba(27,58,45,.05); }
+.badge.affiliate { color:#5A4030; border-color:rgba(90,64,48,.3); background:rgba(90,64,48,.05); }
+.badge.billionaire { color:#1B3A6B; border-color:rgba(27,58,107,.3); background:rgba(27,58,107,.05); }
+.badge.official { color:#7A1A1A; border-color:rgba(122,26,26,.3); background:rgba(122,26,26,.05); }
+</style>
+</head>
+<body>
+
+<!-- PAGE NAV -->
+
+<!-- ABOUT MODAL -->
+<div id="about-overlay" onclick="if(event.target===this)closeAbout()">
+  <div id="about-modal">
+    <button id="about-close" onclick="closeAbout()">×</button>
+    <p>Peter's Dialog is a companion to the Island Ledger — a second map, centred not on the financier but on Peter Thiel's invitation-only society. Dialog was co-founded in 2006 and spent two decades concealing its membership, until the full list was found sitting in the source code of its own website in August 2026.</p>
+    <p>Most of the names here have no documented tie to the Epstein record and are not on the Ledger. Three do — Peter Thiel, Elon Musk and Reid Hoffman — and they carry a gold ring. They are the bridge between the two maps: the part of either network that has faced no consequences.</p>
+    <p class="about-sig">— Elina / Cyramatique</p>
+  </div>
+</div>
+
+<nav id="page-nav">
+  <button class="pnav-btn"        onclick="window.location.href='index.html'">The Island Ledger</button>
+  <button class="pnav-btn active" onclick="window.scrollTo(0,0)">Peter's Dialog</button>
+  <button class="pnav-btn"        onclick="window.location.href='timeline.html'" id="timeline-nav-btn">Trump Timeline</button>
+  <button class="pnav-btn" onclick="openAbout()" style="margin-left:auto;">About</button>
+</nav>
+
+<!-- PAGE: NETWORK DIAGRAM -->
+<div id="page-network" class="page-section active">
+<div id="wrap">
+  <div id="canvas-wrap">
+    <svg id="sv"></svg>
+    <div id="toolbar">
+      <div id="toolbar-title">Peter's Dialog</div>
+      <input id="search-box" placeholder="Search by name…" autocomplete="off">
+
+      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
+        <span class="tb-label">Crossover</span>
+        <button class="chip" id="bridge-chip" onclick="toggleBridge(this)"><span class="cd" style="background:#B8963E"></span>On the Island Ledger (3)</button>
+      </div>
+
+      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
+        <span class="tb-label">Sector</span>
+        <button class="chip on" data-s="political">Government</button>
+        <button class="chip on" data-s="finance">Capital</button>
+        <button class="chip on" data-s="tech">Tech / Science</button>
+        <button class="chip on" data-s="legal">Institutions</button>
+        <button class="chip on" data-s="social">Media / Cultural</button>
+      </div>
+
+      <div id="prox-legend">
+        <button id="prox-toggle" onclick="document.getElementById('prox-key').classList.toggle('open');this.textContent=document.getElementById('prox-key').classList.contains('open')?'Proximity key ▴':'Proximity key ▾'">Proximity key ▾</button>
+        <div id="prox-key">
+          <div class="prox-item"><div class="prox-circle t1" style="border-color:#B8963E;background:rgba(184,150,62,.18)"></div>Also on the Island Ledger</div>
+          <div class="prox-item"><div class="prox-circle t2"></div>2026 Dublin retreat list</div>
+          <div class="prox-item"><div class="prox-circle t3"></div>113-person affiliate list</div>
+        </div>
+      </div>
+      <span id="count-label">34 names + Thiel</span>
+    </div>
+    <div id="hint">Click a name to open file · Drag to reposition · Scroll to zoom</div>
+    <div id="signature">Designed by <a href="https://www.yourlocalanthropologist.com" target="_blank" rel="noopener noreferrer">Cyramatique</a></div>
+  </div>
+
+  <div id="dossier">
+    <div id="dos-header">
+      <div>
+        <div id="dos-name"></div>
+        <div id="dos-title"></div>
+      </div>
+      <div id="dos-close" onclick="closeDos()">×</div>
+    </div>
+    <div id="dos-body">
+      <div class="dos-badges" id="dos-badges"></div>
+      <div class="dos-travel" id="dos-travel"></div>
+      <div class="dos-section-label">Inside Dialog</div>
+      <ul class="dos-bullets" id="dos-conn"></ul>
+      <div class="dos-section-label" style="margin-top:14px;">Consequence / status</div>
+      <ul class="dos-bullets" id="dos-cons"></ul>
+      <div class="dos-ref" id="dos-ref"></div>
+      <a id="dos-ledger" href="index.html" class="pinpoint-btn" style="display:none;margin-bottom:6px;background:rgba(184,150,62,.12);border-color:rgba(184,150,62,.5);color:#7A5A10;">
+        ◎ Also on the Island Ledger ↗
+      </a>
+      <a id="dos-ee" href="https://epsteinexposed.com/persons" target="_blank" rel="noopener noreferrer" class="pinpoint-btn" style="margin-bottom:6px;background:rgba(27,58,45,.04);">
+        ⊞ Search Epstein Exposed ↗
+      </a>
+      <a id="dos-pinpoint" href="#" target="_blank" rel="noopener noreferrer" class="pinpoint-btn">
+        <span class="pp-icon">⊞</span>
+        Search in DOJ Epstein files ↗
+      </a>
+      <p class="pp-note">Opens Google Pinpoint · requires Google account</p>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const STATUS_COLOR = {
+  removed:'#8B2020', stripped:'#9B5A10', active:'#1B3A6B',
+  deceased:'#2A5A3A', pending:'#5A2A8B', center:'#C9A84C',
+  incarcerated:'#111111'
+};
+
+const SECTOR_ANGLE = { political:0, finance:72, tech:144, legal:216, social:288 };
+const SECTOR_LABEL = { political:'Government', finance:'Capital', tech:'Tech / Science', legal:'Institutions', social:'Media / Cultural' };
+
+const BADGE_LABEL = {
+  financial:'Financial', social:'Social', legal:'Legal',
+  alleged:'Alleged abuse', access:'Access / broker',
+  postconv:'Post-conviction', enabler:'Enabler / procurer',
+  retreat:'2026 retreat list', affiliate:'Affiliate list',
+  billionaire:'Billionaire', official:'Public office', ledger:'On the Island Ledger'
+};
+
+const people = [
+  // ── CENTER ──
+  { id:'thiel', name:'Peter Thiel', title:'Dialog co-founder, 2006 · Palantir / PayPal', sector:'center', status:'center', r:26,
+    badges:['ledger'], ledger:true,
+    conn:'Co-founded Dialog in 2006 — an invitation-only society convening US officials, foreign government figures, military commanders, financiers and academics at off-the-record annual retreats. Compared to the Bilderberg Group. Spent two decades concealing its membership. In August 2026 the full list was found sitting in the source code of Dialog\'s own website by Swiss hacktivist maia arson crimew, who previously exposed the US No-Fly List. Leaked agenda sessions include "Navigating WWIII," "Build-a-Cult" and "How\'s Your Sex Life?" The society runs a members\' dating app pitched as "meaningful connections for exceptional people" and recently bought land outside Washington DC.',
+    cons:{ cls:'center', text:'222 registered for the 2026 Dublin retreat; a separate list named 113 affiliates. None registered with a government email address — placing attendance outside public-records law.' },
+    ref:'Wired, June 2026 · maia arson crimew disclosure' },
+
+  // ── GOVERNMENT (political) ──
+  { id:'bessent', name:'Scott Bessent', title:'US Treasury Secretary', sector:'political', status:'active', r:13,
+    badges:['official','retreat'],
+    conn:'Named on the leaked 2026 Dublin retreat list while serving as Treasury Secretary. Registered without a government email address.',
+    cons:{ cls:'active', text:'No comment on the file. Remains Treasury Secretary.' },
+    ref:'Wired 2026 retreat list' },
+  { id:'booker', name:'Cory Booker', title:'US Senator (D-NJ)', sector:'political', status:'active', r:12,
+    badges:['official','affiliate'],
+    conn:'Named on both the 2026 retreat list and the 113-person affiliate list.',
+    cons:{ cls:'active', text:'No comment. Remains in the Senate.' },
+    ref:'Wired 2026 leak' },
+  { id:'cruz', name:'Ted Cruz', title:'US Senator (R-TX)', sector:'political', status:'active', r:12,
+    badges:['official','retreat'],
+    conn:'Named on the leaked 2026 Dublin retreat list.',
+    cons:{ cls:'active', text:'No comment. Remains in the Senate.' },
+    ref:'Wired 2026 retreat list' },
+  { id:'himes', name:'Jim Himes', title:'US Representative (D-CT)', sector:'political', status:'active', r:11,
+    badges:['official','retreat'],
+    conn:'Named in the Dialog leak. Ranking member of the House Intelligence Committee.',
+    cons:{ cls:'active', text:'No comment. Remains in the House.' },
+    ref:'Wired 2026 leak' },
+  { id:'moore', name:'Wes Moore', title:'Governor of Maryland', sector:'political', status:'active', r:11,
+    badges:['official','retreat'],
+    conn:'Named in the Dialog leak.',
+    cons:{ cls:'active', text:'No comment. Remains Governor.' },
+    ref:'Wired 2026 leak' },
+  { id:'polis', name:'Jared Polis', title:'Governor of Colorado', sector:'political', status:'active', r:11,
+    badges:['official','retreat'],
+    conn:'Named in the Dialog leak.',
+    cons:{ cls:'active', text:'No comment. Remains Governor.' },
+    ref:'Wired 2026 leak' },
+  { id:'grynkewich', name:'Alexus Grynkewich', title:'NATO Supreme Allied Commander Europe', sector:'political', status:'active', r:12,
+    badges:['official','retreat'],
+    conn:'Named on the 2026 retreat list while serving as SACEUR — the top NATO military commander in Europe.',
+    cons:{ cls:'active', text:'No comment. Remains in command.' },
+    ref:'Wired 2026 retreat list' },
+  { id:'driscoll', name:'Dan Driscoll', title:'US Army Secretary', sector:'political', status:'active', r:11,
+    badges:['official','retreat'],
+    conn:'Named in the Dialog leak while serving as Secretary of the Army.',
+    cons:{ cls:'active', text:'No comment. Remains in post.' },
+    ref:'Wired 2026 leak' },
+  { id:'hoffmanh', name:'Hallie Hoffman', title:'Acting DEA chief of staff', sector:'political', status:'active', r:10,
+    badges:['official','retreat'],
+    conn:'Named in the Dialog leak while serving as acting chief of staff at the Drug Enforcement Administration.',
+    cons:{ cls:'active', text:'No comment. Remains in post.' },
+    ref:'Wired 2026 leak' },
+  { id:'kushner', name:'Jared Kushner', title:'Affinity Partners · Trump son-in-law', sector:'political', status:'active', r:12,
+    badges:['official','retreat'],
+    conn:'Named in the Dialog leak. Former senior White House adviser; founder of private equity firm Affinity Partners.',
+    cons:{ cls:'active', text:'No comment. Not currently on the Island Ledger.' },
+    ref:'Wired 2026 leak' },
+
+  // ── CAPITAL (finance) ──
+  { id:'kravis', name:'Henry Kravis', title:'KKR co-founder', sector:'finance', status:'active', r:13,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Co-founder of private equity firm KKR. Est. net worth $12.2bn.',
+    cons:{ cls:'active', text:'No comment. Remains chairman emeritus.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'galperin', name:'Marcos Galperin', title:'MercadoLibre founder / CEO', sector:'finance', status:'active', r:11,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Founder of Latin America\'s largest e-commerce platform. Est. $6.8bn.',
+    cons:{ cls:'active', text:'No comment. Remains CEO.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'cannonbrookes', name:'Mike Cannon-Brookes', title:'Atlassian co-founder', sector:'finance', status:'active', r:11,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Co-founder of software firm Atlassian. Est. $7.7bn.',
+    cons:{ cls:'active', text:'No comment. Remains co-CEO.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'cook', name:'Scott Cook', title:'Intuit co-founder', sector:'finance', status:'active', r:11,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Co-founder of Intuit. Est. $4.4bn.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'sternlicht', name:'Barry Sternlicht', title:'Starwood Capital chairman', sector:'finance', status:'active', r:11,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Founder of Starwood Capital. Est. $3.1bn.',
+    cons:{ cls:'active', text:'No comment. Remains chairman.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'berggruen', name:'Nicolas Berggruen', title:'Berggruen Institute · investor', sector:'finance', status:'active', r:11,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Investor and founder of the Berggruen Institute. Est. $2.9bn.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'arnold', name:'John Arnold', title:'Arnold Ventures · ex-Enron trader', sector:'finance', status:'active', r:11,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Former Enron trader, now philanthropist via Arnold Ventures. Est. $2.8bn.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'lonsdale', name:'Joe Lonsdale', title:'Palantir co-founder · 8VC', sector:'finance', status:'active', r:12,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Co-founded Palantir with Thiel; runs venture firm 8VC. Est. $2.8bn.',
+    cons:{ cls:'active', text:'No comment. Close Thiel associate.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'kroszner', name:'Randy Kroszner', title:'Former Federal Reserve governor', sector:'finance', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Former governor of the Federal Reserve.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+
+  // ── TECH / SCIENCE (tech) ──
+  { id:'musk', name:'Elon Musk', title:'Tesla · SpaceX · xAI', sector:'tech', status:'active', r:16,
+    badges:['billionaire','affiliate','ledger'], ledger:true,
+    conn:'Named on the 113-person Dialog affiliate list. Also documented in the Epstein record — appears on the Island Ledger. The richest of the named affiliates. Est. net worth $1.3tn.',
+    cons:{ cls:'active', text:'No charges in either matter. Remains in control of his companies. One of three names on both maps.' },
+    ref:'Wired 2026 leak · Island Ledger' },
+  { id:'hoffman', name:'Reid Hoffman', title:'LinkedIn co-founder · Greylock', sector:'tech', status:'active', r:15,
+    badges:['billionaire','retreat','ledger'], ledger:true,
+    conn:'Named in the Dialog leak. Also documented in the Epstein record — appears on the Island Ledger. Co-founder of LinkedIn, partner at Greylock. Est. $2.7bn.',
+    cons:{ cls:'active', text:'No charges in either matter. One of three names on both maps.' },
+    ref:'Wired 2026 leak · Island Ledger' },
+  { id:'schmidt', name:'Eric Schmidt', title:'Former Google CEO', sector:'tech', status:'active', r:13,
+    badges:['billionaire','retreat'],
+    conn:'Named in the Dialog leak. Est. $40.1bn. Has documented Epstein contact in the public record but is not yet on the Island Ledger.',
+    cons:{ cls:'active', text:'No comment. A candidate for the Ledger, not yet added.' },
+    ref:'Wired 2026 leak · Forbes' },
+  { id:'mohan', name:'Neal Mohan', title:'YouTube CEO', sector:'tech', status:'active', r:11,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak while serving as CEO of YouTube.',
+    cons:{ cls:'active', text:'No comment. Remains CEO.' },
+    ref:'Wired 2026 leak' },
+  { id:'lue', name:'Tom Lue', title:'Google DeepMind general counsel', sector:'tech', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. General counsel and head of governance at Google DeepMind.',
+    cons:{ cls:'active', text:'No comment. Remains in post.' },
+    ref:'Wired 2026 leak' },
+
+  // ── INSTITUTIONS (legal) ──
+  { id:'adl', name:'Jonathan Greenblatt', title:'ADL chief executive', sector:'legal', status:'active', r:11,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak while serving as chief executive of the Anti-Defamation League.',
+    cons:{ cls:'active', text:'No comment. Remains CEO.' },
+    ref:'Wired 2026 leak' },
+  { id:'cato', name:'Peter Goettler', title:'Cato Institute president', sector:'legal', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak while serving as president of the Cato Institute.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'koch', name:'Ryan Stowers', title:'Charles Koch Foundation exec. director', sector:'legal', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Executive director of the Charles Koch Foundation.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'myerson', name:'Roger Myerson', title:'Nobel laureate economist', sector:'legal', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Nobel laureate in economics (2007), University of Chicago.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+
+  // ── MEDIA / CULTURAL (social) ──
+  { id:'klein', name:'Ezra Klein', title:'NYT columnist · podcaster', sector:'social', status:'active', r:11,
+    badges:['affiliate'],
+    conn:'Named on the 113-person Dialog affiliate list. New York Times columnist and podcast host.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'mekhennet', name:'Souad Mekhennet', title:'Washington Post reporter', sector:'social', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. National security reporter at the Washington Post.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'braun', name:'Scooter Braun', title:'Music manager · HYBE America', sector:'social', status:'active', r:11,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Music manager and former HYBE America chief.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'jgl', name:'Joseph Gordon-Levitt', title:'Actor · HitRecord founder', sector:'social', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Actor and founder of the HitRecord platform.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'bush', name:'Sophia Bush', title:'Actress · activist', sector:'social', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Actress and political activist.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+  { id:'warren', name:'Rick Warren', title:'Evangelical pastor · Saddleback', sector:'social', status:'active', r:10,
+    badges:['retreat'],
+    conn:'Named in the Dialog leak. Evangelical pastor, founder of Saddleback Church.',
+    cons:{ cls:'active', text:'No comment.' },
+    ref:'Wired 2026 leak' },
+];
+
+const PEOPLE = people.filter(p => p.r > 0);
+
+// ─────────────────────────────────────────────
+// LAYOUT HELPERS
+// ─────────────────────────────────────────────
+const SECTOR_CENTERS = {
+  political: [0.25, 0.22],   // top-left
+  finance:   [0.72, 0.22],   // top-right
+  tech:      [0.72, 0.72],   // bottom-right
+  legal:     [0.25, 0.72],   // bottom-left
+  social:    [0.50, 0.82],   // bottom-center
+  center:    [0.50, 0.48],   // middle
+};
+
+const SECTOR_COLORS = {
+  political:'#7A1A1A', finance:'#1B3A6B', tech:'#1B3A2D',
+  legal:'#5A2A8B', social:'#7A5A10', center:'#B8963E'
+};
+
+// ─────────────────────────────────────────────
+// SVG / D3 SETUP
+// ─────────────────────────────────────────────
+let W = document.getElementById('canvas-wrap').offsetWidth || 900;
+let H = document.getElementById('canvas-wrap').offsetHeight || 700;
+
+const svg = d3.select('#sv').attr('viewBox',`0 0 ${W} ${H}`);
+
+// arrow marker
+svg.append('defs').append('marker')
+  .attr('id','arr').attr('viewBox','0 0 10 10').attr('refX',8).attr('refY',5)
+  .attr('markerWidth',4).attr('markerHeight',4).attr('orient','auto-start-reverse')
+  .append('path').attr('d','M2 1L8 5L2 9')
+  .attr('fill','none').attr('stroke','context-stroke')
+  .attr('stroke-width',1.5).attr('stroke-linecap','round').attr('stroke-linejoin','round');
+
+// ── decorative background: crest watermark + corner ornaments ──
+const bgG = svg.append('g').attr('class','bg-deco').attr('pointer-events','none');
+
+// central watermark crest (text-based, very faint)
+bgG.append('text')
+  .attr('x', W/2).attr('y', H/2 - 10)
+  .attr('text-anchor','middle').attr('dominant-baseline','middle')
+  .attr('font-family','Playfair Display, Georgia, serif')
+  .attr('font-size', Math.min(W, H) * 0.28)
+  .attr('font-weight','700').attr('letter-spacing','0.02em')
+  .attr('fill','#B8963E').attr('fill-opacity', 0.04)
+  .text('✦');
+
+// thin gold border frame
+bgG.append('rect')
+  .attr('x', 16).attr('y', 48).attr('width', W-32).attr('height', H-62)
+  .attr('fill','none').attr('stroke','#B8963E').attr('stroke-opacity',0.12)
+  .attr('stroke-width', 0.5);
+bgG.append('rect')
+  .attr('x', 20).attr('y', 52).attr('width', W-40).attr('height', H-70)
+  .attr('fill','none').attr('stroke','#B8963E').attr('stroke-opacity',0.07)
+  .attr('stroke-width', 0.5);
+
+// corner flourishes
+[[24,56],[W-24,56],[24,H-26],[W-24,H-26]].forEach(([cx,cy]) => {
+  bgG.append('text')
+    .attr('x',cx).attr('y',cy)
+    .attr('text-anchor','middle').attr('font-family','serif')
+    .attr('font-size',12).attr('fill','#B8963E').attr('fill-opacity',0.18)
+    .text('✦');
+});
+
+const zoneG = svg.append('g').attr('class','zones');
+Object.entries(SECTOR_CENTERS).forEach(([sec, [fx,fy]]) => {
+  if (sec === 'center') return;
+  zoneG.append('circle')
+    .attr('cx', fx*W).attr('cy', fy*H)
+    .attr('r', W * 0.17)
+    .attr('fill', SECTOR_COLORS[sec])
+    .attr('fill-opacity', 0.03)
+    .attr('stroke', SECTOR_COLORS[sec])
+    .attr('stroke-opacity', 0.12)
+    .attr('stroke-width', 0.5)
+    .attr('stroke-dasharray','3,5');
+  zoneG.append('text')
+    .attr('class','sector-label')
+    .attr('x', fx*W).attr('y', fy*H - W*0.13)
+    .attr('text-anchor','middle')
+    .attr('fill', SECTOR_COLORS[sec])
+    .text(SECTOR_LABEL[sec] || sec);
+});
+
+// build links (ep → everyone)
+const links = PEOPLE.filter(p => p.id !== 'thiel').map(p => ({
+  source:'thiel', target:p.id, s:p.sector
+}));
+
+// init positions based on sector
+PEOPLE.forEach(p => {
+  const [fx, fy] = SECTOR_CENTERS[p.sector] || [0.5, 0.5];
+  p.x = fx * W + (Math.random() - 0.5) * 60;
+  p.y = fy * H + (Math.random() - 0.5) * 60;
+});
+
+const epNode = PEOPLE.find(p => p.id === 'thiel');
+epNode.fx = W * 0.5; epNode.fy = H * 0.48;
+
+// cluster force
+function forceCluster() {
+  return function(alpha) {
+    PEOPLE.forEach(p => {
+      if (p.id === 'thiel') return;
+      const [tx, ty] = SECTOR_CENTERS[p.sector] || [0.5, 0.5];
+      p.vx += (tx * W - p.x) * alpha * 0.06;
+      p.vy += (ty * H - p.y) * alpha * 0.06;
+    });
+  };
+}
+
+const TIER = {
+  musk:1, hoffman:1
+};
+
+const sim = d3.forceSimulation(PEOPLE)
+  .force('link', d3.forceLink(links).id(d=>d.id).distance(d => {
+    const tid = d.target.id || d.target;
+    const t = TIER[tid] || 3;
+    return t === 1 ? 95 : t === 2 ? 185 : 290;
+  }).strength(d => {
+    const tid = d.target.id || d.target;
+    const t = TIER[tid] || 3;
+    return t === 1 ? 0.85 : t === 2 ? 0.45 : 0.2;
+  }))
+  .force('charge', d3.forceManyBody().strength(d => {
+    const t = TIER[d.id] || 3;
+    return t === 0 ? -900 : t === 1 ? -240 : t === 2 ? -140 : -90;
+  }))
+  .force('collision', d3.forceCollide(d => d.r + 10))
+  .force('cluster', forceCluster())
+  .force('bounds', () => {
+    PEOPLE.forEach(p => {
+      if (p.id === 'thiel') return;
+      p.x = Math.max(p.r+10, Math.min(W-p.r-10, p.x));
+      p.y = Math.max(p.r+50, Math.min(H-p.r-10, p.y));
+    });
+  });
+
+const lG = svg.append('g');
+const nG = svg.append('g');
+
+const linkEls = lG.selectAll('line').data(links).join('line')
+  .attr('stroke', d => {
+    const tgt = PEOPLE.find(p => p.id === (d.target.id||d.target));
+    return STATUS_COLOR[tgt?.status] || '#888';
+  })
+  .attr('stroke-opacity', 0.18)
+  .attr('stroke-width', 0.8)
+  .attr('marker-end','url(#arr)');
+
+const nodeEls = nG.selectAll('g').data(PEOPLE).join('g')
+  .style('cursor','pointer')
+  .call(d3.drag()
+    .on('start',(e,d)=>{ if(!e.active)sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+    .on('drag', (e,d)=>{ if(d.id!=='thiel'){d.fx=e.x;d.fy=e.y;} })
+    .on('end',  (e,d)=>{ if(!e.active)sim.alphaTarget(0); if(d.id!=='thiel'){d.fx=null;d.fy=null;} }));
+
+nodeEls.append('circle')
+  .attr('r', d => { const t = TIER[d.id]||3; return t===0 ? d.r : t===1 ? d.r*1.5 : t===2 ? d.r*1.2 : d.r*0.95; })
+  .attr('fill', d => STATUS_COLOR[d.status] || '#888')
+  .attr('fill-opacity', d => d.id === 'thiel' ? 0.9 : 0.12)
+  .attr('stroke', d => STATUS_COLOR[d.status] || '#888')
+  .attr('stroke-width', d => d.id === 'thiel' ? 2 : 0)
+  .attr('stroke-opacity', d => d.id === 'thiel' ? 0.9 : 0);
+
+nodeEls.filter(d => d.ledger).append('circle')
+  .attr('r', d => { const t = TIER[d.id]||3; const base = t===1 ? d.r*1.5 : t===2 ? d.r*1.2 : d.r; return base + 6; })
+  .attr('fill','none').attr('stroke','#B8963E').attr('stroke-width',1.5).attr('stroke-opacity',0.9).attr('pointer-events','none');
+
+nodeEls.each(function(d) {
+  const g = d3.select(this);
+  const parts = d.name.split(' ');
+  const mid = Math.ceil(parts.length / 2);
+  const l1 = parts.slice(0, mid).join(' ');
+  const l2 = parts.slice(mid).join(' ');
+  const fs = d.id === 'thiel' ? 14.4 : 9.6;
+  const cls = d.id === 'thiel' ? 'node-label ep' : 'node-label';
+  if (l2 && d.r >= 11) {
+    g.append('text').attr('class',cls).attr('text-anchor','middle').attr('font-size',fs).attr('dy',-8).text(l1);
+    g.append('text').attr('class',cls).attr('text-anchor','middle').attr('font-size',fs).attr('dy',9).text(l2);
+  } else {
+    g.append('text').attr('class',cls).attr('text-anchor','middle').attr('font-size',fs).attr('dy',1).text(l1);
+  }
+});
+
+nodeEls
+  .on('mouseover', function(e,d) {
+    if (d.id === 'thiel') return;
+    linkEls.attr('stroke-opacity', l =>
+      (l.source.id===d.id||l.target.id===d.id) ? 0.7 : 0.04);
+    d3.select(this).select('circle').attr('fill-opacity', 0.35).attr('stroke-opacity', 0);
+  })
+  .on('mouseout', function(e,d) {
+    linkEls.attr('stroke-opacity', 0.18);
+    nodeEls.select('circle')
+      .attr('fill-opacity', d => d.id === 'thiel' ? 0.9 : 0.12)
+      .attr('stroke-opacity', d => d.id === 'thiel' ? 0.9 : 0);
+  })
+  .on('click', (e, d) => openDos(d));
+
+sim.on('tick', () => {
+  linkEls
+    .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+    .attr('x2', d => {
+      const dx=d.target.x-d.source.x, dy=d.target.y-d.source.y;
+      const dist=Math.sqrt(dx*dx+dy*dy)||1;
+      return d.target.x-(dx/dist)*(d.target.r+3);
+    })
+    .attr('y2', d => {
+      const dx=d.target.x-d.source.x, dy=d.target.y-d.source.y;
+      const dist=Math.sqrt(dx*dx+dy*dy)||1;
+      return d.target.y-(dy/dist)*(d.target.r+3);
+    });
+  nodeEls.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+// zoom & pan
+const zoom = d3.zoom().scaleExtent([0.4, 3])
+  .on('zoom', e => {
+    lG.attr('transform', e.transform);
+    nG.attr('transform', e.transform);
+    zoneG.attr('transform', e.transform);
+  });
+svg.call(zoom);
+
+// ─────────────────────────────────────────────
+// DOSSIER
+// ─────────────────────────────────────────────
+function openDos(d) {
+  const cleanName = d.name.split('\n')[0];
+  document.getElementById('dos-name').textContent = cleanName;
+  document.getElementById('dos-title').textContent = d.title;
+  const badges = (d.badges||[]).map(b =>
+    `<span class="badge ${b}">${BADGE_LABEL[b]||b}</span>`).join('');
+  document.getElementById('dos-badges').innerHTML = badges;
+  // Render connection as bullet list
+  const connEl = document.getElementById('dos-conn');
+  const connItems = (d.conn || '').split(/\n/).filter(Boolean);
+  connEl.innerHTML = connItems.map(c => `<li>${c.trim()}</li>`).join('');
+
+  // Render consequence as bullet list
+  const consEl = document.getElementById('dos-cons');
+  consEl.className = 'dos-bullets'; // no consequence color class needed now
+  const consItems = (d.cons?.text || '').split(/\n/).filter(Boolean);
+  consEl.innerHTML = consItems.map(c => `<li>${c.trim()}</li>`).join('');
+
+  // Travel tags
+  const travelEl = document.getElementById('dos-travel');
+  const travel = d.travel || {};
+  let travelHTML = '';
+  if (travel.plane === true)  travelHTML += '<span class="dos-travel-tag yes">✈ Flew on Epstein\'s plane</span>';
+  if (travel.plane === false) travelHTML += '<span class="dos-travel-tag no">✈ Denied / no evidence of flights</span>';
+  if (travel.plane === 'unclear') travelHTML += '<span class="dos-travel-tag unclear">✈ Flight status unclear</span>';
+  if (travel.island === true)  travelHTML += '<span class="dos-travel-tag yes">⛵ Visited the island</span>';
+  if (travel.island === false) travelHTML += '<span class="dos-travel-tag no">⛵ Denied island visit</span>';
+  if (travel.island === 'claimed_never') travelHTML += '<span class="dos-travel-tag no">⛵ Publicly claimed never went</span>';
+  if (travel.island === 'unclear') travelHTML += '<span class="dos-travel-tag unclear">⛵ Island visit unclear</span>';
+  travelEl.innerHTML = travelHTML;
+  document.getElementById('dos-ref').textContent = d.ref || '';
+
+  // Pinpoint deep link
+  const PINPOINT_BASE = 'https://journaliststudio.google.com/pinpoint/search?collection=c109fa8e7dcf42c1&q=';
+  const ppBtn = document.getElementById('dos-pinpoint');
+  const ppNote = document.querySelector('.pp-note');
+  const showPP = false;
+  ppBtn.href = PINPOINT_BASE + encodeURIComponent(cleanName);
+  ppBtn.style.display = showPP ? 'flex' : 'none';
+  ppNote.style.display = showPP ? 'block' : 'none';
+
+  const ledgerBtn = document.getElementById('dos-ledger');
+  ledgerBtn.style.display = d.ledger && d.id !== 'thiel' ? 'flex' : 'none';
+  document.getElementById('dos-ee').style.display = 'none';
+  document.getElementById('dossier').classList.add('open');
+  linkEls.attr('stroke-opacity', l =>
+    (l.source.id===d.id||l.target.id===d.id) ? 0.7 : 0.04);
+  nodeEls.select('circle')
+    .attr('fill-opacity', n => n.id===d.id ? 0.4 : n.id==='thiel' ? 0.9 : 0.06)
+    .attr('stroke-opacity', n => n.id===d.id ? 0 : n.id==='thiel' ? 0.9 : 0);
+}
+
+function closeDos() {
+  document.getElementById('dossier').classList.remove('open');
+  linkEls.attr('stroke-opacity', 0.18);
+  nodeEls.select('circle')
+    .attr('fill-opacity', d => d.id === 'thiel' ? 0.9 : 0.12)
+    .attr('stroke-opacity', d => d.id === 'thiel' ? 0.9 : 0);
+  updateCount();
+}
+window.closeDos = closeDos;
+
+// ─────────────────────────────────────────────
+// FILTERS
+// ─────────────────────────────────────────────
+let activeStatuses = new Set(['removed','stripped','active','deceased','pending','incarcerated']);
+let activeSectors  = new Set(['political','finance','tech','legal','social']);
+let searchTerm = '';
+
+function updateVis() {
+  nodeEls.each(function(d) {
+    if (d.id === 'thiel') { d3.select(this).style('opacity',1); return; }
+    const nameMatch = !searchTerm || d.name.toLowerCase().includes(searchTerm);
+    const statusMatch = activeStatuses.has(d.status);
+    const sectorMatch = activeSectors.has(d.sector);
+    const vis = nameMatch && statusMatch && sectorMatch;
+    d3.select(this).style('opacity', vis ? 1 : 0.06);
+  });
+  linkEls.style('opacity', d => {
+    const tgt = PEOPLE.find(p => p.id === (d.target.id||d.target));
+    if (!tgt) return 0.05;
+    const nameMatch = !searchTerm || tgt.name.toLowerCase().includes(searchTerm);
+    return (activeStatuses.has(tgt.status) && activeSectors.has(tgt.sector) && nameMatch) ? 0.25 : 0.03;
+  });
+  updateCount();
+}
+
+function updateCount() {
+  const n = PEOPLE.filter(p => {
+    if (p.id === 'thiel') return false;
+    const nameMatch = !searchTerm || p.name.toLowerCase().includes(searchTerm);
+    return nameMatch && activeStatuses.has(p.status) && activeSectors.has(p.sector);
+  }).length;
+  document.getElementById('count-label').textContent = `${n} names + Thiel`;
+}
+
+document.querySelectorAll('.chip[data-f]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const f = this.dataset.f;
+    if (activeStatuses.has(f)) { activeStatuses.delete(f); this.classList.remove('on'); }
+    else { activeStatuses.add(f); this.classList.add('on'); }
+    updateVis();
+  });
+});
+
+document.querySelectorAll('.chip[data-s]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const s = this.dataset.s;
+    if (activeSectors.has(s)) { activeSectors.delete(s); this.classList.remove('on'); }
+    else { activeSectors.add(s); this.classList.add('on'); }
+    updateVis();
+  });
+});
+
+document.getElementById('search-box').addEventListener('input', function() {
+  searchTerm = this.value.trim().toLowerCase();
+  updateVis();
+});
+
+function openAbout(){ document.getElementById('about-overlay').classList.add('open'); }
+function closeAbout(){ document.getElementById('about-overlay').classList.remove('open'); }
+window.openAbout = openAbout; window.closeAbout = closeAbout;
+
+let bridgeOnly = false;
+function toggleBridge(btn){
+  bridgeOnly = !bridgeOnly;
+  btn.classList.toggle('on', bridgeOnly);
+  if (bridgeOnly){
+    nodeEls.style('opacity', d => d.ledger ? 1 : 0.06);
+    linkEls.style('opacity', d => {
+      const tgt = PEOPLE.find(p => p.id === (d.target.id||d.target));
+      return (tgt && tgt.ledger) ? 0.5 : 0.02;
+    });
+  } else {
+    updateVis();
+  }
+}
+window.toggleBridge = toggleBridge;
+</script>
+
+<!-- MOBILE LIST VIEW (shown ≤768px instead of D3 diagram) -->
+<div id="mobile-list" style="display:none;">
+  <div id="mob-search-note" style="padding:8px 16px 4px;font-family:'Cormorant SC',Georgia,serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#8B6B50;">
+    Tap a name to open dossier
+  </div>
+  <div id="mob-items"></div>
+</div>
+
+</div>
+
+</div><!-- /page-network -->
+
+</div><!-- /about-overlay -->
+
+</body>
+</html>
