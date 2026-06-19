@@ -2472,7 +2472,7 @@ nodeEls.each(function(d) {
   const l2 = parts.slice(mid).join(' ');
   const fs = d.id === 'ep' ? 14.4 : 9.6;
   const cls = d.id === 'ep' ? 'node-label ep' : 'node-label';
-  if (l2 && d.r >= 11) {
+  if (l2) {
     g.append('text').attr('class',cls).attr('text-anchor','middle').attr('font-size',fs).attr('dy',-8).text(l1);
     g.append('text').attr('class',cls).attr('text-anchor','middle').attr('font-size',fs).attr('dy',9).text(l2);
   } else {
