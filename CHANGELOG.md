@@ -4,14 +4,14 @@ All notable changes to this project are documented here.
 Format: [version] — date · description
 
 [v1.9] — 2026-06-02
-Network diagram — epstein-network-individuals.csv
+Network diagram — database.csv
 
     Added: Nick Candy (id: candy, sector: political, status: active, r: 12)
         Plane travel flagged false; island: false
         Sources: Left Foot Forward (Feb 2026) · The Canary (Feb 2026) · Private Eye (Feb 2026) · DOJ files (Jan 2026)
         Dossier notes: documented email contact with Sarah Kellen (2004) and Ghislaine Maxwell; offered One Hyde Park property to Epstein for £80M (2010); Epstein wrote "I like both of those guys" re: Candy and brother Christian (2014); Private Eye reports a files email contradicts his official HMRC/court account of One Hyde Park tax structuring; quit Conservative Party Dec 2024 to become Reform UK treasurer, pledged seven-figure donation; in active talks with Elon Musk (id: musk) re: reported £100M Reform donation; not accused of wrongdoing, no charges filed
     Network count: 126 nodes (125 individuals + Epstein as centre)
-    Updated epstein-network-individuals.csv to reflect addition
+    Updated database.csv to reflect addition
 
 ---
 
